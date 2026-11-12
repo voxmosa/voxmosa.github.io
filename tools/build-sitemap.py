@@ -34,9 +34,11 @@ def pages():
 
 
 def loc(name):
+    # 網址不帶 .html：GitHub Pages 會把 /mosatalk 對應到 mosatalk.html，
+    # 這也是每頁 canonical 寫的網址，兩邊要一致。
     if name.endswith("index.html"):
         return BASE + name[: -len("index.html")]
-    return BASE + name
+    return BASE + name[: -len(".html")]
 
 
 def last_modified(name):

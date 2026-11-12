@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MosaMinutes | On-prem AI meeting minutes and transcription platform - Voxmosa</title>
 <meta name="description" content="Record or upload to get Traditional Chinese transcripts, speaker separation, meeting summaries and action items. Supports Mandarin, Taigi, Hakka, Indigenous languages and English; containerized single-machine deployment, and your data never leaves your server room.">
-<link rel="canonical" href="https://voxmosa.com/en/mosaminutes.html">
-<link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosaminutes.html">
-<link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosaminutes.html">
-<link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosaminutes.html">
+<link rel="canonical" href="https://voxmosa.com/en/mosaminutes">
+<link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosaminutes">
+<link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosaminutes">
+<link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosaminutes">
 <meta property="og:title" content="MosaMinutes | On-prem AI meeting minutes and transcription platform - Voxmosa">
 <meta property="og:description" content="Five languages into Traditional Chinese, speakers recognized after one voiceprint enrollment, four independent proofreading channels that never overwrite each other, and export straight to Word and subtitles.">
-<meta property="og:url" content="https://voxmosa.com/en/mosaminutes.html">
+<meta property="og:url" content="https://voxmosa.com/en/mosaminutes">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="zh_TW">
@@ -547,7 +547,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
 }
 @keyframes fade{from{opacity:0}to{opacity:1}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "@id": "https://voxmosa.com/en/mosaminutes.html#software", "name": "MosaMinutes", "applicationCategory": "BusinessApplication", "applicationSubCategory": "On-prem AI meeting minutes platform", "operatingSystem": "Linux (on-prem GPU server)", "description": "Minutes that get where they need to go. Recording, transcription, summaries and action items — and the data never leaves your server room.", "featureList": ["Five languages, all transcribed into Traditional Chinese with automatic punctuation", "Enroll a voiceprint once and the same speaker is recognized from then on", "Proofreading never loses edits — four independent channels that never overwrite each other", "Export to Word, plain text and subtitles, with action items as checklists"], "inLanguage": "en", "publisher": {"@id": "https://voxmosa.com/#organization"}}, {"@type": "Organization", "@id": "https://voxmosa.com/#organization", "name": "Voxmosa", "url": "https://voxmosa.com/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "@id": "https://voxmosa.com/en/mosaminutes#software", "name": "MosaMinutes", "applicationCategory": "BusinessApplication", "applicationSubCategory": "On-prem AI meeting minutes platform", "operatingSystem": "Linux (on-prem GPU server)", "description": "Minutes that get where they need to go. Recording, transcription, summaries and action items — and the data never leaves your server room.", "featureList": ["Five languages, all transcribed into Traditional Chinese with automatic punctuation", "Enroll a voiceprint once and the same speaker is recognized from then on", "Proofreading never loses edits — four independent channels that never overwrite each other", "Export to Word, plain text and subtitles, with action items as checklists"], "inLanguage": "en", "publisher": {"@id": "https://voxmosa.com/#organization"}}, {"@type": "Organization", "@id": "https://voxmosa.com/#organization", "name": "Voxmosa", "url": "https://voxmosa.com/"}]}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6MJZMYPVH"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -1317,11 +1317,16 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
     'research': 'research.html',
     'poc': 'index.html#poc'
   };
+  // 網址列一律不顯示 .html：首頁是 voxmosa.com/、voxmosa.com/en/，其他頁是 voxmosa.com/mosatalk。
+  // GitHub Pages 會把不帶副檔名的網址對應到同名的 .html 檔。
+  // 連結本身仍指向 index.html，直接開檔案（file://）或關掉 JavaScript 時才照樣能用。
+  function cleanUrl(u){ return u.replace(/^index\.html/, './').replace(/\.html(?=$|#)/, ''); }
   var tabs = $$('#tabs a'), ind = $('#ind'), curR = null;
   function detectRoute(){
     var h = location.hash.replace(/^#\/?/, '');
     if (h && routes.indexOf(h) >= 0) return h;
     var p = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    if (p.indexOf('.') < 0) p += '.html';   // 不帶副檔名的網址（voxmosa.com/mosatalk）
     for (var k in fileMap){ if (fileMap[k] === p) return k; }
     var pre = $('.view.on');
     if (pre && pre.id) return pre.id.replace(/^v-/, '');
@@ -1349,7 +1354,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
     document.title = next.getAttribute('data-title');
     tabs.forEach(function(a){ if (a.getAttribute('data-route') === r) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     if (pushUrl && window.history && history.pushState && location.protocol !== 'file:'){
-      try { history.pushState({ route: r }, next.getAttribute('data-title'), fileMap[r] || 'index.html'); } catch(err){}
+      try { history.pushState({ route: r }, next.getAttribute('data-title'), cleanUrl(fileMap[r] || 'index.html')); } catch(err){}
     }
     moveInd(); measure(next);
     var sw = $('#langsw'); if (sw) sw.setAttribute('href', sw.getAttribute('data-base') + (fileMap[r] || 'index.html'));
@@ -1385,6 +1390,9 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
   });
   window.addEventListener('resize', function(){ moveInd(); var v = $('.view.on'); if (v) measure(v); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(moveInd);
+  if (location.protocol !== 'file:' && /\.html$/i.test(location.pathname) && window.history && history.replaceState){
+    try { history.replaceState({ route: detectRoute() }, '', location.pathname.replace(/index\.html$/i, '').replace(/\.html$/i, '') + location.search + location.hash); } catch(err){}
+  }
   show(detectRoute(), false);
 
   /* ── 研究發表 ── */

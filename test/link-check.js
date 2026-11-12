@@ -131,7 +131,7 @@ for (const [page, { src }] of pages) {
 {
   const xml = fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8");
   const listed = [...xml.matchAll(/<loc>https:\/\/voxmosa\.com\/([^<]*)<\/loc>/g)]
-    .map((m) => (m[1] === "" || m[1].endsWith("/")) ? m[1] + "index.html" : m[1]);
+    .map((m) => (m[1] === "" || m[1].endsWith("/")) ? m[1] + "index.html" : m[1] + ".html");
   const lastmods = [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]);
   const problems = [];
 

@@ -104,12 +104,27 @@ Voxmosa 官方網站，中英雙語。**純靜態 HTML，沒有建置流程** �
 
 | 情況 | 行為 |
 | --- | --- |
-| 有 JavaScript | 點導覽列時不重新載入，直接切換畫面（新畫面從左右滑入），並用 `history.pushState` 把網址換成對應的檔案 |
+| 有 JavaScript | 點導覽列時不重新載入，直接切換畫面（新畫面從左右滑入），並用 `history.pushState` 把網址換成該頁的網址 |
 | 沒有 JavaScript | 導覽列是真的 `<a href>`，點下去就載入那個檔案，而那個檔案的靜態 HTML 本來就顯示自己的畫面 |
 | 用 `file://` 直接開 | 照樣切換，只是網址列不變（瀏覽器不允許在 `file://` 上 `pushState`）|
 
 這樣做是為了讓站內切換沒有整頁重讀的頓挫，同時每個網址仍是一個可以被搜尋引擎收錄、
 有自己標題與描述的獨立頁面。
+
+### 網址不帶 .html
+
+網址列一律顯示 `voxmosa.com/mosatalk`、`voxmosa.com/en/`，不顯示 `.html` 或 `index.html`。
+GitHub Pages 本身會把不帶副檔名的網址對應到同名的 `.html` 檔，所以兩種網址都開得到同一頁。
+
+| 地方 | 寫法 |
+| --- | --- |
+| 正式網址（`canonical`、`hreflang`、`og:url`、結構化資料）、`sitemap.xml`、`404.html` 的連結 | 不帶 `.html` |
+| 頁面裡的 `<a href>` | **仍然帶 `.html`** |
+| 網址列 | 由程式換成不帶 `.html` 的版本；從舊連結進來（例如 `/mosatalk.html`）也會在載入時換掉 |
+
+站內連結刻意保留 `.html`：用 `file://` 直接開檔案時沒有伺服器幫忙對應，
+不帶副檔名的連結會打不開；`test/link-check.js` 也是靠副檔名找到目標檔案。
+搜尋引擎跟著這些連結進來時，會從 `canonical` 得知正式網址是不帶 `.html` 的版本。
 
 代價有兩個，都是刻意接受的：
 
@@ -525,6 +540,9 @@ push 到 `main`，在 Settings → Pages 選擇 Deploy from a branch → `main` 
 ```sh
 python3 -m http.server 8000
 ```
+
+> 這個簡易伺服器不會把 `/mosatalk` 對應到 `mosatalk.html`，所以切換到其他頁後按重新整理會 404。
+> 正式環境的 GitHub Pages 會對應，沒有這個問題。
 
 頁面在完全離線的環境也能正常顯示。
 

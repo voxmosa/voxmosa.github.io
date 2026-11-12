@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MosaTalk | 聽得懂台語的地端 AI 語音客服 - Voxmosa</title>
 <meta name="description" content="客戶打開網頁按下通話或直撥既有客服專線，即可與地端 AI 自然對談。支援國語、台語、英語，約一秒開口回應且可隨時插話，問答格式文件即可更換知識庫。">
-<link rel="canonical" href="https://voxmosa.com/mosatalk.html">
-<link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosatalk.html">
-<link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosatalk.html">
-<link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosatalk.html">
+<link rel="canonical" href="https://voxmosa.com/mosatalk">
+<link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosatalk">
+<link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosatalk">
+<link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosatalk">
 <meta property="og:title" content="MosaTalk | 聽得懂台語的地端 AI 語音客服 - Voxmosa">
 <meta property="og:description" content="說完話到 AI 開口約一秒，可隨時插話。一段參考錄音即可複製品牌專屬聲音，全程於貴單位機房內運行。">
-<meta property="og:url" content="https://voxmosa.com/mosatalk.html">
+<meta property="og:url" content="https://voxmosa.com/mosatalk">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:site_name" content="Voxmosa">
@@ -546,7 +546,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
 }
 @keyframes fade{from{opacity:0}to{opacity:1}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "@id": "https://voxmosa.com/mosatalk.html#software", "name": "MosaTalk", "applicationCategory": "BusinessApplication", "applicationSubCategory": "即時語音 AI 對話系統", "operatingSystem": "Linux（地端 GPU 伺服器）", "description": "從「答得正確」到「應對得體」。低延遲的即時語音對話系統，可完整部署在地端。", "featureList": ["網頁免安裝即通話，也可接入既有電話系統", "問答格式文件即可換知識庫，不需寫程式", "一段參考錄音即可複製專屬品牌聲音", "資料未涵蓋時不編造，引導留下聯絡方式"], "inLanguage": "zh-Hant", "publisher": {"@id": "https://voxmosa.com/#organization"}}, {"@type": "Organization", "@id": "https://voxmosa.com/#organization", "name": "Voxmosa", "url": "https://voxmosa.com/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "@id": "https://voxmosa.com/mosatalk#software", "name": "MosaTalk", "applicationCategory": "BusinessApplication", "applicationSubCategory": "即時語音 AI 對話系統", "operatingSystem": "Linux（地端 GPU 伺服器）", "description": "從「答得正確」到「應對得體」。低延遲的即時語音對話系統，可完整部署在地端。", "featureList": ["網頁免安裝即通話，也可接入既有電話系統", "問答格式文件即可換知識庫，不需寫程式", "一段參考錄音即可複製專屬品牌聲音", "資料未涵蓋時不編造，引導留下聯絡方式"], "inLanguage": "zh-Hant", "publisher": {"@id": "https://voxmosa.com/#organization"}}, {"@type": "Organization", "@id": "https://voxmosa.com/#organization", "name": "Voxmosa", "url": "https://voxmosa.com/"}]}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6MJZMYPVH"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -1316,11 +1316,16 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
     'research': 'research.html',
     'poc': 'index.html#poc'
   };
+  // 網址列一律不顯示 .html：首頁是 voxmosa.com/、voxmosa.com/en/，其他頁是 voxmosa.com/mosatalk。
+  // GitHub Pages 會把不帶副檔名的網址對應到同名的 .html 檔。
+  // 連結本身仍指向 index.html，直接開檔案（file://）或關掉 JavaScript 時才照樣能用。
+  function cleanUrl(u){ return u.replace(/^index\.html/, './').replace(/\.html(?=$|#)/, ''); }
   var tabs = $$('#tabs a'), ind = $('#ind'), curR = null;
   function detectRoute(){
     var h = location.hash.replace(/^#\/?/, '');
     if (h && routes.indexOf(h) >= 0) return h;
     var p = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    if (p.indexOf('.') < 0) p += '.html';   // 不帶副檔名的網址（voxmosa.com/mosatalk）
     for (var k in fileMap){ if (fileMap[k] === p) return k; }
     var pre = $('.view.on');
     if (pre && pre.id) return pre.id.replace(/^v-/, '');
@@ -1348,7 +1353,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
     document.title = next.getAttribute('data-title');
     tabs.forEach(function(a){ if (a.getAttribute('data-route') === r) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     if (pushUrl && window.history && history.pushState && location.protocol !== 'file:'){
-      try { history.pushState({ route: r }, next.getAttribute('data-title'), fileMap[r] || 'index.html'); } catch(err){}
+      try { history.pushState({ route: r }, next.getAttribute('data-title'), cleanUrl(fileMap[r] || 'index.html')); } catch(err){}
     }
     moveInd(); measure(next);
     var sw = $('#langsw'); if (sw) sw.setAttribute('href', sw.getAttribute('data-base') + (fileMap[r] || 'index.html'));
@@ -1384,6 +1389,9 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
   });
   window.addEventListener('resize', function(){ moveInd(); var v = $('.view.on'); if (v) measure(v); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(moveInd);
+  if (location.protocol !== 'file:' && /\.html$/i.test(location.pathname) && window.history && history.replaceState){
+    try { history.replaceState({ route: detectRoute() }, '', location.pathname.replace(/index\.html$/i, '').replace(/\.html$/i, '') + location.search + location.hash); } catch(err){}
+  }
   show(detectRoute(), false);
 
   /* ── 研究發表 ── */
