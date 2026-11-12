@@ -30,13 +30,21 @@
 <link href="../vendor/fonts/fonts.css" rel="stylesheet">
 <script>(function(d){d.classList.add('js');try{if(!sessionStorage.getItem('vx')){d.classList.add('first');d.style.setProperty('--t0','1.9s');sessionStorage.setItem('vx','1')}}catch(e){}})(document.documentElement)</script>
 <style>
+/* 字型載入前的替身：Arial / Times New Roman（Linux 上是度量相容的 Liberation）縮放到跟
+   Space Grotesk、Noto Serif TC 一樣寬，網頁字型載入、換掉替身時字不會改變換行而跳動。
+   數字由 Space Grotesk 與 Noto Serif TC 的實際字寬，對英文版全文的字母頻率加權算出。
+   只涵蓋拉丁字母，中文字照常往字型清單的下一個找。 */
+@font-face{font-family:"VX Sans Fallback";font-weight:400 500;src:local("Arial"),local("ArialMT"),local("Liberation Sans");size-adjust:109.2%;ascent-override:90.1%;descent-override:26.7%;line-gap-override:0%;unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-201D}
+@font-face{font-family:"VX Sans Fallback";font-weight:600 700;src:local("Arial Bold"),local("Arial-BoldMT"),local("Liberation Sans Bold");size-adjust:101.7%;ascent-override:96.8%;descent-override:28.7%;line-gap-override:0%;unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-201D}
+@font-face{font-family:"VX Serif Fallback";font-weight:700 800;src:local("Times New Roman Bold"),local("TimesNewRomanPS-BoldMT"),local("Liberation Serif Bold");size-adjust:118.7%;ascent-override:97%;descent-override:24.1%;line-gap-override:0%;unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-201D}
+@font-face{font-family:"VX Serif Fallback";font-weight:900;src:local("Times New Roman Bold"),local("TimesNewRomanPS-BoldMT"),local("Liberation Serif Bold");size-adjust:121.3%;ascent-override:94.9%;descent-override:23.6%;line-gap-override:0%;unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2014,U+2018-201D}
 :root{
   --paper:#f4f3f0; --paper2:#e9e7e2; --card:#fbfaf8;
   --ink:#141413; --deep:#0F0F0E; --raise:#1c1b19;
   --t2:#54524b; --mute:#6b6960; --line:#dedbd4;
   --sig:#ED9A4A; --acc:#c47a20;
-  --serif:"Noto Serif TC","Songti TC","Noto Serif CJK TC","Source Han Serif TC",serif;
-  --sans:"Space Grotesk","Noto Sans TC","PingFang TC","Microsoft JhengHei","Noto Sans CJK TC",system-ui,sans-serif;
+  --serif:"Noto Serif TC","VX Serif Fallback","Songti TC","Noto Serif CJK TC","Source Han Serif TC",serif;
+  --sans:"Space Grotesk","VX Sans Fallback","Noto Sans TC","PingFang TC","Microsoft JhengHei","Noto Sans CJK TC",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   --gut:clamp(20px,4.2vw,60px); --e:cubic-bezier(.2,.75,.2,1); --dir:1; --shift:26px; --t0:.05s;
 }
@@ -81,6 +89,14 @@ html.first .curtain{display:grid;animation:curtain .7s cubic-bezier(.76,0,.24,1)
 .curtain .wa{stroke:var(--sig)}.curtain .a1{--o:.95}.curtain .a2{--o:.62}.curtain .a3{--o:.34}
 @keyframes curtain{to{transform:translateY(-101%)}}
 
+/* 閱讀進度與回到頂端：只在長頁面出現，都由程式產生、沒有文字（不影響有無 JS 的文字量） */
+.prog{position:absolute;left:0;right:0;top:0;height:2px;background:var(--sig);transform-origin:left;transform:scaleX(var(--p,0));opacity:0;transition:opacity .3s;pointer-events:none}
+.prog.on{opacity:1}
+.totop{position:fixed;right:clamp(14px,2.6vw,32px);bottom:clamp(14px,2.6vw,32px);z-index:55;width:44px;height:44px;border-radius:50%;border:0;background:var(--ink);color:var(--paper);display:grid;place-items:center;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .3s,transform .3s var(--e),visibility .3s,background-color .2s;box-shadow:0 6px 18px rgba(20,20,19,.18)}
+.totop.on{opacity:1;visibility:visible;transform:none}
+.totop:hover{background:var(--sig);color:var(--ink)}
+.totop svg{width:18px;height:18px}
+
 /* 字標動畫：V 浮上 → 圓圈畫出 → 聲波一道道擴散 → xmosa 逐字浮上。
    開場（每個分頁第一次）在幕布上大尺寸播放，幕布掀開時頁首的小字標接著播一次；
    之後每次載入頁面，頁首字標都會快速播一次。點左上角字標時聲波再送出一次。
@@ -121,6 +137,8 @@ html.js .nav .logo.pulse .wl{animation:wHop .5s var(--e) calc(.22s + var(--i) * 
   .tabs{order:3;flex-basis:100%;margin:8px calc(var(--gut)*-1) 0;padding:0 calc(var(--gut) - 10px);height:44px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .tabs::-webkit-scrollbar{display:none}
   .tabs a{padding:0 10px}
+  /* 分頁列可以左右滑時，邊緣淡出，提示後面還有。--fl / --fr 由程式依捲動位置切換 */
+  .tabs{--fade:linear-gradient(90deg,transparent,#000 var(--fl,0px),#000 calc(100% - var(--fr,36px)),transparent);-webkit-mask-image:var(--fade);mask-image:var(--fade)}
 }
 
 /* 畫面切換 */
@@ -1415,6 +1433,40 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
     try { history.replaceState({ route: detectRoute() }, '', location.pathname.replace(/index\.html$/i, '').replace(/\.html$/i, '') + location.search + location.hash); } catch(err){}
   }
   show(detectRoute(), false);
+
+  /* ── 手機分頁列：邊緣淡出，提示還可以滑 ── */
+  var tabsEl = $('#tabs');
+  function tabEdges(){
+    var max = tabsEl.scrollWidth - tabsEl.clientWidth;
+    tabsEl.style.setProperty('--fl', tabsEl.scrollLeft > 2 ? '36px' : '0px');
+    tabsEl.style.setProperty('--fr', tabsEl.scrollLeft < max - 2 ? '36px' : '0px');
+  }
+  tabsEl.addEventListener('scroll', tabEdges, { passive: true });
+  window.addEventListener('resize', tabEdges);
+  tabEdges();
+
+  /* ── 閱讀進度線與回到頂端：頁面超過 2.2 個螢幕高才出現 ── */
+  var prog = document.createElement('i'); prog.className = 'prog'; prog.setAttribute('aria-hidden', 'true');
+  $('header.nav').appendChild(prog);
+  var top = document.createElement('button'); top.className = 'totop'; top.type = 'button';
+  top.setAttribute('aria-label', EN ? 'Back to top' : '回到頂端');
+  top.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  document.body.appendChild(top);
+  top.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+  var ticking = false;
+  function onScroll(){
+    ticking = false;
+    var vh = window.innerHeight, max = document.documentElement.scrollHeight - vh, y = window.scrollY;
+    var long = max > vh * 1.2;
+    prog.classList.toggle('on', long && y > 4);
+    prog.style.setProperty('--p', long ? Math.min(1, y / max).toFixed(4) : 0);
+    top.classList.toggle('on', long && y > vh * 1.2);
+  }
+  window.addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('popstate', function(){ requestAnimationFrame(onScroll); });
+  document.addEventListener('click', function(e){ if (e.target.closest && e.target.closest('a[data-route]')) setTimeout(onScroll, 60); });
+  onScroll();
 
   /* ── 點左上角字標：聲波再送出一次 ── */
   var logo = $('.nav .logo');
