@@ -124,6 +124,11 @@ for (const [page, { src }] of pages) {
   }
 }
 
+function localToday() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 // sitemap.xml：頁面清單要齊、lastmod 要跟 git 對得上。
 // lastmod 是 sitemap 裡唯一 Google 會採用的欄位，而且只在「持續且可驗證地正確」
 // 時才採信 —— 手寫的日期一定會過期，過期之後 Google 會整個欄位不再信任。
@@ -142,7 +147,7 @@ for (const [page, { src }] of pages) {
     if (!PAGES.includes(page)) return;
     const dirty = execSync(`git status --porcelain -- ${page}`, { cwd: ROOT }).toString().trim();
     const expectedDate = dirty
-      ? new Date().toISOString().slice(0, 10)
+      ? localToday()   // 本地日期，與 build-sitemap.py 和 git 的 commit 日期一致；UTC 會在台灣的午夜到早上八點差一天
       : execSync(`git log -1 --format=%cs -- ${page}`, { cwd: ROOT }).toString().trim();
     if (lastmods[i] !== expectedDate) {
       problems.push(`${page} 的 lastmod 寫 ${lastmods[i]}，實際最後修改是 ${expectedDate}`);

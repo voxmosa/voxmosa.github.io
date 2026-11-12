@@ -27,7 +27,7 @@
 <link rel="icon" href="./favicon.png" type="image/png" sizes="144x144">
 <link rel="preload" href="./vendor/fonts/noto-serif-tc-700-900-var.woff2" as="font" type="font/woff2" crossorigin>
 <link href="./vendor/fonts/fonts.css" rel="stylesheet">
-<script>(function(d){d.classList.add('js');try{if(!sessionStorage.getItem('vx')){d.classList.add('first');d.style.setProperty('--t0','1.2s');sessionStorage.setItem('vx','1')}}catch(e){}})(document.documentElement)</script>
+<script>(function(d){d.classList.add('js');try{if(!sessionStorage.getItem('vx')){d.classList.add('first');d.style.setProperty('--t0','1.9s');sessionStorage.setItem('vx','1')}}catch(e){}})(document.documentElement)</script>
 <style>
 :root{
   --paper:#f4f3f0; --paper2:#e9e7e2; --card:#fbfaf8;
@@ -74,15 +74,35 @@ h2 em{font-style:normal;color:var(--acc)}
 .badge{display:inline-block;font:500 11px/1 var(--mono);letter-spacing:.08em;padding:6px 8px;border:1.5px solid var(--sig);color:var(--acc);border-radius:3px;vertical-align:middle;white-space:nowrap}
 
 /* 開場 */
-.curtain{position:fixed;inset:0;z-index:200;background:var(--deep);display:none;place-items:center;pointer-events:none}
-html.first .curtain{display:grid;animation:curtain .7s cubic-bezier(.76,0,.24,1) .85s forwards}
-.curtain svg{width:clamp(92px,11vw,140px);height:auto}
-.cv{stroke-dasharray:1;stroke-dashoffset:1;animation:cdraw .5s cubic-bezier(.6,0,.2,1) .05s forwards}
-.ca,.cb{opacity:0;animation:cfade .25s ease .42s forwards;--o:.66}
-.cb{animation-delay:.56s;--o:.32}
+.curtain{position:fixed;inset:0;z-index:200;background:var(--deep);color:var(--paper);display:none;place-items:center;pointer-events:none;--ld:.1s}
+html.first .curtain{display:grid;animation:curtain .7s cubic-bezier(.76,0,.24,1) 1.55s forwards}
+.curtain svg{width:clamp(220px,32vw,400px);height:auto}
+.curtain .wa{stroke:var(--sig)}.curtain .a1{--o:.95}.curtain .a2{--o:.62}.curtain .a3{--o:.34}
 @keyframes curtain{to{transform:translateY(-101%)}}
-@keyframes cdraw{to{stroke-dashoffset:0}}
-@keyframes cfade{to{opacity:var(--o)}}
+
+/* 字標動畫：V 浮上 → 圓圈畫出 → 聲波一道道擴散 → xmosa 逐字浮上。
+   開場（每個分頁第一次）在幕布上大尺寸播放，幕布掀開時頁首的小字標接著播一次；
+   之後每次載入頁面，頁首字標都會快速播一次。點左上角字標時聲波再送出一次。
+   沒有 JavaScript 時不播，字標保持完整的靜止狀態。 */
+.wa{--o:.6;opacity:var(--o)}.a2{--o:.33}.a3{--o:.17}
+.logo{color:var(--ink)}
+.nav .logo{--ld:.12s}
+html.first .nav .logo{--ld:1.75s}
+.wm .wv,.wm .wl,.wm .wa,.wm .wc{transform-box:fill-box}
+.wm .wc{transform-origin:center;transform:rotate(-90deg)}
+html.js .nav .wm .wv,html.first .curtain .wv{animation:wUp .6s var(--e) var(--ld) both}
+html.js .nav .wm .wc,html.first .curtain .wc{stroke-dasharray:1;stroke-dashoffset:1;animation:wDraw .62s cubic-bezier(.6,0,.2,1) calc(var(--ld) + .12s) both}
+html.js .nav .wm .wa,html.first .curtain .wa{animation:wWave .5s var(--e) calc(var(--ld) + .5s + var(--k) * .11s) both}
+html.js .nav .wm .wl,html.first .curtain .wl{animation:wUp .55s var(--e) calc(var(--ld) + .58s + var(--i) * .055s) both}
+html.js .nav .logo.pulse .wc{stroke-dashoffset:0;animation:wBeat .55s var(--e) both}
+html.js .nav .logo.pulse .wa{animation:wPulse .8s var(--e) calc(var(--k) * .09s) both}
+html.js .nav .logo.pulse .wl{animation:wHop .5s var(--e) calc(.22s + var(--i) * .06s) both}
+@keyframes wUp{from{opacity:0;transform:translateY(45%)}}
+@keyframes wDraw{to{stroke-dashoffset:0}}
+@keyframes wWave{from{opacity:0;transform:translateX(-30%)}to{opacity:var(--o)}}
+@keyframes wPulse{40%{opacity:1;transform:translateX(18%)}}
+@keyframes wBeat{35%{transform:rotate(-90deg) scale(.84)}to{transform:rotate(-90deg)}}
+@keyframes wHop{40%{transform:translateY(-14%)}}
 
 /* 導覽 */
 .nav{position:sticky;top:0;z-index:60;background:var(--paper);border-bottom:1px solid var(--line)}
@@ -539,6 +559,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
 @media (prefers-reduced-motion:reduce){
   :root{--shift:0px}
   html.first .curtain{display:none}
+  .wm *{animation:none!important;stroke-dashoffset:0!important}
   .rec,.caret,.bars i,.tl i,.spark path,.bd-pkt,.bd-wall i::before,.bd-wall i::after,.lat-line u,.eq i,.todo li::before,.conv path{animation:none}
   .spark path{stroke-dasharray:none}.eq i{transform:scaleY(.6)}.tl i,.lat-line u{transform:none}.bd-wall i::before{display:none}
   .view.on .hc{animation-name:fade}.view.on .seal{animation:fade .4s both}
@@ -556,11 +577,11 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
 </script>
 </head>
 <body>
-<div class="curtain" aria-hidden="true"><svg viewBox="0 0 130 120" fill="none" stroke="#ED9A4A" stroke-linecap="round" stroke-linejoin="round"><path class="cv" pathLength="1" d="M20 24 L50 98 L80 24" stroke-width="12"/><path class="ca" d="M97 44 A38 38 0 0 1 97 78" stroke-width="10"/><path class="cb" d="M115 28 A62 62 0 0 1 115 94" stroke-width="10"/></svg></div>
+<div class="curtain" aria-hidden="true"><svg class="wm" aria-hidden="true" focusable="false" viewBox="3.30 19.60 640.96 94.90" fill="none"><path class="wv" d="M31.15 112.00 3.30 19.60H14.78L40.00 105.27H41.71L66.92 19.60H78.41L50.56 112.00Z" fill="currentColor"/><g transform="translate(88.24, 44.66) scale(0.5844)" stroke="currentColor" stroke-linecap="round" fill="none"><circle class="wc" cx="60" cy="60" r="51" stroke-width="17" pathLength="1"/><path class="wa a1" style="--k:0" d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="13"/><path class="wa a2" style="--k:1" d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="13"/><path class="wa a3" style="--k:2" d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="13"/></g><g fill="currentColor"><path class="wl" style="--i:0" d="M200.08 112.00 225.95 79.26 200.87 47.45H213.41L232.68 72.40H234.53L253.67 47.45H266.34L241.13 79.26L267.00 112.00H254.33L234.53 86.26H232.68L212.88 112.00Z"/><path class="wl" style="--i:1" d="M298.16 112.00V47.45H308.32V55.50H310.17Q312.02 52.07 316.24 49.17Q320.46 46.26 328.12 46.26Q335.64 46.26 340.33 49.56Q345.02 52.86 347.13 57.62H348.98Q351.22 52.86 355.77 49.56Q360.33 46.26 368.51 46.26Q374.98 46.26 379.86 48.90Q384.75 51.54 387.59 56.49Q390.42 61.44 390.42 68.31V112.00H380.00V69.23Q380.00 62.76 376.23 59.00Q372.47 55.24 365.74 55.24Q358.61 55.24 354.06 59.86Q349.50 64.48 349.50 73.19V112.00H339.08V69.23Q339.08 62.76 335.31 59.00Q331.55 55.24 324.82 55.24Q317.69 55.24 313.14 59.86Q308.58 64.48 308.58 73.19V112.00Z"/><path class="wl" style="--i:2" d="M448.11 113.85Q438.34 113.85 430.88 109.76Q423.42 105.66 419.27 98.21Q415.11 90.75 415.11 80.58V78.87Q415.11 68.84 419.27 61.31Q423.42 53.79 430.88 49.70Q438.34 45.60 448.11 45.60Q457.88 45.60 465.33 49.70Q472.79 53.79 476.95 61.31Q481.11 68.84 481.11 78.87V80.58Q481.11 90.75 476.95 98.21Q472.79 105.66 465.33 109.76Q457.88 113.85 448.11 113.85ZM448.11 104.48Q458.40 104.48 464.54 97.94Q470.68 91.41 470.68 80.32V79.13Q470.68 68.04 464.54 61.51Q458.40 54.98 448.11 54.98Q437.94 54.98 431.74 61.51Q425.54 68.04 425.54 79.13V80.32Q425.54 91.41 431.74 97.94Q437.94 104.48 448.11 104.48Z"/><path class="wl" style="--i:3" d="M532.46 113.85Q520.44 113.85 512.19 108.30Q503.94 102.76 502.23 90.75L512.13 88.50Q513.18 94.84 516.09 98.47Q518.99 102.10 523.28 103.62Q527.57 105.14 532.46 105.14Q539.72 105.14 543.94 102.23Q548.16 99.33 548.16 94.44Q548.16 89.43 544.14 87.38Q540.11 85.34 533.12 84.02L527.70 83.09Q521.50 82.04 516.35 79.79Q511.20 77.55 508.17 73.72Q505.13 69.89 505.13 64.08Q505.13 55.37 511.86 50.49Q518.60 45.60 529.68 45.60Q540.64 45.60 547.44 50.55Q554.24 55.50 556.22 64.48L546.45 66.99Q545.26 59.99 540.77 57.15Q536.28 54.32 529.68 54.32Q523.08 54.32 519.26 56.76Q515.43 59.20 515.43 63.95Q515.43 68.57 519.06 70.75Q522.69 72.93 528.76 73.98L534.17 74.91Q541.04 76.10 546.51 78.14Q551.99 80.19 555.23 84.02Q558.46 87.84 558.46 94.05Q558.46 103.55 551.40 108.70Q544.34 113.85 532.46 113.85Z"/><path class="wl" style="--i:4" d="M602.42 113.85Q595.68 113.85 590.14 111.47Q584.60 109.10 581.43 104.61Q578.26 100.12 578.26 93.65Q578.26 87.05 581.43 82.76Q584.60 78.47 590.14 76.29Q595.68 74.12 602.55 74.12H624.33V69.36Q624.33 62.50 620.30 58.54Q616.28 54.58 608.36 54.58Q600.57 54.58 596.21 58.34Q591.86 62.10 590.27 68.44L580.50 65.27Q582.09 59.86 585.52 55.44Q588.95 51.02 594.69 48.31Q600.44 45.60 608.49 45.60Q620.90 45.60 627.76 52.01Q634.62 58.41 634.62 70.02V99.20Q634.62 103.16 638.32 103.16H644.26V112.00H635.15Q630.80 112.00 628.16 109.56Q625.52 107.12 625.52 103.02V102.36H623.93Q622.48 104.87 620.04 107.58Q617.60 110.28 613.37 112.07Q609.15 113.85 602.42 113.85ZM603.60 104.87Q612.84 104.87 618.59 99.39Q624.33 93.92 624.33 84.02V82.56H602.94Q596.74 82.56 592.71 85.27Q588.69 87.98 588.69 93.39Q588.69 98.80 592.85 101.84Q597.00 104.87 603.60 104.87Z"/></g></svg></div>
 
 <header class="nav">
   <div class="nav-in">
-    <a class="logo" href="index.html" data-route="home" aria-label="Voxmosa 首頁"><svg aria-hidden="true" focusable="false" viewBox="3.30 19.60 640.96 94.90" fill="none"><path d="M31.15 112.00 3.30 19.60H14.78L40.00 105.27H41.71L66.92 19.60H78.41L50.56 112.00Z" fill="#141413"/><g transform="translate(88.24, 44.66) scale(0.5844)" stroke="#141413" stroke-linecap="round" fill="none"><circle cx="60" cy="60" r="51" stroke-width="17"/><path d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="13" opacity="0.6"/><path d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="13" opacity="0.33"/><path d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="13" opacity="0.17"/></g><path d="M200.08 112.00 225.95 79.26 200.87 47.45H213.41L232.68 72.40H234.53L253.67 47.45H266.34L241.13 79.26L267.00 112.00H254.33L234.53 86.26H232.68L212.88 112.00ZM298.16 112.00V47.45H308.32V55.50H310.17Q312.02 52.07 316.24 49.17Q320.46 46.26 328.12 46.26Q335.64 46.26 340.33 49.56Q345.02 52.86 347.13 57.62H348.98Q351.22 52.86 355.77 49.56Q360.33 46.26 368.51 46.26Q374.98 46.26 379.86 48.90Q384.75 51.54 387.59 56.49Q390.42 61.44 390.42 68.31V112.00H380.00V69.23Q380.00 62.76 376.23 59.00Q372.47 55.24 365.74 55.24Q358.61 55.24 354.06 59.86Q349.50 64.48 349.50 73.19V112.00H339.08V69.23Q339.08 62.76 335.31 59.00Q331.55 55.24 324.82 55.24Q317.69 55.24 313.14 59.86Q308.58 64.48 308.58 73.19V112.00ZM448.11 113.85Q438.34 113.85 430.88 109.76Q423.42 105.66 419.27 98.21Q415.11 90.75 415.11 80.58V78.87Q415.11 68.84 419.27 61.31Q423.42 53.79 430.88 49.70Q438.34 45.60 448.11 45.60Q457.88 45.60 465.33 49.70Q472.79 53.79 476.95 61.31Q481.11 68.84 481.11 78.87V80.58Q481.11 90.75 476.95 98.21Q472.79 105.66 465.33 109.76Q457.88 113.85 448.11 113.85ZM448.11 104.48Q458.40 104.48 464.54 97.94Q470.68 91.41 470.68 80.32V79.13Q470.68 68.04 464.54 61.51Q458.40 54.98 448.11 54.98Q437.94 54.98 431.74 61.51Q425.54 68.04 425.54 79.13V80.32Q425.54 91.41 431.74 97.94Q437.94 104.48 448.11 104.48ZM532.46 113.85Q520.44 113.85 512.19 108.30Q503.94 102.76 502.23 90.75L512.13 88.50Q513.18 94.84 516.09 98.47Q518.99 102.10 523.28 103.62Q527.57 105.14 532.46 105.14Q539.72 105.14 543.94 102.23Q548.16 99.33 548.16 94.44Q548.16 89.43 544.14 87.38Q540.11 85.34 533.12 84.02L527.70 83.09Q521.50 82.04 516.35 79.79Q511.20 77.55 508.17 73.72Q505.13 69.89 505.13 64.08Q505.13 55.37 511.86 50.49Q518.60 45.60 529.68 45.60Q540.64 45.60 547.44 50.55Q554.24 55.50 556.22 64.48L546.45 66.99Q545.26 59.99 540.77 57.15Q536.28 54.32 529.68 54.32Q523.08 54.32 519.26 56.76Q515.43 59.20 515.43 63.95Q515.43 68.57 519.06 70.75Q522.69 72.93 528.76 73.98L534.17 74.91Q541.04 76.10 546.51 78.14Q551.99 80.19 555.23 84.02Q558.46 87.84 558.46 94.05Q558.46 103.55 551.40 108.70Q544.34 113.85 532.46 113.85ZM602.42 113.85Q595.68 113.85 590.14 111.47Q584.60 109.10 581.43 104.61Q578.26 100.12 578.26 93.65Q578.26 87.05 581.43 82.76Q584.60 78.47 590.14 76.29Q595.68 74.12 602.55 74.12H624.33V69.36Q624.33 62.50 620.30 58.54Q616.28 54.58 608.36 54.58Q600.57 54.58 596.21 58.34Q591.86 62.10 590.27 68.44L580.50 65.27Q582.09 59.86 585.52 55.44Q588.95 51.02 594.69 48.31Q600.44 45.60 608.49 45.60Q620.90 45.60 627.76 52.01Q634.62 58.41 634.62 70.02V99.20Q634.62 103.16 638.32 103.16H644.26V112.00H635.15Q630.80 112.00 628.16 109.56Q625.52 107.12 625.52 103.02V102.36H623.93Q622.48 104.87 620.04 107.58Q617.60 110.28 613.37 112.07Q609.15 113.85 602.42 113.85ZM603.60 104.87Q612.84 104.87 618.59 99.39Q624.33 93.92 624.33 84.02V82.56H602.94Q596.74 82.56 592.71 85.27Q588.69 87.98 588.69 93.39Q588.69 98.80 592.85 101.84Q597.00 104.87 603.60 104.87Z" fill="#141413"/></svg></a>
+    <a class="logo" href="index.html" data-route="home" aria-label="Voxmosa 首頁"><svg class="wm" aria-hidden="true" focusable="false" viewBox="3.30 19.60 640.96 94.90" fill="none"><path class="wv" d="M31.15 112.00 3.30 19.60H14.78L40.00 105.27H41.71L66.92 19.60H78.41L50.56 112.00Z" fill="currentColor"/><g transform="translate(88.24, 44.66) scale(0.5844)" stroke="currentColor" stroke-linecap="round" fill="none"><circle class="wc" cx="60" cy="60" r="51" stroke-width="17" pathLength="1"/><path class="wa a1" style="--k:0" d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="13"/><path class="wa a2" style="--k:1" d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="13"/><path class="wa a3" style="--k:2" d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="13"/></g><g fill="currentColor"><path class="wl" style="--i:0" d="M200.08 112.00 225.95 79.26 200.87 47.45H213.41L232.68 72.40H234.53L253.67 47.45H266.34L241.13 79.26L267.00 112.00H254.33L234.53 86.26H232.68L212.88 112.00Z"/><path class="wl" style="--i:1" d="M298.16 112.00V47.45H308.32V55.50H310.17Q312.02 52.07 316.24 49.17Q320.46 46.26 328.12 46.26Q335.64 46.26 340.33 49.56Q345.02 52.86 347.13 57.62H348.98Q351.22 52.86 355.77 49.56Q360.33 46.26 368.51 46.26Q374.98 46.26 379.86 48.90Q384.75 51.54 387.59 56.49Q390.42 61.44 390.42 68.31V112.00H380.00V69.23Q380.00 62.76 376.23 59.00Q372.47 55.24 365.74 55.24Q358.61 55.24 354.06 59.86Q349.50 64.48 349.50 73.19V112.00H339.08V69.23Q339.08 62.76 335.31 59.00Q331.55 55.24 324.82 55.24Q317.69 55.24 313.14 59.86Q308.58 64.48 308.58 73.19V112.00Z"/><path class="wl" style="--i:2" d="M448.11 113.85Q438.34 113.85 430.88 109.76Q423.42 105.66 419.27 98.21Q415.11 90.75 415.11 80.58V78.87Q415.11 68.84 419.27 61.31Q423.42 53.79 430.88 49.70Q438.34 45.60 448.11 45.60Q457.88 45.60 465.33 49.70Q472.79 53.79 476.95 61.31Q481.11 68.84 481.11 78.87V80.58Q481.11 90.75 476.95 98.21Q472.79 105.66 465.33 109.76Q457.88 113.85 448.11 113.85ZM448.11 104.48Q458.40 104.48 464.54 97.94Q470.68 91.41 470.68 80.32V79.13Q470.68 68.04 464.54 61.51Q458.40 54.98 448.11 54.98Q437.94 54.98 431.74 61.51Q425.54 68.04 425.54 79.13V80.32Q425.54 91.41 431.74 97.94Q437.94 104.48 448.11 104.48Z"/><path class="wl" style="--i:3" d="M532.46 113.85Q520.44 113.85 512.19 108.30Q503.94 102.76 502.23 90.75L512.13 88.50Q513.18 94.84 516.09 98.47Q518.99 102.10 523.28 103.62Q527.57 105.14 532.46 105.14Q539.72 105.14 543.94 102.23Q548.16 99.33 548.16 94.44Q548.16 89.43 544.14 87.38Q540.11 85.34 533.12 84.02L527.70 83.09Q521.50 82.04 516.35 79.79Q511.20 77.55 508.17 73.72Q505.13 69.89 505.13 64.08Q505.13 55.37 511.86 50.49Q518.60 45.60 529.68 45.60Q540.64 45.60 547.44 50.55Q554.24 55.50 556.22 64.48L546.45 66.99Q545.26 59.99 540.77 57.15Q536.28 54.32 529.68 54.32Q523.08 54.32 519.26 56.76Q515.43 59.20 515.43 63.95Q515.43 68.57 519.06 70.75Q522.69 72.93 528.76 73.98L534.17 74.91Q541.04 76.10 546.51 78.14Q551.99 80.19 555.23 84.02Q558.46 87.84 558.46 94.05Q558.46 103.55 551.40 108.70Q544.34 113.85 532.46 113.85Z"/><path class="wl" style="--i:4" d="M602.42 113.85Q595.68 113.85 590.14 111.47Q584.60 109.10 581.43 104.61Q578.26 100.12 578.26 93.65Q578.26 87.05 581.43 82.76Q584.60 78.47 590.14 76.29Q595.68 74.12 602.55 74.12H624.33V69.36Q624.33 62.50 620.30 58.54Q616.28 54.58 608.36 54.58Q600.57 54.58 596.21 58.34Q591.86 62.10 590.27 68.44L580.50 65.27Q582.09 59.86 585.52 55.44Q588.95 51.02 594.69 48.31Q600.44 45.60 608.49 45.60Q620.90 45.60 627.76 52.01Q634.62 58.41 634.62 70.02V99.20Q634.62 103.16 638.32 103.16H644.26V112.00H635.15Q630.80 112.00 628.16 109.56Q625.52 107.12 625.52 103.02V102.36H623.93Q622.48 104.87 620.04 107.58Q617.60 110.28 613.37 112.07Q609.15 113.85 602.42 113.85ZM603.60 104.87Q612.84 104.87 618.59 99.39Q624.33 93.92 624.33 84.02V82.56H602.94Q596.74 82.56 592.71 85.27Q588.69 87.98 588.69 93.39Q588.69 98.80 592.85 101.84Q597.00 104.87 603.60 104.87Z"/></g></svg></a>
     <nav class="tabs" id="tabs" aria-label="主要導覽">
       <a href="mosatalk.html" data-route="talk">MosaTalk</a>
       <a href="mosaminutes.html" data-route="minutes">MosaMinutes</a>
@@ -1393,6 +1414,12 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
     try { history.replaceState({ route: detectRoute() }, '', location.pathname.replace(/index\.html$/i, '').replace(/\.html$/i, '') + location.search + location.hash); } catch(err){}
   }
   show(detectRoute(), false);
+
+  /* ── 點左上角字標：聲波再送出一次 ── */
+  var logo = $('.nav .logo');
+  if (logo && !reduce) logo.addEventListener('click', function(){
+    logo.classList.remove('pulse'); void logo.offsetWidth; logo.classList.add('pulse');
+  });
 
   /* ── 研究發表 ── */
   (function(){
