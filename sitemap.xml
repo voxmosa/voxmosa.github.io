@@ -1,27 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://voxmosa.com/</loc>
-    <lastmod>2026-09-05</lastmod>
-  </url>
-  <url>
-    <loc>https://voxmosa.com/mosatalk.html</loc>
-    <lastmod>2026-09-10</lastmod>
-  </url>
-  <url>
-    <loc>https://voxmosa.com/mosaminutes.html</loc>
-    <lastmod>2026-09-10</lastmod>
-  </url>
-  <url>
-    <loc>https://voxmosa.com/mosascore.html</loc>
-    <lastmod>2026-09-05</lastmod>
-  </url>
-  <url>
-    <loc>https://voxmosa.com/on-premise.html</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/"/>
   </url>
   <url>
     <loc>https://voxmosa.com/languages.html</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/languages.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/languages.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/languages.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/mosaminutes.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosaminutes.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosaminutes.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosaminutes.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/mosascore.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosascore.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosascore.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosascore.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/mosatalk.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosatalk.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosatalk.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosatalk.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/on-premise.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/on-premise.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/on-premise.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/on-premise.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/research.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/research.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/research.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/research.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/en/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/en/languages.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/languages.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/languages.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/languages.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/en/mosaminutes.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosaminutes.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosaminutes.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosaminutes.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/en/mosascore.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosascore.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosascore.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosascore.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/en/mosatalk.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosatalk.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosatalk.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosatalk.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/en/on-premise.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/on-premise.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/on-premise.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/on-premise.html"/>
+  </url>
+  <url>
+    <loc>https://voxmosa.com/en/research.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/research.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://voxmosa.com/en/research.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://voxmosa.com/research.html"/>
   </url>
 </urlset>

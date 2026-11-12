@@ -1,22 +1,26 @@
 # voxmosa.github.io
 
-Voxmosa 官方網站。**純靜態 HTML，沒有建置流程** —— 改完直接 push 就上線。
-所有資源都在 repo 內，頁面完全不對外發出請求，關掉 JavaScript 內容也照樣完整。
+Voxmosa 官方網站，中英雙語。**純靜態 HTML，沒有建置流程** —— 改完直接 push 就上線。
+渲染所需的一切都在 repo 內，唯一的外部請求是 GA4；關掉 JavaScript 內容也照樣完整。
 
 | 路徑 | 內容 |
 | --- | --- |
-| `index.html` | 首頁（含 hero 聲波動畫與論文分類篩選）|
-| `mosatalk.html` | MosaTalk：即時語音 AI 對話系統 |
+| `index.html` | 首頁（直排標題、逐字稿示意、聲波、三項產品、資料邊界、自己跑過的數字）|
+| `mosatalk.html` | MosaTalk：地端 AI 語音客服 |
 | `mosaminutes.html` | MosaMinutes：地端 AI 會議記錄平台 |
-| `mosascore.html` | MosaScore：地端通話質檢與購買意圖分析（含通話分析動畫）|
-| `on-premise.html` | 地端 AI：兩個產品共用的部署論述，導覽列「為什麼地端」指向這裡 |
-| `languages.html` | 臺灣本土語言：客語六腔、台語、原住民族語的能力與依據 |
+| `mosascore.html` | MosaScore：地端通話品質分析（效度驗證中）|
+| `on-premise.html` | 為什麼地端：資料邊界、雲地比較、主機配置、產業與合規、部署之後的事 |
+| `languages.html` | 臺灣本土語言：台語、客語六腔、原住民族語的能力與可查證的依據 |
+| `research.html` | 團隊與研究：獎項、41 篇發表（可篩選）、媒體報導、研究筆記 |
+| `en/` | 英文版，檔名與中文版一一對應（`en/mosatalk.html` ↔ `mosatalk.html`）|
+| `404.html` | 找不到頁面。中英並列，從 `/en/` 底下進來時英文排在前面。GitHub Pages 自動使用 |
 | `vendor/fonts/` | 子集化後自架的字型（含授權說明）|
 | `test/` | 回歸測試，`test/baseline/` 為版面基準 |
+| `tools/sync-views.py` | **改文案後先跑這支**：把 `index.html` 的共用區塊同步到同語言的其他頁 |
 | `tools/build-fonts.py` | 重新產生字型子集 |
 | `tools/build-sitemap.py` | 重新產生 `sitemap.xml`，`lastmod` 由 git 推導 |
-| `tools/bake.js` | 把 `<x-dc>` 模板頁烘焙成靜態 HTML（已無頁面需要，保留備查）|
-| `og.png` | 社群分享縮圖，四頁共用 |
+| `tools/bake.js` | 第一代頁面的烘焙工具（已無頁面需要，保留備查）|
+| `og.png` / `og-en.png` | 社群分享縮圖，中文頁 / 英文頁 |
 | `favicon.svg` / `favicon.png` | 分頁圖示。Google 不吃 SVG，所以兩種都要 |
 | `logo.png` | `Organization.logo` 用的方形識別標誌 |
 | `robots.txt` / `sitemap.xml` | 爬蟲規則與網站地圖；兩者都刻意極簡，理由見 [SEO 與 AEO](#seo-與-aeo) |
@@ -31,8 +35,8 @@ Voxmosa 官方網站。**純靜態 HTML，沒有建置流程** —— 改完直�
 | 產品 | 語言 |
 | --- | --- |
 | MosaMinutes（會議轉錄）| 國語、台語、客語、原住民族語、英語 |
-| MosaTalk（語音客服）| 國語、台語、英語 |
-| MosaScore（通話分析）| 語言不是這個產品的訴求重點，不要在文案裡強調 |
+| MosaTalk（語音客服）| 國語、台語、英語 —— 台語**只聽得懂、以國語回答**，台語合成仍在開發規劃中 |
+| MosaScore（通話分析）| 語言不是這個產品的訴求重點，不要在文案裡強調；台語辨識列在開發規劃中 |
 
 公司層級的宣稱（例如首頁 hero 與 `Organization` 的 description）涵蓋五種語言是
 成立的，因為 MosaMinutes 做得到 —— 但只要句子的主詞變成單一產品，就要回來查這張表。
@@ -40,11 +44,6 @@ Voxmosa 官方網站。**純靜態 HTML，沒有建置流程** —— 改完直�
 客語為六腔全覆蓋（四縣、海陸、大埔、饒平、詔安、南四縣），可以明講，
 市面上多數同業只做三腔或兩腔。原住民族語 16 族 42 語是真的，但使用人口少、
 搜尋量極低，定位是**能力證明而非流量來源**，提到即可，不要當主打。
-
-> 新增頁面時記得四個地方都要加：`test/link-check.js`、`test/render-check.js`、
-> `test/layout-check.js` 的 `PAGES`，以及 `tools/build-fonts.py` 的 `PAGES`。
-> 這四份清單都是寫死的，漏掉不會有任何東西失敗 —— 頁面只是安靜地沒有測試覆蓋、
-> 也沒有字型子集。
 
 ### 本土語言專案裡，哪些是我們做的
 
@@ -60,6 +59,7 @@ Voxmosa 官方網站。**純靜態 HTML，沒有建置流程** —— 改完直�
 兩邊唯一的差別是**機器翻譯**：族語的是我們做的，客語的不是。
 `gohakka.org/copyright` 明文寫「客語語音合成、語音識別技術由牧仁資訊研發」，
 同時把機器翻譯歸給瞬息科技 —— 所以客語的翻譯**不能**寫成我們的。
+`languages.html` 在引用這句版權宣言的同一段裡，就寫明了機器翻譯與語言模型是瞬息科技的。
 
 語料整理兩邊都是「部分」，語料本身分別屬於客家委員會與原住民族委員會，
 所以措辭要保留那個「部分」，不要寫成整批都是我們做的。
@@ -68,129 +68,154 @@ Voxmosa 官方網站。**純靜態 HTML，沒有建置流程** —— 改完直�
 族語那邊 `ai-labs.ilrdf.org.tw` 只有原語會的版權宣告，沒有任何合作方掛名，
 宣稱成立但讀者查不到 —— 哪天能談到一句掛名，那是值得爭取的東西。
 
-改動之後有兩件事要記得，兩者都有測試把關（見[測試](#測試)）：
+## 頁面上一定要留著的限制與歸屬
 
-- **改過文案** → 重跑 `tools/build-fonts.py`，否則新字缺字
-- **改過任何頁面** → 重跑 `tools/build-sitemap.py`，否則 `lastmod` 過期
-- **改過 inline style 的值** → 一併更新對應的 `r-*` class 名稱
+2026-11 改版時，為了把字數壓下來，這些句子曾經被一起刪掉，比對原始內容後才補回來。
+它們不是可以精簡的「細節」：少了它們，網站會說得比產品實際能做的更滿，
+被客戶或審查者發現時傷的是信任。改版或精簡文案時，逐項確認這些都還在：
+
+| 頁面 | 必須留著的句子 |
+| --- | --- |
+| `mosascore.html` | 目前**只支援雙聲道**錄音；**尚未在客戶環境正式上線**；分數**未經真實成交資料驗證**、不提供準確率；長通話的**處理時間會超過音檔長度**；B2B 銷售需另行評估 |
+| `mosascore.html` | 「情緒推斷只用於客戶端」的原則（對客服的評分屬於勞動監控，歐盟已禁止工作場所的情緒推斷）|
+| `mosaminutes.html` | **目前不能直接接** Google Meet、Microsoft Teams、Zoom |
+| `mosatalk.html` | 台語只聽不說；邊緣分離模式**另需一台小型雲端主機** |
+| `languages.html` | Gohakka 的機器翻譯與語言模型是瞬息科技的；語料屬於客家委員會、原住民族委員會，本團隊只承擔部分整理 |
+| `research.html` | 媒體報導是核心成員**於過往任職單位**主導的技術 |
+| 全站 | 不給準確率的行銷數字；沒有合規壓力時，雲端訂閱通常比較適合 |
+
+各產品頁的「規格與限制」區塊裡，限制項目以橘色驚嘆號標示，放在正文、不收合。
+英文版 `en/` 的同一頁有同樣的句子，改一邊要改另一邊。
+
+## 改動之後要記得的事
+
+1. **改過文案** → 只改 `index.html`（英文改 `en/index.html`），再跑 `python3 tools/sync-views.py`
+   同步到同語言的其他頁（原因見[頁面結構](#頁面結構)）
+2. **改過文案** → 重跑 `tools/build-fonts.py`，否則新字缺字
+3. **改過任何頁面** → 重跑 `tools/build-sitemap.py`，否則 `lastmod` 過期
+4. 推之前跑三支測試（見[測試](#測試)）
 
 ## 頁面結構
 
-版面直接寫在 HTML 裡，用 inline style；文件結構則是語意標籤
-（`header` / `nav` / `main` / `section` / `h1`–`h4` / `p` / `footer`）。
-整站只有兩段 JavaScript，都是頁面自己的原生程式碼，沒有任何框架：
+### 每個檔案都包含全站所有畫面
 
-| 位置 | 作用 |
+每個 HTML 檔裡都有 8 個畫面（首頁、三個產品、地端、語言、研究、申請 PoC），
+各是一個 `<section class="view" id="v-…">`，只有該頁自己的那一個帶 `on`，其餘 `display:none`。
+
+| 情況 | 行為 |
 | --- | --- |
-| `index.html` 末尾 | hero 的 44 根聲波柱動畫、逐字稿分段揭露、論文分類篩選 |
-| `mosascore.html` 末尾 | 通話分析示範：每 1.5 秒揭露一句對話，並畫出分數折線 |
+| 有 JavaScript | 點導覽列時不重新載入，直接切換畫面（新畫面從左右滑入），並用 `history.pushState` 把網址換成對應的檔案 |
+| 沒有 JavaScript | 導覽列是真的 `<a href>`，點下去就載入那個檔案，而那個檔案的靜態 HTML 本來就顯示自己的畫面 |
+| 用 `file://` 直接開 | 照樣切換，只是網址列不變（瀏覽器不允許在 `file://` 上 `pushState`）|
 
-兩者的**靜態標記都是「動畫跑完」的狀態**，腳本只是把它倒帶重播。
-因此關掉 JavaScript 時看到的是完整內容，而不是空殼 ——
-`test/render-check.js` 會斷言有無 JavaScript 的可見文字量完全相同。
+這樣做是為了讓站內切換沒有整頁重讀的頓挫，同時每個網址仍是一個可以被搜尋引擎收錄、
+有自己標題與描述的獨立頁面。
 
-hero 的聲波是 `requestAnimationFrame` 驅動的**連續相位**動畫。
-它曾經是 `setInterval(tick, 340)` ——一輪 40 格、每格跳一次，等於 3 fps，
-所以看起來一格一格卡。現在一輪的長度仍是 13.6 秒，但相位是實數，
-柱高與掃描邊界都會補間。
+代價有兩個，都是刻意接受的：
 
-柱高走 `transform:scaleY()` 而不是 `height`，掃描邊界的顏色也預先算成 21 階字串：
-前者讓每幀只碰合成器、不必為 44 個 flex 子元素重排版，後者省掉每幀 44 次字串組裝。
-**切換到 transform 只在動畫啟動時做一次**，所以沒有 JavaScript 或
-`prefers-reduced-motion` 時，畫面用的仍是標記裡原本的 `height` ——
-`test/layout-check.js` 的基準因此完全不受這次改動影響。
+- **同一段文案在同語言的 7 個檔案裡各有一份**，每個檔案約 150KB。`tools/sync-views.py`
+  處理這件事：只改 `index.html`，跑一次就把樣式、所有畫面、頁尾與主程式複製到其他頁，
+  並把 `on` 換到各頁自己的畫面。它不碰每頁不同的 `<head>`（標題、描述、正式網址、結構化資料）
+  與頁首導覽列。在已同步的頁面上跑它不會有任何改動，可以當成檢查用。
+- **原始碼裡有 8 個 `<h1>`**，畫面上只看得到該頁那一個，其餘在隱藏的畫面裡。
+  搜尋引擎看得到隱藏畫面的文字，但通常給的權重較低；每頁的 `<title>`、描述與正式網址
+  都是獨立的，所以不會被當成同一頁。若哪天要改成「每個檔案只放自己的內容」，
+  切換手感可以靠瀏覽器原生的跨頁轉場（`@view-transition`）維持，那是另一次獨立的改動。
 
-兩段動畫都遵守 `prefers-reduced-motion`（停在完整狀態不播放），
-並在分頁切到背景時暫停；hero 的聲波另外在捲出畫面時也停
-（`IntersectionObserver`）。兩個暫停來源各自記狀態、兩者都放行才播 ——
-否則其一的 resume 會蓋掉另一的 pause。
+`index.html#poc` 是申請頁。有 JavaScript 時由切換程式處理；沒有 JavaScript 時
+靠 CSS 的 `:target` 把申請畫面顯示出來（`main:has(#poc:target)`），所以這個連結兩種情況都到得了。
+
+### 動畫與互動
+
+所有程式碼都在每頁末尾同一段 `<script>`，原生 JavaScript，沒有任何框架。
+
+| 項目 | 說明 |
+| --- | --- |
+| 開場 | V 標誌描邊、兩道弧線亮起、碳黑幕往上掀開。每個瀏覽器分頁只播一次（`sessionStorage`）|
+| 直排標題 | 每個畫面的直排標語逐字落下，最後蓋上「地端語音」印章；英文版逐詞落下 |
+| 逐字稿示意 | 首頁的國台語逐字稿逐字打出，英文版每句下方有淡淡的英文翻譯 |
+| 聲波 | 首頁底部的山稜聲波畫在單一 `<canvas>` 上，跟著滑鼠起伏；捲出畫面就停 |
+| 捲動進場 | `.rv` 元素捲進畫面時浮現；數字從 0 跳到實際值 |
+| 研究發表 | 依主題篩選 41 篇論文 |
+| 申請表單 | 見[申請表單](#申請表單) |
+
+幾條必須維持的性質，都有測試把關：
+
+- **靜態標記就是完整狀態。** 論文清單與篩選鈕直接寫在 HTML 裡，程式只負責篩選；
+  數字在捲到之前保持真實數值，開始動畫時才從 0 跳 —— 否則有 JS 時畫面上是「0」、
+  沒 JS 時是「10」，`test/render-check.js` 的「有無 JavaScript 可見文字量相同」會失敗。
+- **`prefers-reduced-motion`**：開場不播、不位移、循環動畫停住，但淡入與切換仍在。
+- **只動 `transform` 與 `opacity`。** 切換時不碰版面屬性，連續切換十次不掉幀；
+  聲波從上百個 DOM 元素改成單一 canvas 也是為了這件事。
+
+### 視覺規範
+
+顏色、字標與分頁圖示來自 Voxmosa 品牌套件：碳黑 `#141413`、暖白 `#f4f3f0`、
+訊號橘 `#ED9A4A`（淺底上的橘色文字用 `#c47a20`，對比才夠）。字標是外框化的 SVG，
+不要改回文字。樣式全部在每頁 `<head>` 的同一段 `<style>`，以 class 撰寫，沒有 inline 的版面樣式。
+
+頁首在中英文之間必須**位置不動**：切換語言時，語言鈕與「申請 PoC」鈕要停在同一個位置。
+做法是兩顆按鈕固定寬度、靠右對齊，導覽分頁從標誌後方靠左排起（三個產品名中英相同，
+所以前三格位置也一致），兩種語言用同樣的字級與間距。英文分頁較長，寬度不夠時改成兩行
+（分頁移到第二列可以左右滑動），斷點是 1220px，**中英文共用同一個斷點** ——
+各用各的斷點，就會出現某些寬度下一種語言單行、另一種兩行的跳動。
+改導覽列文字之後，在 1221px 寬確認英文版仍然單行放得下。
 
 ### 這些頁面的來歷
 
-頁面原本是用 **Claude Design** 這個視覺編輯器產出的，之後改由直接編輯 HTML 維護。
-編輯器退場後，那套用戶端渲染架構就成了為一個不存在的工作流程付的成本，
-因此四個頁面都已烘焙成靜態 HTML，`support.js`（69KB）與 React（142KB）隨之移除。
+| 世代 | 說明 |
+| --- | --- |
+| 第一代 | 用視覺編輯器 Claude Design 產出，客戶端渲染（`<x-dc>` 模板、React、`support.js`）|
+| 第二代 | 烘焙成靜態 HTML，移除 runtime；版面用 inline style 加 `r-*` 響應式 class |
+| 第三代（現在）| 2026-11 全面改版：新的視覺與動畫、中英雙語、免重載切換、內容精簡後補回限制與歸屬說明。版面改為 class 撰寫，`#dc-root` / `.sc-host` 與 `r-*` class 都已不存在 |
 
-知道這段來歷，才看得懂 repo 裡幾樣東西為什麼長這樣：
+## 雙語
 
-| 曾經有的東西 | 來歷 | 現況 |
-| --- | --- | --- |
-| `<x-dc>` 模板、`{{ }}` 插值、`<sc-for>` / `<sc-if>` | 編輯器的模板格式 | 已展開成靜態標記 |
-| `style-hover` 屬性 | 編輯器的懸停樣式，runtime 會轉成 `.scpN:hover` 規則 | 已改寫成 `.hover-panel` / `.hover-accent` 的 CSS |
-| `<script type="text/x-dc" data-props>` | 編輯器的可調參數面板定義 | 已移除，預設值直接寫進標記 |
-| `support.js`、`vendor/react*.js` | dc-runtime 與 React | 已移除 |
-| `#dc-root` / `.sc-host` 兩層 `<div>` | runtime 的掛載點 | **刻意保留**，見下 |
+`en/` 底下的頁面與中文版一一對應。每頁 `<head>` 有 `<link rel="alternate" hreflang>`
+指向兩個語言版本（`x-default` 是中文版），`sitemap.xml` 也列了同樣的對應。
+導覽列右上的「EN」／「中文」切換時會停在同一頁，不會跳回首頁。
 
-`#dc-root > .sc-host` 是 runtime 的殘留物，看起來很想刪。保留它們是因為
-烘焙時 DOM 結構不變，`test/layout-check.js` 才能逐像素證明烘焙前後等價；
-真要清掉是獨立的一步，清完需要重新產生版面基準。
+英文用詞的約定：
 
-### 響應式：`r-*` class
+| 中文 | 英文 |
+| --- | --- |
+| 台語 | Taigi |
+| 原住民族語 | Indigenous languages（16 peoples, 42 languages）|
+| 客語六腔 | Sixian, Hailu, Dapu, Raoping, Zhao'an, South Sixian |
+| 客家委員會 / 原住民族委員會 | Hakka Affairs Council / Council of Indigenous Peoples |
+| 原住民族語言研究發展基金會 | Indigenous Languages Research and Development Foundation（ILRDF）|
+| 意傳科技 | iThuan —— **待確認正式英文名稱** |
+| 瞬息科技 | Shunxi Technology（音譯）—— **待確認正式英文名稱** |
 
-版面是 inline style 寫的，響應式覆蓋則集中在 `<head>` 的 `<style>` 內，
-以 `r-<屬性>-<值>` 命名的 class 掛勾：
+英文內文用直引號 `"`，不用彎引號 `“ ”`：中文字型會把彎引號畫成全形寬度，字距看起來不對。
 
-```html
-<div class="r-gtc-repeat-4-1fr r-gap-72px" style="display:grid;grid-template-columns:repeat(4, 1fr);gap:72px">
+示意畫面裡的逐字稿（首頁、MosaMinutes 的校對畫面）在英文版保留中文，
+因為要展示的就是中文輸出；MosaScore 的客戶發言則譯成英文並標示「translated from Mandarin」。
+
+## 申請表單
+
+申請頁的表單在每頁末尾的程式裡設定：
+
+```js
+var FORM_ENDPOINT = 'https://formspree.io/f/moedvvzw';
 ```
 
-```css
-@media (max-width:1080px){
-  .r-gtc-repeat-4-1fr{grid-template-columns:1fr 1fr!important}
-  .r-gap-72px{gap:44px!important}
-}
-```
+- **有網址（現況）**：按下送出就直接寄到 Formspree，通知信寄到註冊 Formspree 的信箱，表單原地換成「已收到您的申請」；失敗時顯示錯誤並附上信箱。
+  有隱藏欄位 `_gotcha` 擋機器人。改完記得跑 `tools/sync-views.py` 同步到所有頁面。
+- **留空**：退回舊做法，開啟訪客的郵件程式並帶入內容。
 
-class 名稱編碼的是「這個元素的 inline style 帶有這個值」，所以它與 inline
-style 是**靠慣例耦合、而非機制保證**：改了 inline 的值，要一併改 class 名稱，
-否則覆蓋規則會停留在舊值上。好處是這層耦合現在看得見也 grep 得到。
+換收件服務或換帳號時，只改 `index.html` 與 `en/index.html` 這一行，再跑 `tools/sync-views.py`。
 
-這批 class 是從原本的 `[style*="..."]` 屬性選擇器機械式遷移過來的。
-遷移時刻意複製了當時的命中結果（包含 substring 比對造成的非預期命中），
-所以版面完全沒有變化 —— 由 `test/layout-check.js` 驗證。那些非預期命中
-之後才逐一處理掉，同樣是零視覺變化。
-
-#### class 名稱與元素實際值一致
-
-每個 class 現在只掛在 inline 值真的等於它名稱的元素上。這是可稽核的性質，
-不是慣例 —— 下面這段會列出任何「一個 class 涵蓋多種 inline 值」的情況，
-正常應該印出空的：
-
-```sh
-python3 - <<'EOF'
-import re, pathlib, collections
-PROP = {"gtc":"grid-template-columns","fs":"font-size","pad":"padding","gap":"gap",
-        "mw":"max-width","brr":"border-right","brl":"border-left","display":"display"}
-cover = collections.defaultdict(set)
-for f in ["index.html","mosatalk.html","mosaminutes.html","mosascore.html"]:
-    for m in re.finditer(r'class="([^"]*)"\s+style="([^"]*)"',
-                         pathlib.Path(f).read_text(encoding="utf-8")):
-        for c in m.group(1).split():
-            p = PROP.get(c[2:].split("-")[0])
-            v = p and re.search(re.escape(p) + r":([^;\"]*)", m.group(2))
-            if v: cover[c].add(v.group(1).strip())
-print({c: v for c, v in cover.items() if len(v) > 1})
-EOF
-```
-
-修正的過程留了兩點經驗：
-
-- 光看「選擇器過度命中」會得出錯誤結論。`r-pad-44px` 確實是 bug ——
-  它用 shorthand `padding:30px`，連水平一起蓋掉容器慣例的 24px；
-  但同樣被過度命中的 `r-pad-104px-56px` 不是，因為它的規則是 longhand
-  `padding-top`/`padding-bottom`，碰不到水平。**要讀宣告內容才判斷得出來。**
-- `r-pad-96px-56px` 過去沒有任何元素的值真的是 `96px 56px`，
-  它命中的兩種值全都是意外 —— class 名稱在描述一個不存在的東西。
+建議用 Formspree（免費方案每月 50 封）。表單收集姓名與 Email，依個資法通常要在收集時告知用途，
+送出按鈕下方目前**還沒有**個資告知，見[後續可做的事](#後續可做的事)。
 
 ## SEO 與 AEO
 
-四個頁面原本是**完全沒有語意標籤**的 div 湯 —— 零個 `<h1>`、零個 `<p>`、
-零個地標元素。那是視覺編輯器的產物，烘焙成靜態 HTML 時沒有一併處理。
+### 語意標籤
 
-現在四頁都有 `header` / `nav` / `main` / `section` / `footer` 地標，
-每頁**恰好一個 `<h1>`**，內文段落是 `<p>`。置換是 block→block，
-配上 `<head>` 裡的 `h1,h2,h3,h4,h5,h6{margin:0}` 與 `p{margin:0}` 重置，
-版面零變化 —— 所有標題與段落的 `font-size`、`font-weight` 本來就寫在 inline style 上。
+每頁都有 `header` / `nav` / `main` / `section` / `footer` 地標，每個畫面恰好一個 `<h1>`。
+首頁的主標語是直排的裝飾文字（`aria-hidden`），另外放一個畫面上看不到的 `<h1 class="sr-only">`
+給搜尋引擎與螢幕閱讀器。
 
 > 別誤會這件事的效益。Google 的 SEO Starter Guide 寫得很直白：
 > 「Google rarely relies on semantic HTML structure」，而且標題階層順序錯了
@@ -201,16 +226,20 @@ EOF
 
 | 頁面 | `@graph` 內容 |
 | --- | --- |
-| `index.html` | `Organization`、`WebSite` |
+| `index.html` | `Organization`（含 `legalName`、`taxID`、`logo`、`award`）、`WebSite` |
 | 三個產品頁 | `SoftwareApplication`、一個最小的 `Organization` 節點 |
-| `on-premise.html` / `languages.html` | 只有最小的 `Organization` 節點 —— 兩者都不是軟體產品頁 |
+| `on-premise.html` / `languages.html` / `research.html` | 只有最小的 `Organization` 節點 |
+| `en/index.html` | 英文的 `WebSite`、最小的 `Organization` 節點 |
+| `en/` 的三個產品頁 | 英文的 `SoftwareApplication`、最小的 `Organization` 節點 |
+| `en/` 的其他頁 | 只有最小的 `Organization` 節點 |
 
-`Organization` 只放首頁（Google 的建議），`@id` 是全站共用的
+完整的 `Organization` 只放中文首頁（Google 的建議），`@id` 是全站共用的
 `https://voxmosa.com/#organization`。子頁的 `publisher` 曾經是**裸的 `@id` 存根**，
 指向一個只存在於首頁 graph 裡的節點 —— 單獨解析子頁的爬蟲會看到懸空參照，
 所以現在每個子頁自己內嵌一個帶 `@type` 與 `name` 的最小節點。
 
-對照 Google 文件逐項核過之後，以下四種**全部移除**了，它們沒有任何東西會消費：
+對照 Google 文件逐項核過之後，以下四種**全部移除**了，它們沒有任何東西會消費。
+改版過程中曾有一版把 `FAQPage`、`WebPage`、`CollectionPage` 加回去，上線前已依這張表再次移除：
 
 | 移除的型別 | 原因 |
 | --- | --- |
@@ -233,12 +262,13 @@ PPM、TIFF，而且必須是正方形、至少 8×8、建議大於 48×48。只�
 的話搜尋結果顯示的是通用地球圖示。
 
 所以 `favicon.svg` 留給瀏覽器，另外附一張 `favicon.png`（144×144）給 Google。
-`logo.png`（512×512）則是 `Organization.logo` 用的 —— 那個欄位原本指向
-`og.png`，一張 1200×630 的深色社群分享圖，而文件要求的是
-「在純白背景上看起來符合預期」的方形識別標誌。
+`logo.png`（512×512）則是 `Organization.logo` 用的 —— 文件要求的是
+「在純白背景上看起來符合預期」的方形識別標誌，所以不能拿深色的 `og.png` 充數。
 
-兩張 PNG 都是從 `favicon.svg` 的同一組座標重畫的（見 git 紀錄裡的產生腳本），
-不是另外畫一份，所以形狀不會漂移。
+### 分享縮圖
+
+`og.png` 給中文頁、`og-en.png` 給英文頁，都是 1200×630：碳黑底、字標、主標語、
+「地端語音」印章與聲波。每頁的 `og:image:alt` 與 `twitter:card`（`summary_large_image`）都已設定。
 
 ### robots.txt 為什麼只有三行
 
@@ -255,7 +285,7 @@ PPM、TIFF，而且必須是正方形、至少 8×8、建議大於 48×48。只�
 原文寫「does not impact a site's inclusion in Google Search」，跟
 AI Overviews / AI Mode 無關。
 
-### sitemap 只保留 lastmod
+### sitemap 只保留 lastmod 與語言對應
 
 `<changefreq>` 與 `<priority>` 都拿掉了 —— 文件原文：
 「Google ignores `<priority>` and `<changefreq>` values.」
@@ -268,6 +298,12 @@ commit 的日期。`test/link-check.js` 會驗證檔案裡的值仍然對得上�
 重跑。手寫的日期一定會過期 —— 這件事發生過一次：六個網址全部停在
 `2026-08-29`，其中兩個網址的頁面根本是那天之後才建立的。
 
+現在共 14 個網址（中文 7、英文 7），每個都附 `<xhtml:link rel="alternate" hreflang>`
+標明對應的另一語言版本。頁面是自動找的（根目錄與 `en/` 的 `.html`，`404.html` 除外）。
+
+> 因為 `lastmod` 取自 git，**改完頁面要在同一天 commit**。今天跑工具、明天才 commit，
+> `link-check.js` 會說日期對不上 —— 重跑一次工具即可。
+
 ### 移除了 llms.txt
 
 站上曾經有一份 `llms.txt`。Google 在 2026-06-15 把這句話寫進 AI 優化指南：
@@ -277,43 +313,42 @@ commit 的日期。`test/link-check.js` 會驗證檔案裡的值仍然對得上�
 > your site's visibility or rankings in Google Search, as Google Search ignores them."
 
 不傷害也沒幫助，但它重複了一整批會漂移的事實（42 語、DGX Spark GB10、≈1 秒、
-MosaScore 的效度保留），每次改文案都要手動同步。這個 repo 移除 React 時的理由
-是「為一個不存在的工作流程付的成本」，這裡是同一件事。
+MosaScore 的效度保留），每次改文案都要手動同步。
 
 ### 標誌的無障礙名稱
 
-字標的 `o` 是 SVG 畫的，兩側的 `V`、`x`、`mosa` 才是文字。所以在無障礙樹與
-純文字擷取之下，每一頁的頁首與頁尾都把公司名稱讀成 **`Vxmosa`** —— 少一個 o。
+字標的 `o` 是 SVG 畫的。第二代頁面的兩側字母是文字，所以在無障礙樹與純文字擷取之下，
+公司名稱被讀成 **`Vxmosa`** —— 少一個 o。
 
-修法是在外層元素放 `aria-label="Voxmosa"`，並把站上全部 13 個 SVG 標成
-`aria-hidden="true"`（字標、箭頭、播放鍵、分數折線都是裝飾性的，旁邊都已經有文字）。
+現在整個字標都是外框化的 SVG（沒有文字），一律標成 `aria-hidden="true"`，
+名稱由外層連結的 `aria-label` 提供（「Voxmosa 首頁」／「Voxmosa home」）。
 
-### 常見問題區塊
+### 常見問題
 
-首頁的 `#faq` 有八則問答。起因是關鍵字盤點：使用者實際會打進搜尋框的整串字
-（「AI 語音會議記錄」「AI 語音客服」「地端語音 AI」）在原本的文案裡一個都沒出現過 ——
-站上講的是「會議記錄」「客服專線」「語音 AI 對話系統」，概念對，但不是查詢字串。
+產品頁、地端頁與語言頁底部各有自己的常見問題（共 30 題），平常收合、點開才展開；
+申請頁另有 4 題。問答全部取自原站既有的事實，沒有新增未經驗證的規格或數字；
+「準確率是多少」維持站上一貫的回答方式：不給行銷數字。
 
-問答內容全部取自站上既有的事實，沒有新增任何未經驗證的規格或數字；
-「準確率是多少」那題維持站上一貫的回答方式：不給行銷數字。
-
-`FAQPage` 標記已經移除（見上表），但**可見的問答保留** —— 它是真的在回答買家的
-問題，那本身就是 Google 指南推薦的事，跟有沒有標記無關。
+起因是關鍵字盤點：使用者實際會打進搜尋框的整串字（「AI 語音會議記錄」「AI 語音客服」
+「地端語音 AI」）在早期的文案裡一個都沒出現過。`FAQPage` 標記已經移除（見上表），
+但**可見的問答保留** —— 它是真的在回答買家的問題，那本身就是 Google 指南推薦的事，跟有沒有標記無關。
 
 ## 測試
 
-推 code 之前跑這三支，合計約 5 分 15 秒
-（實測：連結不到 1 秒、內容 3:57、版面 1:19）：
+推 code 之前跑這三支：
 
 ```sh
-node test/link-check.js     # 連結會不會 404、導覽列各頁是否一致
+node test/link-check.js     # 連結會不會 404、導覽列各頁是否一致、sitemap 是否對得上
 node test/render-check.js   # 內容有沒有渲染出來（含各種失敗情境）
 node test/layout-check.js   # 版面有沒有跑掉
 ```
 
-大半時間花在內容測試的「極慢網路」情境上，它刻意等滿 45 秒 ——
-趕時間可以先跑版面測試，或用 `node test/render-check.js normal` 快速確認。
+三支都**自動找頁面**（根目錄與 `en/` 的 `.html`，`404.html` 除外）。
+以前這份清單是寫死在四個地方的，新增頁面時漏加不會有任何東西失敗 ——
+頁面只是安靜地沒有測試覆蓋、也沒有字型子集。現在新增頁面不必改任何清單。
 
+內容測試最花時間（14 頁 × 三種情境，其中「極慢網路」每頁刻意等滿 45 秒，合計十幾分鐘），
+趕時間可以用 `node test/render-check.js normal` 快速確認。
 三支都以離開碼回報結果，失敗會列出是哪一頁、哪個元素、差在哪裡。
 版面若是**刻意**改動，用 `node test/layout-check.js --save` 更新基準，
 並把基準的 diff 一起提交 —— 那份 diff 就是這次視覺改動的紀錄。
@@ -324,22 +359,20 @@ node test/layout-check.js   # 版面有沒有跑掉
 node test/link-check.js
 ```
 
-檢查每個站內連結的目標檔案與錨點 id 是否真的存在，並確認四頁的導覽列項目一致。
+檢查每個站內連結的目標檔案與錨點 id 是否真的存在。相對路徑以頁面所在資料夾為準，
+所以 `en/` 底下的 `../mosatalk.html` 會被解析成中文版的 `mosatalk.html`。
 站外連結只計數、不連線驗證，以免測試依賴外部網路。
 
 `<a href>` 之外，`<link href>`（字型 CSS、favicon、字型 preload）也一併檢查。
-這層是後來補的：preload 的檔名跟 `tools/build-fonts.py` 的產出耦合 ——
-字重範圍一改檔名就變，而 preload 失效時瀏覽器不會報錯，只是白抓一個 404，
-畫面照常顯示。沒有這個檢查就只能靠人眼發現。
+preload 的檔名跟 `tools/build-fonts.py` 的產出耦合 —— 字重範圍一改檔名就變，
+而 preload 失效時瀏覽器不會報錯，只是白抓一個 404。
 
-導覽列的預期項目是**從 `index.html` 推導**的，不是寫死清單。這點是踩過坑才改的：
-第一版拿四頁的共同項目當清單，等於把當下的不一致固化進測試 ——「團隊」
-四頁中三頁沒有，所以它從沒進過清單，它的缺席也就永遠不可能被判為失敗。
+導覽列的預期項目是**從首頁推導**的，不是寫死清單：中文頁以 `index.html` 為準，
+英文頁以 `en/index.html` 為準。第一版拿各頁的共同項目當清單，等於把當下的不一致固化進測試。
 
-> 這支測試是補寫的：子頁的「技術實力」「為什麼地端」曾指向
-> `Voxmosa Home.dc.html#tech` —— 編輯器留下的檔名，repo 裡沒有這個檔案，
-> 點下去就是 404；同時 mosascore 的導覽列漏了「技術實力」。
-> 兩者渲染都正常，所以另外兩支測試完全看不到，只有實際點下去才會發現。
+> 這支測試在 2026-11 改版時抓到一個真的錯：英文頁的頁尾是從中文頁尾複製的，
+> 連帶把中文頁上的「English」連結也帶過去，指向 `en/index.html` —— 從 `en/` 出發就是
+> `en/en/index.html`，點下去 404。畫面上完全正常，只有這支測試看得到。
 
 ### 內容
 
@@ -349,7 +382,7 @@ node test/render-check.js nojs    # 只跑單一情境
 ```
 
 零依賴，需 Node 22+ 與本機的 Chrome 或 Chromium。它會自己起 HTTP server 並以
-Chrome DevTools Protocol 驅動 headless 瀏覽器，對四個頁面各跑三個情境：
+Chrome DevTools Protocol 驅動 headless 瀏覽器，對每個頁面各跑三個情境：
 
 | 情境 | 驗證的事 |
 | --- | --- |
@@ -358,13 +391,12 @@ Chrome DevTools Protocol 驅動 headless 瀏覽器，對四個頁面各跑三個
 | `slow` | 30KB/s 慢速連線下仍然完整顯示 |
 
 最後還有一項跨情境斷言：**每頁在有無 JavaScript 之下的可見文字量必須完全相同**。
-這是整個靜態化的核心性質，也是最容易在改動中悄悄退步的一項。
+這是整個靜態化的核心性質，也是最容易在改動中悄悄退步的一項 ——
+2026-11 改版時，研究頁的論文清單一度由 JavaScript 產生、數字一度先歸零再跳動，
+兩者都會讓這項失敗，上線前改成靜態標記。
 
-正常與慢速情境下若出現任何 JS 例外即判定失敗 —— 移植動畫時踩過兩次
-「頁面看起來正常、功能其實已死」，兩者都只在 console 留下一行例外。
-
-判定指標是 `document.body.innerText` 的長度，因為它排除 `display:none`
-的內容，恰好等於「使用者實際看得到多少字」—— 全白頁在這個指標下是 0。
+正常與慢速情境下若出現任何 JS 例外即判定失敗。判定指標是 `document.body.innerText`
+的長度，因為它排除 `display:none` 的內容，恰好等於「使用者實際看得到多少字」。
 
 ### 版面
 
@@ -384,48 +416,40 @@ node test/layout-check.js --save   # 重新產生基準
 - `--save` 寫入 `test/baseline/*.png` —— 基準當下的樣子
 - 比對模式寫入 `test/current/*.png` —— **不會覆寫基準**，前後才能並排比對
 
+現在的基準是 2026-11 改版後產生的，第二代頁面的基準已不適用、已整批取代。
+
+每個寬度另外檢查頁首導覽列的每個項目是否**看得見**。手機寬度時導覽列是一排可以
+左右滑動的分頁，後面幾項本來就在畫面外，所以「看得見」的定義是：在畫面內，
+或位於一個本身在畫面內、可以水平捲動的容器裡（滑得到就算）。
+`link-check.js` 只讀原始碼，看得出連結存在、看不出它被容器裁掉或推出畫面。
+
 #### 基準是綁平台的
 
 `test/baseline/` 只在**產生它的那個作業系統 + 瀏覽器**底下有意義。
 macOS 與 Linux 對文字行框高度的取整不同，同一份 HTML 在兩邊量到的
 文字元素高度會差 1–2px，而且沿著頁面往下累積成大量 y 位移 ——
-實測拿 macOS 產生的基準在 Linux 上跑未改動的 HEAD，5046 個元素裡 4046 個對不上。
+實測拿 macOS 產生的基準在 Linux 上跑未改動的版本，5046 個元素裡 4046 個對不上。
 
-那 4046 筆全部是垂直方向的：**x 與寬度是 0 差異，三個寬度都一樣**，
-87% 的元素連高度都相同，只有小字級（9–13.5px）的文字行矮了 1–2px。
+那些差異全部是垂直方向的：**x 與寬度是 0 差異**，只有小字級的文字行矮了 1–2px。
 換句話說那個數字不是「版面壞了」，是「基準換平台就不能用」。
-
-螢幕解析度**不影響**這件事 —— 量測用 `Emulation.setDeviceMetricsOverride`
-把視窗強制成 375/768/1440 × 900、`deviceScaleFactor: 1`，而且跑在
-headless、根本沒有實體顯示器。1080p 或 Retina 量到的完全一樣。
 
 所以 `--save` 會把瀏覽器版本與平台寫進 `test/baseline/.env.txt`，
 比對時若對不上會先印一段警告，說明底下的差異多半不是真的跑版。
-沒有這個戳記，換台機器跑就會看到幾千筆假差異，然後花很久才發現不是自己改壞的。
+在別的平台上要判斷改動本身的影響，先用未改動的版本 `--save` 一次，再改、再比對。
 
-量測前會用 `prefers-reduced-motion: reduce` 把兩段動畫凍結在完整狀態，
+量測前會用 `prefers-reduced-motion: reduce` 把動畫凍結在完整狀態，
 所以每次量到的都是同一幀。這也是動畫本身支援的行為，不是測試專用的後門。
 
 另外保險一層：同一次載入內間隔取兩張快照，凡是自己就會變的欄位一律標成 `*`，
 比對時視為萬用字元 —— 讓量測器自己找出雜訊，不必人工維護忽略清單。
 遮罩只增不減，因此連續兩次 `--save` 產生的基準完全相同。
 
-每個寬度另外檢查導覽列的每個項目是否**真的看得見**（bounding rect 落在畫面內）。
-`link-check.js` 只讀原始碼，看得出連結存在、看不出它被容器裁掉或推出畫面 ——
-這兩件事在使用者眼中都是「連結不見了」。
-
-> 這張安全網驗證過兩件事：連續兩次比對完全一致（可重現），
-> 以及故意把 `[style*="grid-template-columns: 1fr 1fr"]` 改成對不上的字串後，
-> 375 與 768 立刻報出 `grid-template-columns 339px → 159.5px 159.5px`
-> 而 1440 保持通過（抓得到真實跑版）。
-
 ## 字型
 
 字型也是自架的。**渲染頁面所需的一切都由本站供應**，唯一的外部請求是 GA4
 （`test/render-check.js` 的 `normal` 情境會驗證這件事：允許清單以外的網域一律判定失敗）。
 
-這條規則以前只寫了「沒有任何外部請求」而沒寫為什麼，結果它被當成鐵律照抄。
-它實際上換到的是三件事：
+這條規則換到的是三件事：
 
 - **在受限網路裡顯示一致。** 買家坐在政府與金融的內網，對外連線常被過濾。
   頁面不依賴外部資源，那裡看到的畫面就跟外面一樣。
@@ -435,7 +459,7 @@ headless、根本沒有實體顯示器。1080p 或 Retina 量到的完全一樣�
 
 GA4 是刻意的例外，因為它是**量測而非渲染** —— 它載不到的時候，頁面沒有任何改變。
 它跟產品的「資料不出網」是兩回事：後者講的是客戶的錄音與逐字稿不離開客戶機房，
-跟行銷網站的訪客分析無關。把兩者混為一談是修辭，不是理由。
+跟行銷網站的訪客分析無關。
 
 ```sh
 python3 -m venv .venv && .venv/bin/pip install fonttools brotli
@@ -450,77 +474,53 @@ python3 -m venv .venv && .venv/bin/pip install fonttools brotli
 > PYTHONPATH=.pylibs PATH=.pylibs/bin:$PATH python3 tools/build-fonts.py
 > ```
 
-腳本會抓字型原始 TTF，子集化成站上實際用到的字元，輸出
+腳本從 google/fonts 上游 repo 抓字型原始檔，子集化成站上實際用到的字元，輸出
 `vendor/fonts/*.woff2` 與 `vendor/fonts/fonts.css`，頁面只 link 後者。
 沒有被 `fonts.css` 引用到的舊產物會在每次執行時自動刪掉。
 
-必須子集化的理由是 Noto Sans TC：完整檔每個字重好幾 MB，直接自架會比
-Google Fonts 慢。目前六個檔案合計 337KB，其中 Noto Sans TC 一個檔就佔 303KB，
-其餘五個都在 10KB 以下。
+| 字型 | 用途 | 形式 | 大小 |
+| --- | --- | --- | --- |
+| Noto Serif TC | 中英文標題、直排標語、大數字（700、900）| 可變字型 700–900 | 359KB |
+| Noto Sans TC | 中文內文（400、500、700）| 可變字型 400–700 | 277KB |
+| Space Grotesk | 英文內文與按鈕（400、500、700）| 可變字型 400–700 | 18KB |
+| IBM Plex Mono | 標籤、編號、時間戳（400、500）| 兩個靜態檔 | 共 13KB |
 
-字元集會隨文案增減，目前是 1053 個字元、其中 951 個中日韓與全形符號。
-這兩個數字不必手動維護 —— 執行 `tools/build-fonts.py` 時會印出當下的值。
-
-### Noto Sans TC 用可變字型
-
-站上的中文用到 200/300/400/500 四個字重。以前是四個靜態檔，各約 150KB，
-**合計 595KB —— 佔首頁下載量的 92%**。現在改成一個可變字型檔涵蓋整段
-200–500，303KB，省下 292KB。
-
-這是這個網站唯一值得壓的東西。相較之下，把兩段 JavaScript 壓縮過只省
-1.2KB（gzip 後），佔總量 0.19%，而代價是拿掉註解、外加一層建置流程 ——
-所以沒有做，也不建議做。
+合計約 670KB（第二代約 340KB）。多出來的幾乎全是改版新加的 Noto Serif TC ——
+標題改用明體是這次視覺的核心，所以接受這個代價。字元集隨文案增減，目前約 970 個字元、
+其中約 860 個中日韓與全形符號；這兩個數字不必手動維護，執行腳本時會印出當下的值。
+頁面 preload 的是 Noto Serif TC，因為首屏最大的元素是明體標題。
 
 有幾件事踩過才知道：
 
-- 可變字型的原始檔要抓 **google/fonts 上游的完整檔**（11MB），不能走
-  Google Fonts 的 CSS API —— API 送的已經照 `unicode-range` 切成上百個分片，
-  而我們要自己重新子集化，需要的是未分割的完整檔。
-- 先用 `fonttools varLib.instancer` 把 `wght` 軸砍到 200–500 再子集化字元。
+- 原始檔要抓 **google/fonts 上游的完整檔**，不能走 Google Fonts 的 CSS API ——
+  API 送的已經照 `unicode-range` 切成上百個分片，而我們要自己重新子集化，需要的是未分割的完整檔。
+  以前靜態字重仍走 CSS API，2026-11 改成全部從上游 repo 取得，
+  因為那支 API 在部分受限網路裡連不到。
+- 先用 `fonttools varLib.instancer` 把 `wght` 軸砍到實際用到的範圍再子集化字元。
   用不到的字重端點連帶內插資料一起省掉。
 - `@font-face` 的 `format()` 要寫 **`woff2`**，不是 `woff2-variations`。
-  後者是過渡期寫法，部分瀏覽器不認得，會整條規則跳過 —— 字型直接不生效，
-  而且不會報錯。
-- 換字型讓 **16 個元素的文字寬度差了 1px**（總量測數約 2800 個元素）。
-  這是可變字型內插出來的字寬與 Google 另外建置的靜態檔本來就有的微小落差，
-  不是 bug。已反映在 `test/baseline/`。
-
-> 量測這件事本身有個陷阱：換過字型後的**第一次**執行會受瀏覽器字型快取影響，
-> 可能量到舊字型的結果而假性通過。判斷字型改動的版面影響時，要新舊交替各跑
-> 兩次，先確認「同字型兩次為 0 筆差異」再看跨字型的數字。
+  後者是過渡期寫法，部分瀏覽器不認得，會整條規則跳過 —— 字型直接不生效，而且不會報錯。
 
 > ⚠️ **改過頁面文案後要重跑這支腳本**，否則新增的字會變成豆腐格。
 
-字元集是從四個 HTML 的**原始碼**取聯集，不是從渲染結果 —— 這樣連只在
-JavaScript 執行後才出現的字串（例如動畫裡的文字）也一定涵蓋得到。
+字元集是從所有 HTML 的**原始碼**取聯集，不是從渲染結果 —— 這樣連只在
+JavaScript 執行後才出現的字串也一定涵蓋得到。代價是原始碼裡的註解也會貢獻字元，
+讓子集略大於實際所需。這個取捨是刻意的：漏字是使用者看得到的缺陷，多幾 KB 不是。
 
-代價是原始碼裡的中文註解與 class 名稱也會貢獻字元，讓子集略大於實際所需
-（目前多出來的部分不到 1KB）。這個取捨是刻意的：漏字是使用者看得到的缺陷，
-多幾 KB 不是。所以請勿為了省空間改成只掃描可見文字。
-
-### 自架後有 4 個符號改變了外觀
-
-`–` `—` `…` `≈` 這四個符號不在 Google 實際送出的 latin 子集範圍內，
-過去是掉到系統字型去畫的；自架之後改由品牌字型自己畫。
-
-這是刻意接受的變化，因為它比較好看：品牌字型的破折號與刪節號會跟隨
-字重（頁面多處用 300），系統字型畫出來明顯偏粗偏寬，與周圍細體文字不搭。
-代價是版面有 1–4px 的位移，所以 `test/baseline/` 已隨之更新。
-若想回到原本的外觀，在 `tools/build-fonts.py` 的字元集裡排除這四個碼位即可。
-
-字型授權見 `vendor/fonts/LICENSE.md`（三套皆為 SIL OFL 1.1，允許子集化與散布）。
+字型授權見 `vendor/fonts/LICENSE.md`（四套皆為 SIL OFL 1.1，允許子集化與散布）。
 
 ## 部署
 
-將本資料夾內所有檔案（含 `.nojekyll` 與 `vendor/`）放到 repository 根目錄，
+將本資料夾內所有檔案（含 `.nojekyll`、`CNAME`、`vendor/` 與 `en/`）放到 repository 根目錄，
 push 到 `main`，在 Settings → Pages 選擇 Deploy from a branch → `main` / `/ (root)`。
 
 > `.nojekyll` 用於停用 Jekyll 處理，避免底線開頭的檔名被忽略。
+> `CNAME` 是自訂網域 `voxmosa.com`；正式網址、sitemap 與分享縮圖都寫這個網域。
 
 ## 本機預覽
 
-直接用瀏覽器點開 HTML（`file://`）即可，字型與腳本都走相對路徑，不受 CORS 限制。
-若要模擬正式環境：
+直接用瀏覽器點開 HTML（`file://`）即可，字型與腳本都走相對路徑，畫面切換也照常運作
+（只是網址列不會跟著變）。若要模擬正式環境（網址會跟著換、`404.html` 會生效）：
 
 ```sh
 python3 -m http.server 8000
@@ -530,59 +530,42 @@ python3 -m http.server 8000
 
 ## 後續可做的事
 
+上線前：
+
+- **表單補上個資告知**。表單收集姓名與 Email，依個資法通常要在收集時告知用途、
+  保存方式與聯絡窗口。對一家主打資安合規的公司，這一行少了很顯眼。確切寫法請懂法規的人看過。
+- **在 iPhone 與 Mac 的 Safari 實際看一次**。測試都跑在 Chrome 上；直排標語、
+  直排裡橫放的「AI」、畫面滑入這幾個效果，Safari 的處理方式可能不同。
+- **確認兩家合作單位的正式英文名稱**（意傳科技、瞬息科技），見[雙語](#雙語)。
+- **確認對外信箱**。全站用 `how@voxmosa.com`；第二代頁面是 `hazel@voxmosa.com`。
+
 內容面：
 
-- **客語六腔的音檔樣本**，放在首頁研究網絡的客語卡片底下。同一句話六種腔調，
-  各 10–15 秒。文字寫「六腔全數涵蓋」只是宣稱，聽到大埔腔與饒平腔的差別才是證據。
+- **客語六腔的音檔樣本**，放在語言頁的客語區塊底下。同一句話六種腔調，各 10–15 秒。
+  文字寫「六腔全數涵蓋」只是宣稱，聽到大埔腔與饒平腔的差別才是證據。
   做法上要維持站上的兩條硬性質：`<audio controls>` 不需要 JavaScript（不破壞
   有無 JS 內容相同），音檔自架於 repo 內（不對外發出請求）。六個檔案控制在 300KB 以內。
-- **hero 的能力標籤換一格**（`index.html` 裡 `封閉網路可運行` 那排小字，捲動前就會被讀到）。
-  現在是「封閉網路可運行／無按次 API 費用／模型自行訓練」。第三項幾乎人人都能說 ——
-  微調開源模型也算自行訓練 —— 而族語 42 語、客語六腔是短期內拿不出第二家的東西。
-  代價是三項現在全在講地端、很整齊，換掉一項會變成兩項講部署、一項講語言；
-  也可以改成四項。要動之前先做幾版截圖比對再決定。
-- **客語卡片的合作單位名稱待補**。目前該卡片只寫能力與 Gohakka 連結，
-  單位名稱與對方的正式連結、用字，等對方提供後再補上。
+- **首頁的逐字稿換成真的錄音**。現在標示為「示意畫面」；播放真錄音時逐字稿跟著跑，
+  比任何文案都更能證明「聽得懂臺灣」。
+- **公開可重現的評測報告**。整個網站的核心主張是「不給行銷數字，給可重現的數字」，
+  但 CER 對照表、方法論、原始音檔都還是「即將公開」。就算只先公開一個語言、一組測試集也好。
+- **hero 的能力標籤換一格**（`封閉網路可運行／無按次 API 費用／模型自行訓練`）。
+  第三項幾乎人人都能說，而族語 42 語、客語六腔是短期內拿不出第二家的東西。
 - **加圖片**。全站零張 `<img>`，這是 Google 的 AI features 七項要求裡唯一失守的一項
   （「Supporting your textual content with high-quality images and videos」）。
-  Google Images **支援 SVG**，所以站上現有的 inline SVG 只要抽成 `.svg` 檔、
-  用 `<img src alt>` 引用就變成可索引資產，不必重畫。三張產品截圖加兩張圖解就夠。
-- **`Organization` 補齊可查證的公司身分**：`address`、`telephone`、`foundingDate`、
-  統一編號。這些**都在** Google 的支援屬性表裡、會餵知識面板，而且對一個要求客戶
-  把模型放進自家機房的廠商，可查證的實體資訊本身就是說服力。要等對方提供資料。
+  Google Images **支援 SVG**，所以站上的示意圖只要抽成 `.svg` 檔、用 `<img src alt>` 引用就能被索引。
+- **`Organization` 補齊可查證的公司身分**：`address`、`telephone`、`foundingDate`。
+  `legalName` 與 `taxID` 已經有了。要等對方提供資料。
 - **團隊要具名**。Google 的 helpful content 指南問「Is it self-evident to your
-  visitors who authored your content?」目前團隊區沒有指名任何人。
-- **字型 swap 的版面位移**。56px 的 `<h1>` 先用系統中文字型畫、再換成 Noto Sans TC 200，
-  換行可能改變並讓底下全部位移。站上沒有圖片沒有廣告，所以**字型 swap 幾乎就是
-  全部的 CLS 預算**。用 `size-adjust` / `ascent-override` 給 fallback 字型做度量校正，
-  大約六行 CSS。
-- **9px 的字**。全站有 272 個元素小於 12px，其中 52 個小於 10px，mosascore 有 17 個是 9px。
-  Google 這邊**不是問題**（Mobile Usability 報表與 Mobile-Friendly Test 已於
-  2023-12-01 退役，現行文件沒有字級門檻），但 9px 的中文在手機上就是看不清楚。
-- **`#contact` 的表單是假的** —— 整段是 `<div>` 排出來的樣子，
-  「送出申請」按鈕沒有任何行為，真正能點的只有 mailto。
-  SEO 把人帶進來之後會卡在這一步。而且它逐字符合垃圾政策裡的一條定義：
-  「**Misleading functionality** refers to the practice of intentionally creating
-  sites that trick users into thinking they would be able to access some content
-  or services but in reality can't.」不太可能吃到人工處罰（沒有操縱意圖、
-  mailto 是真的），但留著沒有任何好處。要嘛接一個不需要後端的表單服務，
-  要嘛把它改成誠實的 mailto 區塊。
+  visitors who authored your content?」目前研究頁沒有指名任何人。
 
 技術面：
 
-- **`render-check.js` 的 mosascore 有一項固定失敗**（有 JS 4608 字 / 無 JS 4627 字）。
-  這不是新問題 —— 未改動的 HEAD 以完全相同的字數差失敗。原因是
-  `normal` 情境等 4 秒才量測，而 mosascore 的動畫每 1.5 秒一步、已經倒帶重播，
-  此時腳本把尚未揭露的分數欄 `textContent` 清成空字串，可見文字自然比靜態少。
-  首頁的動畫沒這個問題，因為它用 opacity 揭露、文字一直留在 DOM 裡。
-  兩個修法：把 mosascore 改成同樣用 opacity 揭露（視覺幾乎不變，欄位本來就佔位），
-  或讓這項斷言在動畫凍結的前提下量測。前者比較對，也讓兩支動畫的做法一致。
-- **清掉 `#dc-root` / `.sc-host` 兩層包裝**與對應的 `html,body{height:100%}` 規則。
-  它們是 runtime 的殘留物，現在沒有作用。清掉會改變 DOM 結構，
-  所以要一併重新產生版面基準，並用截圖比對確認外觀未變。
-- **`r-*` class 與 inline style 的耦合**目前靠慣例維持（改值要改名）。
-  若要根治，方向是把 inline style 的值搬進 class，元素上不再留 inline style。
-  這是比烘焙更大的改動，會動到版面的組織方式。
+- **每個檔案只放自己的內容**。見[頁面結構](#頁面結構)的取捨；改了之後
+  `tools/sync-views.py` 就不需要了，頁面也會從 150KB 降到 30KB 左右。
+- **字型 swap 的版面位移**。大標題先用系統字型畫、再換成 Noto Serif TC，換行可能改變並讓底下位移。
+  用 `size-adjust` / `ascent-override` 給 fallback 字型做度量校正，大約六行 CSS。
+- **10–11px 的標籤字**。等寬字的小標籤是品牌特徵，但在手機上偏小，可以考慮在窄螢幕放大 1px。
 
 ## 授權
 
@@ -590,4 +573,4 @@ python3 -m http.server 8000
 
 `vendor/` 內的第三方資源各自沿用原授權，不受上述影響：
 
-- 三套字型 —— SIL OFL 1.1，詳見 `vendor/fonts/LICENSE.md`
+- 四套字型 —— SIL OFL 1.1，詳見 `vendor/fonts/LICENSE.md`

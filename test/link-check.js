@@ -17,8 +17,12 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 const ROOT = path.resolve(__dirname, "..");
-const PAGES = ["index.html", "mosatalk.html", "mosaminutes.html", "mosascore.html",
-               "on-premise.html", "languages.html"];
+// 頁面自動找：根目錄與 en/ 底下所有 .html（404.html 除外）。
+// 以前這份清單是寫死的，新增頁面時漏加不會有任何東西失敗 —— 頁面只是安靜地沒有測試覆蓋。
+const PAGES = [
+  ...fs.readdirSync(ROOT).filter((f) => f.endsWith(".html") && f !== "404.html").sort(),
+  ...fs.readdirSync(path.join(ROOT, "en")).filter((f) => f.endsWith(".html")).sort().map((f) => "en/" + f),
+];
 
 const idsOf = (src) => new Set([...src.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]));
 
@@ -44,12 +48,14 @@ for (const [page, { src }] of pages) {
 
     internal++;
     const [file, frag] = href.split("#");
-    const target = file === "" ? page : file;          // 純錨點 = 指向本頁
+    // 相對路徑以頁面所在資料夾為準（en/ 底下的頁面用 ../ 回到中文版）
+    const target = file === "" ? page
+      : path.posix.normalize(path.posix.join(path.posix.dirname(page), file));
 
     const entry = pages.get(target);
     if (!entry) {
       // 不在四個頁面內，可能是圖片之類的靜態檔
-      if (!fs.existsSync(path.join(ROOT, decodeURIComponent(target)))) {
+      if (target.startsWith("..") || !fs.existsSync(path.join(ROOT, decodeURIComponent(target)))) {
         problems.push(`${href}  →  檔案不存在`);
         continue;
       }
@@ -69,8 +75,9 @@ for (const [page, { src }] of pages) {
     const href = m[1];
     if (!href || /^https?:\/\//.test(href)) continue;
     internal++;
-    const file = decodeURIComponent(href.split("#")[0].replace(/^\.\//, ""));
-    if (!fs.existsSync(path.join(ROOT, file))) {
+    const file = decodeURIComponent(path.posix.normalize(
+      path.posix.join(path.posix.dirname(page), href.split("#")[0])));
+    if (file.startsWith("..") || !fs.existsSync(path.join(ROOT, file))) {
       problems.push(`<link> ${href}  →  檔案不存在`);
     }
   }
@@ -94,14 +101,19 @@ function navLabels(src) {
     const text = m[1].replace(/<[^>]+>/g, "").trim();
     if (!text) continue;
     out.push(text);
-    if (text.startsWith("申請")) break;   // CTA 是導覽列的最後一項
+    if (text.startsWith("申請") || text.startsWith("Request")) break;   // CTA 是導覽列的最後一項
   }
   return out;
 }
 
-const expected = navLabels(pages.get("index.html").src);
-console.log(`\n導覽列一致性（以 index.html 的 ${expected.length} 項為準：${expected.join("、")}）：`);
+// 中文頁以 index.html 為準，英文頁以 en/index.html 為準
+const expectedFor = (page) => navLabels(pages.get(page.startsWith("en/") ? "en/index.html" : "index.html").src);
+for (const home of ["index.html", "en/index.html"]) {
+  const labels = navLabels(pages.get(home).src);
+  console.log(`\n導覽列一致性（${home} 的 ${labels.length} 項：${labels.join("、")}）`);
+}
 for (const [page, { src }] of pages) {
+  const expected = expectedFor(page);
   const has = new Set(navLabels(src));
   const missing = expected.filter((label) => !has.has(label));
   if (missing.length) {
@@ -119,7 +131,7 @@ for (const [page, { src }] of pages) {
 {
   const xml = fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8");
   const listed = [...xml.matchAll(/<loc>https:\/\/voxmosa\.com\/([^<]*)<\/loc>/g)]
-    .map((m) => m[1] || "index.html");
+    .map((m) => (m[1] === "" || m[1].endsWith("/")) ? m[1] + "index.html" : m[1]);
   const lastmods = [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]);
   const problems = [];
 

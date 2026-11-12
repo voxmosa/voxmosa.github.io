@@ -1,0 +1,1501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Taiwan language speech AI | Taigi, six Hakka accents and Indigenous-language recognition - Voxmosa</title>
+<meta name="description" content="Speech recognition and synthesis models for Taiwan&#x27;s languages, trained on architectures we built ourselves. Handles Taigi–Mandarin code-switching, all six Hakka accents (Sixian, Hailu, Dapu, Raoping, Zhao&#x27;an, South Sixian) and 42 Indigenous languages across 16 peoples, all output in Traditional Chinese.">
+<link rel="canonical" href="https://voxmosa.com/en/languages.html">
+<link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/languages.html">
+<link rel="alternate" hreflang="en" href="https://voxmosa.com/en/languages.html">
+<link rel="alternate" hreflang="x-default" href="https://voxmosa.com/languages.html">
+<meta property="og:title" content="Taiwan language speech AI | Taigi, six Hakka accents and Indigenous-language recognition - Voxmosa">
+<meta property="og:description" content="You can&#x27;t just fine-tune a generic Chinese model to hear this. Trained on our own architectures for Taigi–Mandarin–English code-switching, six Hakka accents and 42 Indigenous languages.">
+<meta property="og:url" content="https://voxmosa.com/en/languages.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_TW">
+<meta property="og:site_name" content="Voxmosa">
+<meta property="og:image" content="https://voxmosa.com/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Voxmosa: speech AI that hears Taiwan, running in your own server room">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://voxmosa.com/og-en.png">
+<meta name="twitter:image:alt" content="Voxmosa: speech AI that hears Taiwan, running in your own server room">
+<meta name="theme-color" content="#f4f3f0">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon.png" type="image/png" sizes="144x144">
+<link rel="preload" href="../vendor/fonts/noto-serif-tc-700-900-var.woff2" as="font" type="font/woff2" crossorigin>
+<link href="../vendor/fonts/fonts.css" rel="stylesheet">
+<script>(function(d){d.classList.add('js');try{if(!sessionStorage.getItem('vx')){d.classList.add('first');d.style.setProperty('--t0','1.2s');sessionStorage.setItem('vx','1')}}catch(e){}})(document.documentElement)</script>
+<style>
+:root{
+  --paper:#f4f3f0; --paper2:#e9e7e2; --card:#fbfaf8;
+  --ink:#141413; --deep:#0F0F0E; --raise:#1c1b19;
+  --t2:#54524b; --mute:#6b6960; --line:#dedbd4;
+  --sig:#ED9A4A; --acc:#c47a20;
+  --serif:"Noto Serif TC","Songti TC","Noto Serif CJK TC","Source Han Serif TC",serif;
+  --sans:"Space Grotesk","Noto Sans TC","PingFang TC","Microsoft JhengHei","Noto Sans CJK TC",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --gut:clamp(20px,4.2vw,60px); --e:cubic-bezier(.2,.75,.2,1); --dir:1; --shift:26px; --t0:.05s;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);font-size:16px;line-height:1.75;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;line-break:strict;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+::selection{background:var(--sig);color:var(--ink)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gut)}
+.band{padding:clamp(56px,7.5vw,108px) 0}
+.tone{background:var(--paper2)}
+.night,.deep{background:var(--ink);color:var(--paper);--t2:#b5b2aa;--mute:#9a978e;--line:#2a2926;--acc:#ED9A4A}
+.deep{background:var(--deep)}
+.kicker{display:flex;align-items:center;gap:14px;font:500 11.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:24px}
+.kicker b{color:var(--acc);font-weight:500}
+.kicker::after{content:"";flex:1;height:1px;background:var(--line)}
+h2{font:900 clamp(28px,4.4vw,58px)/1.26 var(--serif);letter-spacing:.01em;text-wrap:balance}
+h2 em{font-style:normal;color:var(--acc)}
+.lede{font-size:clamp(15.5px,1.25vw,18px);color:var(--t2);max-width:38em;margin-top:20px}
+.fine{font-size:13px;color:var(--mute);margin-top:18px;line-height:1.7}
+.link{font-weight:700;border-bottom:1.5px solid var(--sig);padding-bottom:1px}
+.link::after{content:"→";display:inline-block;margin-left:.35em;font-family:var(--mono);transition:transform .25s var(--e)}
+.link:hover::after{transform:translateX(5px)}
+.link.ext::after{content:"↗"}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border:1.5px solid var(--ink);border-radius:6px;font-weight:700;font-size:15px;line-height:1.3;cursor:pointer;white-space:nowrap;transition:background-color .2s,color .2s,border-color .2s,transform .2s var(--e)}
+.btn:active{transform:scale(.97)}
+.btn.solid{background:var(--sig);border-color:var(--sig);color:var(--ink)}
+.btn.solid:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.night .btn.solid:hover,.deep .btn.solid:hover{background:var(--paper);border-color:var(--paper);color:var(--ink)}
+.night .btn.ghost,.deep .btn.ghost{border-color:var(--paper);color:var(--paper)}
+.night .btn.ghost:hover{background:var(--paper);color:var(--ink)}
+.badge{display:inline-block;font:500 11px/1 var(--mono);letter-spacing:.08em;padding:6px 8px;border:1.5px solid var(--sig);color:var(--acc);border-radius:3px;vertical-align:middle;white-space:nowrap}
+
+/* 開場 */
+.curtain{position:fixed;inset:0;z-index:200;background:var(--deep);display:none;place-items:center;pointer-events:none}
+html.first .curtain{display:grid;animation:curtain .7s cubic-bezier(.76,0,.24,1) .85s forwards}
+.curtain svg{width:clamp(92px,11vw,140px);height:auto}
+.cv{stroke-dasharray:1;stroke-dashoffset:1;animation:cdraw .5s cubic-bezier(.6,0,.2,1) .05s forwards}
+.ca,.cb{opacity:0;animation:cfade .25s ease .42s forwards;--o:.66}
+.cb{animation-delay:.56s;--o:.32}
+@keyframes curtain{to{transform:translateY(-101%)}}
+@keyframes cdraw{to{stroke-dashoffset:0}}
+@keyframes cfade{to{opacity:var(--o)}}
+
+/* 導覽 */
+.nav{position:sticky;top:0;z-index:60;background:var(--paper);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1440px;margin:0 auto;padding:0 var(--gut);height:62px;display:flex;align-items:center;gap:clamp(16px,2.4vw,36px)}
+.logo{display:flex;align-items:center;flex:none}
+.logo svg{display:block;height:24px;width:auto}
+.tabs{position:relative;display:flex;gap:2px;margin-left:clamp(8px,2.4vw,40px);height:100%}
+.tabs a{position:relative;display:flex;align-items:center;padding:0 10px;font-size:14px;font-weight:500;color:var(--t2);white-space:nowrap;transition:color .2s}
+.tabs a:hover,.tabs a[aria-current]{color:var(--ink)}
+.ind{position:absolute;left:0;bottom:-1px;height:3px;width:100px;background:var(--sig);transform-origin:left;transform:translateX(0) scaleX(0);transition:transform .42s var(--e);pointer-events:none}
+.nav .btn{padding:9px 12px;font-size:14px;flex:none;width:136px}
+@media(max-width:1220px){
+  .nav-in{height:auto;flex-wrap:wrap;padding-top:12px;gap:0 12px}
+  .lang{margin-left:auto}
+  .tabs{order:3;flex-basis:100%;margin:8px calc(var(--gut)*-1) 0;padding:0 calc(var(--gut) - 10px);height:44px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs a{padding:0 10px}
+}
+
+/* 畫面切換 */
+.view{display:none}
+.view.on{display:block;animation:vin .5s var(--e) both}
+@keyframes vin{from{opacity:0;transform:translateX(calc(var(--dir)*var(--shift)))}to{opacity:1;transform:none}}
+.view.on [data-a]{animation:up .75s var(--e) both;animation-delay:calc(var(--t0) + var(--d,0)*85ms)}
+@keyframes up{from{opacity:0;transform:translateY(var(--shift))}to{opacity:1;transform:none}}
+.rv{opacity:0;transform:translateY(var(--shift));transition:opacity .7s var(--e),transform .7s var(--e);transition-delay:calc(var(--d,0)*80ms)}
+.rv.in{opacity:1;transform:none}
+html:not(.js) .rv{opacity:1;transform:none}
+
+/* 直排標題與印章 */
+.couplet{writing-mode:vertical-rl;font:900 clamp(36px,5.6vh,68px)/1.32 var(--serif);letter-spacing:.045em;white-space:nowrap;justify-self:end}
+.couplet>span{display:block}
+.couplet>span+span{margin-right:.14em}
+.tcy{-webkit-text-combine:horizontal;text-combine-upright:all;letter-spacing:0}
+.dot{-webkit-text-emphasis:filled dot var(--sig);text-emphasis:filled dot var(--sig);-webkit-text-emphasis-position:over right;text-emphasis-position:over right}
+.hc{display:inline-block;line-height:1}
+.view.on .hc{animation:hc .6s var(--e) both;animation-delay:calc(var(--t0) + var(--i)*45ms)}
+@keyframes hc{from{opacity:0;transform:translateY(-.5em)}to{opacity:1;transform:none}}
+.seal{display:inline-grid;grid-template-columns:1fr 1fr;place-items:center;writing-mode:horizontal-tb;font:700 .31em/1 var(--serif);letter-spacing:0;width:3.1em;height:3.1em;padding:.32em;margin-top:1.1em;background:var(--sig);color:var(--ink);border-radius:4px;transform:rotate(-4deg);vertical-align:baseline;outline:1.5px solid rgba(20,20,19,.5);outline-offset:-.24em}
+.view.on .seal{animation:stamp .45s cubic-bezier(.3,1.45,.5,1) both;animation-delay:calc(var(--t0) + var(--n,20)*45ms + .2s)}
+@keyframes stamp{from{opacity:0;transform:rotate(-18deg) scale(2.4)}55%{opacity:1}to{opacity:1;transform:rotate(-4deg) scale(1)}}
+@media(max-width:820px){.couplet{font-size:clamp(32px,9.6vw,42px)}}
+
+/* 首頁主視覺 */
+.hero-in{max-width:1440px;margin:0 auto;padding:clamp(24px,4.6vh,56px) var(--gut) 0;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto 1fr auto;grid-template-areas:"demo title" "intro title" "tags title";column-gap:clamp(28px,6vw,96px);row-gap:clamp(18px,3.2vh,34px);min-height:calc(100svh - 62px - clamp(70px,15vh,150px))}
+.hero-in .couplet{grid-area:title}
+.demo{grid-area:demo;min-width:0}
+.demo-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font:500 11.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);border-top:2px solid var(--ink);padding-top:14px;margin-bottom:clamp(14px,2.6vh,28px)}
+.rec{width:9px;height:9px;border-radius:50%;background:var(--sig);animation:blink 1.4s steps(2) infinite}
+.demo-top em{font-style:normal;margin-left:auto}
+@keyframes blink{50%{opacity:.25}}
+.lines{display:grid;gap:clamp(8px,1.6vh,16px)}
+.ln{display:grid;grid-template-columns:34px 1fr;gap:clamp(10px,1.4vw,20px);align-items:start;font:700 clamp(19px,2.5vw,37px)/1.5 var(--serif)}
+.spk{font:500 11px/1 var(--mono);border:1.5px solid var(--ink);padding:4px 0;text-align:center;border-radius:3px;margin-top:.9em;transition:opacity .3s}
+.spk.b{background:var(--ink);color:var(--paper)}
+.tg,.en{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:.24em}
+.tg{text-decoration-color:var(--sig)}.en{text-decoration-color:#8c8a84}
+.js .ch{opacity:0}.js .ch.on{opacity:1}.ch.cur{box-shadow:3px 0 0 var(--sig)}
+.demo-foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin-top:clamp(12px,2.2vh,22px);font:500 11.5px/1.6 var(--mono);color:var(--mute)}
+.lg{display:inline-flex;align-items:center;gap:7px}
+.lg::before{content:"";width:18px;height:3px;background:var(--c)}
+.demo-foot button{background:none;border:0;border-bottom:1px dashed var(--mute);cursor:pointer;padding:0}
+.demo-foot button:hover{color:var(--acc)}
+.intro{grid-area:intro;align-self:end;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px clamp(24px,4vw,56px);align-items:end;min-width:0}
+.intro p{font-size:clamp(15.5px,1.3vw,18.5px);color:var(--t2);max-width:30em}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.tags{grid-area:tags;display:flex;flex-wrap:wrap;gap:6px 0;font:500 12px/1.6 var(--mono);letter-spacing:.06em;color:var(--t2)}
+.tags li+li::before{content:"／";color:var(--acc);margin:0 12px}
+.ridge{display:block;width:100%;height:clamp(70px,15vh,150px)}
+@media(max-width:820px){
+  .hero-in{grid-template-areas:"intro title" "demo demo" "tags tags";grid-template-rows:auto;column-gap:18px;min-height:0}
+  .intro{grid-template-columns:1fr;align-self:stretch;align-content:space-between}
+  .cta.col{flex-direction:column}.cta.col .btn{width:100%}
+  .tags{font-size:11px}.tags li+li::before{margin:0 7px}
+}
+
+/* 產品卡 */
+.pcards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,24px);margin-top:clamp(32px,4.4vw,56px)}
+.pcard{position:relative;display:flex;flex-direction:column;background:var(--card);border:1.5px solid var(--ink);border-radius:8px;padding:clamp(20px,2.2vw,30px);min-height:clamp(300px,30vw,400px);transition:transform .35s var(--e),background-color .25s}
+.pcard:hover{transform:translateY(-8px)}
+.pcard .no{font:500 12px/1 var(--mono);color:var(--mute);letter-spacing:.1em;display:flex;justify-content:space-between;align-items:center}
+.pcard h3{font:900 clamp(28px,3vw,42px)/1.1 var(--serif);margin:16px 0 6px;letter-spacing:-.01em}
+.pcard .psb{font:500 12px/1.5 var(--mono);letter-spacing:.1em;color:var(--acc)}
+.pcard p{font-size:15px;color:var(--t2);margin-top:14px;max-width:22em}
+.pcard .viz{margin-top:auto;padding-top:22px;height:86px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.pcard .go{flex:none;width:42px;height:42px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font:500 16px/1 var(--mono);transition:background-color .25s,transform .35s var(--e)}
+.pcard:hover .go{background:var(--sig);border-color:var(--sig);transform:translateX(4px)}
+.bars{display:flex;align-items:flex-end;gap:3px;height:56px}
+.bars i{width:4px;background:var(--ink);border-radius:1px;transform-origin:bottom;animation:bar 1.1s ease-in-out infinite alternate}
+.bars i:nth-child(3n){animation-duration:.8s}.bars i:nth-child(4n+1){animation-duration:1.4s;background:var(--sig)}
+@keyframes bar{from{transform:scaleY(.25)}to{transform:scaleY(1)}}
+.tl{display:grid;gap:7px;width:60%}
+.tl i{height:6px;background:var(--ink);border-radius:1px;transform-origin:left;animation:tl 3.4s var(--e) infinite}
+.tl i:nth-child(2){width:78%;animation-delay:.35s}.tl i:nth-child(3){width:52%;animation-delay:.7s;background:var(--sig)}
+@keyframes tl{0%{transform:scaleX(0)}35%,88%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+.spark{width:62%;height:56px;overflow:visible}
+.spark path{fill:none;stroke:var(--sig);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;animation:draw 3.6s var(--e) infinite}
+@keyframes draw{0%{stroke-dashoffset:1}45%,90%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@media(max-width:900px){.pcards{grid-template-columns:1fr}.pcard{min-height:0}}
+
+/* 資料邊界 */
+.bd{display:grid;grid-template-columns:minmax(0,1.75fr) clamp(76px,9vw,132px) minmax(0,1fr);margin-top:clamp(36px,5vw,64px)}
+.bd-room,.bd-out{position:relative;border-radius:6px;padding:clamp(38px,4.4vw,56px) clamp(18px,2.8vw,40px) clamp(24px,3vw,36px)}
+.bd-room{border:2px solid var(--sig)}
+.bd-tab{position:absolute;top:-11px;left:22px;background:var(--ink);padding:0 12px;font:500 12.5px/20px var(--mono);letter-spacing:.12em;color:var(--sig)}
+.bd-flow{position:relative}
+.bd-flow::before{content:"";position:absolute;left:4%;right:4%;top:50%;height:1px;background:var(--line)}
+.bd-pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1.8vw,26px)}
+.bd-pipe li{position:relative;z-index:1;background:var(--raise);border:1px solid var(--line);border-radius:4px;padding:16px 6px 18px;text-align:center;font:700 clamp(14px,1.5vw,19px)/1.3 var(--serif)}
+.bd-pipe small{display:block;font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--mute);margin-bottom:9px}
+.bd-pkt{position:absolute;top:50%;left:0;width:9px;height:9px;margin:-4.5px;border-radius:50%;background:var(--sig);animation:pkt 5s linear infinite}
+@keyframes pkt{from{transform:translateX(0)}to{transform:translateX(var(--w,600px))}}
+.bd-data{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.bd-data li{font-size:13.5px;line-height:1;padding:8px 13px;border:1px dashed var(--line);border-radius:4px;color:var(--t2)}
+.bd-wall{position:relative;display:grid;place-items:center}
+.bd-wall::before{content:"";position:absolute;top:-18px;bottom:-18px;left:50%;border-left:2px dashed var(--mute)}
+.bd-wall span{position:relative;writing-mode:vertical-rl;background:var(--ink);padding:16px 0;font:500 12px/1 var(--mono);letter-spacing:.24em}
+.bd-wall i{position:absolute;left:0;width:50%;height:1px;background:var(--line)}
+.bd-wall i::before{content:"";position:absolute;top:-4px;left:0;width:9px;height:9px;border-radius:50%;background:var(--sig);animation:try 3s cubic-bezier(.5,0,.6,1) infinite}
+.bd-wall i::after{content:"✕";position:absolute;right:-7px;top:-9px;font:500 14px/18px var(--mono);color:var(--sig);background:var(--ink);animation:xx 3s linear infinite}
+.bd-wall i:nth-of-type(1){top:22%}.bd-wall i:nth-of-type(2){top:78%}
+.bd-wall i:nth-of-type(2)::before,.bd-wall i:nth-of-type(2)::after{animation-delay:-1.5s}
+@keyframes try{0%{transform:translateX(-12px);opacity:0}14%{opacity:1}54%{transform:translateX(var(--tw,40px));opacity:1}62%{transform:translateX(calc(var(--tw,40px) - 12px));opacity:1}100%{transform:translateX(-12px);opacity:0}}
+@keyframes xx{0%,48%,74%,100%{transform:scale(1)}56%{transform:scale(1.8)}}
+.bd-out{border:1px dashed var(--line);color:var(--mute);display:grid;align-content:center}
+.bd-out .bd-tab{color:var(--mute)}
+.bd-out p{font:700 clamp(15px,1.5vw,19px)/1.7 var(--serif)}
+@media(max-width:820px){
+  .bd{grid-template-columns:1fr}
+  .bd-wall{height:72px}.bd-wall::before{top:50%;bottom:auto;left:0;right:0;border-left:0;border-top:2px dashed var(--mute)}
+  .bd-wall span{writing-mode:horizontal-tb;padding:0 14px}.bd-wall i{display:none}
+  .bd-pipe{grid-template-columns:1fr 1fr}.bd-flow::before,.bd-pkt{display:none}
+}
+
+/* 數字 */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink)}
+.nums div{padding:24px clamp(14px,2vw,28px) 6px;border-left:1px solid var(--line)}
+.nums div:first-child{padding-left:0;border-left:0}
+.nums strong{display:block;font:900 clamp(58px,9vw,132px)/.95 var(--serif);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.nums small{font-size:.34em;letter-spacing:0;margin-left:.1em;font-weight:700}
+.nums p{font-size:14px;line-height:1.65;color:var(--t2);margin-top:12px;max-width:16em}
+.nums.n3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:820px){.nums,.nums.n3{grid-template-columns:1fr 1fr}.nums div{padding-left:0;border-left:0;padding-bottom:18px}.nums div:nth-child(even){padding-left:18px;border-left:1px solid var(--line)}}
+
+/* CER */
+.vd{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,6vw,96px);align-items:end}
+.cer{margin-top:clamp(22px,3.4vw,40px);font:900 clamp(38px,6vw,88px)/1 var(--serif);display:flex;align-items:center;gap:.18em;white-space:nowrap}
+.cer i{display:block;flex:none;width:1.7em;height:.78em;background:var(--sig);border-radius:4px;transform-origin:left;transform:scaleX(0);transition:transform .6s cubic-bezier(.7,0,.2,1) .5s}
+.rv.in .cer i{transform:none}
+@media(max-width:820px){.vd{grid-template-columns:1fr}}
+
+/* 產品畫面 */
+.ph-in{max-width:1440px;margin:0 auto;padding:clamp(26px,4.6vh,56px) var(--gut) clamp(48px,6.5vw,88px);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr) auto;grid-template-areas:"txt vis title";column-gap:clamp(28px,4.2vw,68px);row-gap:clamp(28px,4vw,48px);align-items:start}
+.ph.wide .ph-in{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"txt title" "vis title";grid-template-rows:auto 1fr}
+.ph-in .couplet{grid-area:title}
+.ptxt{grid-area:txt;min-width:0}.pvis{grid-area:vis;min-width:0}
+.ph.wide .pvis{align-self:end}
+.crumb{font:500 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);border-top:2px solid currentColor;padding-top:14px;margin-bottom:clamp(20px,3.2vh,36px)}
+.pname{display:block;font:900 clamp(40px,4.4vw,66px)/1.05 var(--serif);letter-spacing:-.02em}
+.pname.zh{letter-spacing:.02em;font-size:clamp(38px,4.8vw,72px)}
+.psub{display:block;font:700 clamp(16px,1.5vw,20px)/1.55 var(--serif);color:var(--acc);margin:14px 0 20px}
+.ptxt .lede{margin-top:0}
+.ptxt .cta{margin-top:26px}
+@media(max-width:1180px){.ph-in,.ph.wide .ph-in{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"txt title" "vis vis";grid-template-rows:auto}}
+@media(max-width:820px){.ph-in{column-gap:18px}.pname,.pname.zh{font-size:clamp(27px,8.2vw,34px)}.psub{font-size:15.5px}.ptxt .lede{font-size:15px}}
+
+.pts{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink);border-left:1px solid var(--line)}
+.pts li{padding:22px clamp(16px,1.8vw,26px) 26px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pts i{font:500 12px/1 var(--mono);font-style:normal;color:var(--mute)}
+.pts b{display:block;font:700 clamp(18px,1.7vw,22px)/1.45 var(--serif);margin:14px 0 6px}
+.pts span{font-size:14.5px;color:var(--t2);line-height:1.65;display:block}
+.pts.c3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.pts,.pts.c3{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.pts,.pts.c3{grid-template-columns:1fr}}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0 clamp(20px,3vw,44px);margin-top:clamp(28px,4vw,48px)}
+.facts div{border-top:1px solid var(--ink);padding:16px 0 4px}
+.facts dt{font:500 11.5px/1 var(--mono);letter-spacing:.12em;color:var(--mute);margin-bottom:10px}
+.facts dd{font:700 16.5px/1.6 var(--serif)}
+@media(max-width:760px){.facts{grid-template-columns:1fr}}
+.plan{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:clamp(28px,4vw,44px)}
+.plan b{font:500 11.5px/1 var(--mono);letter-spacing:.1em;padding:9px 11px;border:1.5px dashed var(--ink);margin-right:6px;white-space:nowrap}
+.plan span{font-size:13.5px;line-height:1;padding:9px 12px;border:1px dashed var(--mute);border-radius:4px;color:var(--t2)}
+.quote{display:grid;grid-template-columns:5px 1fr;gap:clamp(16px,2.4vw,30px)}
+.quote::before{content:"";background:var(--sig)}
+.quote p{font:900 clamp(21px,2.9vw,38px)/1.5 var(--serif);max-width:24em;text-wrap:balance}
+.quote small{display:block;font:400 clamp(14.5px,1.2vw,16.5px)/1.8 var(--sans);color:var(--t2);margin-top:12px;max-width:44em}
+.end{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 40px}
+.end h2{font-size:clamp(26px,3.6vw,48px)}
+
+/* 示意畫面 */
+.mock{position:relative;background:var(--card);color:var(--ink);border:1.5px solid var(--ink);border-radius:8px;box-shadow:8px 8px 0 var(--ink);overflow:hidden;--line:#dedbd4;--mute:#6b6960;--t2:#54524b}
+.mock.dark{background:var(--ink);color:var(--paper);box-shadow:8px 8px 0 #8c8a84;--line:#2a2926;--mute:#9a978e;--t2:#b5b2aa}
+.mock-bar{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);font:500 11px/1 var(--mono);letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+.mock-bar .sp{margin-left:auto}
+.mock-foot{padding:11px 18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--mute)}
+.lat{padding:clamp(20px,2.8vw,34px) clamp(18px,2.8vw,34px) 8px}
+.lat-big{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.lat-big strong{font:900 clamp(70px,9.4vw,128px)/.8 var(--serif);letter-spacing:-.03em}
+.lat-big span{font-size:14px;color:var(--t2);padding-bottom:4px;max-width:12em;line-height:1.6}
+.lat-line{position:relative;height:28px;margin:28px 0 4px;display:flex;justify-content:space-between;align-items:center;font:500 11px/1 var(--mono);letter-spacing:.08em;color:var(--mute)}
+.lat-line::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--line)}
+.lat-line span{position:relative;background:var(--ink);padding:0 10px}.lat-line span:first-of-type{padding-left:0}.lat-line span:last-child{padding-right:0;color:var(--sig)}
+.lat-line u{position:absolute;top:50%;left:0;height:3px;width:100%;margin-top:-1.5px;background:var(--sig);transform-origin:left;animation:sweep 4.4s linear infinite}
+@keyframes sweep{0%,33%{transform:scaleX(0);opacity:1}58%,94%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+.eq{display:inline-flex;align-items:center;gap:2px;height:14px;vertical-align:-3px;margin-right:8px}
+.eq.a{margin:0 0 0 8px}
+.eq i{display:block;width:2.5px;height:100%;background:currentColor;border-radius:1px;transform:scaleY(.14);animation:eqU 4.4s linear infinite}
+.eq.a i{animation-name:eqA}
+.eq i:nth-child(2){animation-delay:.07s}.eq i:nth-child(3){animation-delay:.15s}.eq i:nth-child(4){animation-delay:.04s}.eq i:nth-child(5){animation-delay:.11s}
+@keyframes eqU{0%{transform:scaleY(.14)}4%{transform:scaleY(1)}9%{transform:scaleY(.35)}14%{transform:scaleY(.9)}19%{transform:scaleY(.3)}24%{transform:scaleY(1)}29%{transform:scaleY(.5)}34%,100%{transform:scaleY(.14)}}
+@keyframes eqA{0%,58%{transform:scaleY(.14)}62%{transform:scaleY(1)}67%{transform:scaleY(.4)}72%{transform:scaleY(.95)}77%{transform:scaleY(.3)}82%{transform:scaleY(1)}87%{transform:scaleY(.45)}92%{transform:scaleY(.8)}98%,100%{transform:scaleY(.14)}}
+.stages{padding:0 clamp(18px,2.8vw,34px) 6px}
+.stages li{display:grid;grid-template-columns:60px 1fr;gap:14px;padding:13px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.65;color:var(--t2)}
+.stages b{font:900 23px/1.25 var(--serif);color:var(--paper)}
+.ws{padding:6px 18px 4px}
+.ws-row{display:grid;grid-template-columns:48px 68px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.ws-row time{font:500 12px/1 var(--mono);color:var(--mute)}
+.ws-row b{font-size:13px}
+.ws-row p{font:700 clamp(15.5px,1.4vw,18px)/1.65 var(--serif)}
+.ws-row.act{background:rgba(237,154,74,.12);margin:0 -18px;padding-left:18px;padding-right:18px;box-shadow:inset 3px 0 0 var(--sig)}
+.caret{display:inline-block;width:2px;height:1.1em;background:var(--sig);vertical-align:-.16em;margin-left:2px;animation:blink 1s steps(2) infinite}
+.todo{padding:16px 18px 18px;background:var(--paper2);border-top:1px solid var(--line)}
+.todo h4{font:500 11px/1 var(--mono);letter-spacing:.12em;color:var(--mute);margin-bottom:12px}
+.todo li{display:flex;gap:10px;align-items:center;font-size:14.5px;padding:4px 0}
+.todo li::before{content:"✓";flex:none;width:15px;height:15px;border:1.5px solid var(--ink);border-radius:2px;font:500 11px/12.5px var(--mono);text-align:center;color:transparent;animation:tick 7s linear infinite}
+.todo li:nth-child(2)::before{animation-delay:1.3s}
+@keyframes tick{0%,22%{background-color:transparent;color:transparent}27%,86%{background-color:var(--ink);color:var(--card)}92%,100%{background-color:transparent;color:transparent}}
+.sc-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 20px;padding:18px 18px 8px;align-items:end}
+.sc-top svg{width:100%;height:auto;display:block;overflow:visible;grid-column:1/-1}
+.sc-path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s var(--e) .3s}
+.in .sc-path,.view.on .ph .sc-path{stroke-dashoffset:0}
+.sc-num{margin-top:14px;font:900 clamp(60px,7.6vw,100px)/.8 var(--serif);color:var(--acc);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sc-cap{align-self:end;padding-bottom:6px;font-size:13.5px;line-height:1.6;color:var(--t2)}
+.sc-cap b{display:block;font:500 11px/1 var(--mono);letter-spacing:.12em;color:var(--mute);margin-bottom:8px}
+.sc-rows{padding:4px 18px 6px}
+.sc-rows li{display:grid;grid-template-columns:44px 1fr 40px;gap:10px;align-items:baseline;padding:9px 0;border-top:1px solid var(--line);font-size:14.5px}
+.sc-rows time{font:500 12px/1 var(--mono);color:var(--mute)}
+.sc-rows b{font:500 14px/1 var(--mono);text-align:right;color:var(--acc)}
+.who{display:inline-block;font:500 11px/1 var(--mono);font-style:normal;border:1.2px solid var(--ink);padding:3px 5px;margin-right:9px;border-radius:2px;vertical-align:1px}
+.who.c{background:var(--ink);color:var(--card)}
+.sc-rows li.agent{color:var(--mute)}
+.warn{display:grid;grid-template-columns:auto 1fr;gap:12px;margin-top:24px;padding:14px 16px;border:1.5px solid var(--sig);border-radius:6px;font-size:14px;line-height:1.75}
+.warn::before{content:"！";font:900 20px/1.2 var(--serif);color:var(--acc)}
+.covsec{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(28px,6vw,96px);align-items:center}
+.covfigs{display:flex;gap:clamp(20px,4vw,56px)}
+.covfigs figure{display:grid;gap:12px}
+.dots{width:clamp(112px,14vw,180px);aspect-ratio:1}
+.dots.few{background:radial-gradient(circle,var(--sig) 0 36%,transparent 38%) 33.33% 22.22%/10% 10% no-repeat,radial-gradient(circle,var(--sig) 0 36%,transparent 38%) 77.77% 66.66%/10% 10% no-repeat,radial-gradient(circle,transparent 0 20%,rgba(20,20,19,.34) 22% 36%,transparent 38%) 0 0/10% 10%}
+.dots.all{background:radial-gradient(circle,var(--ink) 0 36%,transparent 38%) 0 0/10% 10%;clip-path:inset(0 0 100% 0);transition:clip-path 1.5s steps(10) .3s}
+.in .dots.all{clip-path:inset(0)}
+.covfigs figcaption{font:500 12px/1.6 var(--mono);color:var(--mute)}
+.covfigs figcaption b{display:block;font:900 clamp(32px,4vw,54px)/1.1 var(--serif);color:var(--ink)}
+@media(max-width:900px){.covsec{grid-template-columns:1fr}.mock{box-shadow:6px 6px 0 var(--ink)}.mock.dark{box-shadow:6px 6px 0 #8c8a84}.ws-row{grid-template-columns:40px 1fr}.ws-row p{grid-column:1/-1}}
+
+/* 地端 */
+.why{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.why li{padding:26px clamp(18px,2.6vw,36px) 6px;border-left:1px solid var(--line)}
+.why li:first-child{padding-left:0;border-left:0}
+.why i{font:900 42px/1 var(--serif);font-style:normal;color:var(--acc)}
+.why b{display:block;font:700 clamp(19px,1.8vw,23px)/1.45 var(--serif);margin:16px 0 8px}
+.why span{font-size:14.5px;color:var(--t2);display:block}
+@media(max-width:820px){.why{grid-template-columns:1fr}.why li{padding:22px 0;border-left:0;border-bottom:1px solid var(--line)}}
+.cmp{width:100%;border-collapse:collapse;margin-top:clamp(32px,4.4vw,56px)}
+.cmp th,.cmp td{text-align:left;padding:16px 20px 16px 0;border-top:1px solid var(--line);vertical-align:top;line-height:1.6}
+.cmp thead th{font:500 11.5px/1.4 var(--mono);letter-spacing:.1em;color:var(--mute);border-top:0;padding-bottom:12px}
+.cmp tbody tr:first-child>*{border-top:2px solid var(--ink)}
+.cmp tbody th{font:700 15.5px/1.6 var(--sans);width:27%}
+.cmp td{width:33%;color:var(--mute);font-size:15px}
+.cmp td.v{width:40%;color:var(--ink);font:700 clamp(16px,1.45vw,18.5px)/1.6 var(--serif)}
+.cmp td.v::before{content:"";display:inline-block;width:9px;height:9px;background:var(--sig);border-radius:50%;margin-right:11px}
+.cmp tr.cloud td:not(.v){color:var(--ink);font-weight:700}
+.cmp tr.cloud td:not(.v)::after{content:"這一項雲端佔優";display:inline-block;margin-left:10px;font:500 11px/1 var(--mono);padding:5px 7px;border:1.5px solid var(--ink);border-radius:3px;vertical-align:2px;white-space:nowrap}
+.cmp tr.cloud td.v{font:400 15px/1.6 var(--sans);color:var(--mute)}.cmp tr.cloud td.v::before{background:transparent;border:1.5px dashed var(--mute)}
+@media(max-width:760px){
+  .cmp thead{display:none}.cmp,.cmp tbody,.cmp tr,.cmp th,.cmp td,.cmp td.v{display:block;width:auto}
+  .cmp tr{padding:16px 0;border-top:1px solid var(--line)}.cmp tbody tr:first-child{border-top:2px solid var(--ink)}
+  .cmp th,.cmp td,.cmp tbody tr:first-child>*{border:0;padding:0}.cmp tbody th{margin-bottom:6px}.cmp td{margin-top:4px}
+}
+
+/* 語言 */
+.conv{display:grid;grid-template-columns:auto minmax(40px,1fr) auto;height:clamp(280px,29vw,380px);grid-template-rows:100%}
+.conv-in{display:grid;grid-template-rows:repeat(5,1fr)}
+.conv-in li{display:flex;flex-direction:column;justify-content:center;padding-right:clamp(10px,2vw,26px);font:900 clamp(18px,2.5vw,34px)/1.2 var(--serif);border-right:4px solid var(--c)}
+.conv-in small{font:500 clamp(10.5px,1vw,12px)/1.5 var(--mono);color:var(--mute);letter-spacing:.06em;margin-top:4px}
+.conv svg{width:100%;height:100%;display:block;min-height:0}
+.conv path{fill:none;stroke-width:2.5;vector-effect:non-scaling-stroke;stroke-dasharray:7 7;animation:flow 1.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-14}}
+.conv-out{writing-mode:vertical-rl;display:flex;align-items:center;justify-content:center;gap:.5em;padding:0 clamp(12px,2.4vw,32px);background:var(--ink);color:var(--paper);font:900 clamp(24px,3.8vw,52px)/1 var(--serif);letter-spacing:.14em;border-radius:6px}
+.conv-out small{font:500 12px/1 var(--mono);letter-spacing:.3em;color:#b5b2aa}
+.pstats{display:flex;flex-wrap:wrap;gap:16px clamp(24px,4vw,56px);margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+.pstats b{display:block;font:900 clamp(42px,4.8vw,68px)/1 var(--serif);font-variant-numeric:tabular-nums}
+.pstats span{display:block;font-size:13.5px;color:var(--t2);margin-top:6px}
+.mx{width:100%;border-collapse:collapse;font-size:15px}
+.mx th,.mx td{text-align:left;padding:14px 14px 14px 0;border-top:1px solid var(--line);vertical-align:top;line-height:1.6}
+.mx thead th{font:500 11.5px/1.5 var(--mono);letter-spacing:.08em;color:var(--mute);border-top:2px solid var(--ink)}
+.mx tbody th{font:700 17px/1.5 var(--serif);white-space:nowrap}
+.st{display:inline-flex;gap:8px;align-items:baseline}
+.st::before{content:"";flex:none;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink);background:var(--ink);transform:translateY(1px)}
+.st.half::before{background:linear-gradient(90deg,var(--ink) 50%,transparent 50%)}
+.st.none{color:var(--mute)}.st.none::before{background:transparent;border-style:dashed;border-color:var(--mute)}
+.two{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:start}
+@media(max-width:900px){.two{grid-template-columns:1fr}}
+.qcards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.qcards li{border:1.5px solid var(--ink);border-radius:6px;padding:16px 10px 13px;text-align:center}
+.qcards b{display:block;font:900 clamp(20px,2vw,26px)/1.2 var(--serif)}
+.qcards span{display:block;font:500 11px/1 var(--mono);letter-spacing:.06em;margin-top:10px;color:var(--mute)}
+blockquote{font:700 clamp(16px,1.5vw,19px)/1.75 var(--serif);border-left:3px solid var(--sig);padding-left:16px;margin:18px 0 12px}
+.hlinks{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:18px;font-size:14.5px}
+.sub{font:900 clamp(20px,2.1vw,27px)/1.3 var(--serif);display:flex;align-items:baseline;gap:14px;padding-bottom:14px;border-bottom:2px solid var(--ink);margin-bottom:4px}
+.sub span{font:500 11.5px/1 var(--mono);letter-spacing:.14em;color:var(--mute);text-transform:uppercase}
+
+/* 研究 */
+.awards{display:grid;grid-template-columns:repeat(5,1fr);border-top:2px solid var(--ink)}
+.awards li{padding:22px 16px 6px 0;border-right:1px solid var(--line);margin-right:16px}
+.awards li:last-child{border:0;margin:0}
+.awards b{display:block;font:900 clamp(30px,3.4vw,46px)/1 var(--serif);color:var(--acc);font-variant-numeric:tabular-nums}
+.awards strong{display:block;font:700 15.5px/1.55 var(--serif);margin:14px 0 6px}
+.awards span{font-size:13px;color:var(--mute);line-height:1.5;display:block}
+.press li{display:grid;grid-template-columns:76px 1fr;gap:4px 14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.press time{font:500 12.5px/1.9 var(--mono);color:var(--mute)}
+.press a,.press b{font:700 16px/1.55 var(--serif)}.press a:hover{color:var(--acc)}
+.press span{grid-column:2;font-size:13px;color:var(--mute);line-height:1.4}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.filters button{font:500 13.5px/1 var(--sans);padding:10px 14px;border:1.5px solid var(--ink);border-radius:6px;background:transparent;cursor:pointer;transition:background-color .2s,color .2s}
+.filters button b{font:500 12px/1 var(--mono);margin-left:6px;opacity:.65}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.pubs li{display:grid;grid-template-columns:52px 118px 1fr auto;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);align-items:baseline;font-size:15px;line-height:1.55;animation:up .45s var(--e) both;animation-delay:calc(var(--d,0)*22ms)}
+.pubs .y{font:500 13px/1 var(--mono)}.pubs .v{font:500 12px/1.4 var(--mono);color:var(--acc)}
+.pubs a{font:500 12px/1 var(--mono);color:var(--mute);border-bottom:1px solid var(--line);white-space:nowrap}.pubs a:hover{color:var(--acc)}
+@media(max-width:900px){
+  .awards{grid-template-columns:1fr}.awards li{display:grid;grid-template-columns:76px 1fr;gap:0 14px;border-right:0;margin:0;padding:14px 0;border-bottom:1px solid var(--line)}
+  .awards b{font-size:26px;grid-row:1/3}.awards strong{margin:0 0 4px}
+  .pubs li{grid-template-columns:44px 1fr auto;gap:4px 12px}.pubs .t{grid-column:1/-1;grid-row:2}
+}
+
+/* PoC */
+.poc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,6vw,96px);align-items:start}
+.poc h1{font:900 clamp(30px,4.2vw,56px)/1.26 var(--serif)}
+.poc h1 em{font-style:normal;color:var(--sig)}
+.poc-meta{margin-top:30px;display:grid;gap:10px;font:500 14px/1.5 var(--mono)}
+.poc-meta a{border-bottom:1px solid var(--line);width:fit-content}.poc-meta span{color:var(--mute)}
+.form{background:var(--paper);color:var(--ink);border-radius:8px;padding:clamp(22px,3vw,38px);--line:#dedbd4;--mute:#6b6960;--acc:#c47a20}
+.form-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.form-h b{font:900 23px/1.2 var(--serif)}.form-h span{font:500 12px/1 var(--mono);color:var(--acc)}
+.fl{display:grid;gap:6px;margin-bottom:16px;border:0}
+.fl>span,.fl legend{font:700 13px/1.4 var(--sans)}
+.fl input,.fl textarea{width:100%;background:transparent;border:0;border-bottom:1.5px solid var(--ink);padding:9px 0;font-size:16px;border-radius:0;outline:none;transition:border-color .2s}
+.fl input:focus,.fl textarea:focus{border-color:var(--sig)}
+.fl ::placeholder{color:#8c8a84}
+.fl textarea{resize:vertical;min-height:76px;line-height:1.7}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.pills label{position:relative;cursor:pointer}
+.pills input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.pills span{display:block;font-size:14px;line-height:1;padding:10px 14px;border:1.5px solid var(--ink);border-radius:6px;transition:background-color .2s,color .2s}
+.pills input:checked+span{background:var(--ink);color:var(--paper)}
+.pills input:focus-visible+span{outline:2px solid var(--acc);outline-offset:2px}
+.form .btn{width:100%;padding:15px;font-size:16px;margin-top:4px}
+.form .btn.solid:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.form small{display:block;font-size:12.5px;color:var(--mute);margin-top:12px;line-height:1.6}
+.faq{margin-top:clamp(40px,6vw,72px);border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr 24px;gap:18px;align-items:center;padding:18px 0;font:700 clamp(16.5px,1.5vw,19px)/1.5 var(--serif)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"＋";font:500 18px/1 var(--mono);color:var(--sig);transition:transform .3s var(--e)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 40px 20px 0;color:var(--t2);max-width:50em;font-size:15px}
+@media(max-width:900px){.poc{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+footer{background:var(--ink);color:var(--paper);padding:clamp(44px,6vw,76px) var(--gut) 38px;--line:#2a2926;--mute:#9a978e;--t2:#b5b2aa;border-top:1px solid var(--line)}
+.foot{max-width:1240px;margin:0 auto}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.15fr;gap:36px clamp(24px,4vw,56px);padding-bottom:clamp(32px,4.5vw,52px);border-bottom:1px solid var(--line)}
+.foot-brand .logo svg{height:22px;width:auto}
+.foot-tagline{font-size:14.5px;color:var(--t2);margin-top:14px;max-width:22em;line-height:1.7}
+.foot-mail{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font:500 13.5px/1.4 var(--mono);color:var(--sig);border-bottom:1px solid rgba(237,154,74,.4);padding-bottom:2px;transition:border-color .2s,color .2s}
+.foot-mail:hover{color:var(--paper);border-color:var(--paper)}
+.foot-col h4{font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
+.foot-col ul{display:grid;gap:9px;font-size:14px;color:var(--t2)}
+.foot-col a{display:inline-flex;align-items:center;gap:5px;width:fit-content;transition:color .2s}
+.foot-col a:hover{color:var(--paper)}
+.foot-col a.ext::after{content:"↗";font-family:var(--mono);font-size:11.5px;color:var(--mute)}
+.foot-col a.ext:hover::after{color:var(--sig)}
+.foot-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;padding-top:24px;font:500 12px/1.6 var(--mono);color:var(--mute)}
+.foot-meta{display:flex;flex-wrap:wrap;gap:6px 18px}
+.foot-meta span+span::before{content:"·";margin-right:18px;color:var(--line)}
+@media(max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.foot-grid{grid-template-columns:1fr;gap:28px}.foot-bar{flex-direction:column;align-items:flex-start}}
+
+.lang{flex:none;margin-left:auto;width:54px;text-align:center;font:500 12px/1 var(--mono);letter-spacing:.12em;padding:9px 0;border:1.5px solid var(--line);border-radius:6px;transition:border-color .2s,color .2s}
+.lang:hover{border-color:var(--ink)}
+/* English */
+.gl{display:block;grid-column:2;font:400 clamp(12.5px,1vw,14.5px)/1.5 var(--sans);color:var(--mute);margin-top:-.15em;transition:opacity .35s}
+.js .gl{opacity:0}
+html[lang=en] .couplet{font-size:clamp(26px,4.2vh,48px);letter-spacing:.01em}
+html[lang=en] .couplet>span+span{margin-right:.34em}
+html[lang=en] .dot{-webkit-text-emphasis:none;text-emphasis:none;color:var(--acc)}
+html[lang=en] .seal{font-size:.42em}
+html[lang=en] .cmp tr.cloud td:not(.v)::after{content:"Cloud wins"}
+html[lang=en] .stages li{grid-template-columns:76px 1fr}
+html[lang=en] .stages b{font-size:20px}
+html[lang=en] .conv-out{font-size:clamp(22px,3vw,42px);flex-wrap:nowrap;white-space:nowrap}
+html[lang=en] .conv-out small{font-size:10px;letter-spacing:.1em}
+@media(max-width:820px){html[lang=en] .couplet{font-size:clamp(20px,6vw,26px)}}
+@media(max-width:520px){.logo svg{height:19px}.nav .btn{padding:8px 10px;font-size:13px;width:118px}.lang{padding:8px 0;width:48px}.nav-in{gap:0 8px}}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.form .btn[disabled]{opacity:.65;cursor:progress}
+.form.sent>*:not(.form-done){display:none}
+.form-done{display:grid;gap:12px;padding:clamp(28px,4vw,48px) 0;animation:up .55s var(--e) both;outline:none}
+.form-done b{display:flex;align-items:center;gap:14px;font:900 clamp(21px,2.2vw,26px)/1.4 var(--serif)}
+.form-done b::before{content:"✓";flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--sig);color:var(--ink);font:500 18px/1 var(--mono)}
+.form-done p{color:var(--mute);font-size:15px;padding-left:52px}
+#formnote a{color:var(--acc);border-bottom:1px solid currentColor}
+.blk+.blk{margin-top:clamp(48px,6.4vw,80px)}
+.h3{font:900 clamp(21px,2.3vw,30px)/1.35 var(--serif);margin-bottom:10px;text-wrap:balance}
+.h3+.lede{margin-top:0;margin-bottom:24px}
+.spec{display:grid;grid-template-columns:repeat(2,1fr);gap:0 clamp(24px,4vw,56px);border-top:2px solid var(--ink);margin-top:22px}
+.spec>div{display:grid;grid-template-columns:minmax(92px,8.5em) 1fr;gap:4px 18px;padding:15px 0;border-bottom:1px solid var(--line)}
+.spec dt{font:500 11.5px/1.7 var(--mono);letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+.spec dd{font-size:15px;line-height:1.75;color:var(--t2)}
+.spec dd b{color:var(--ink)}
+.spec .lim dt{color:var(--acc)}
+.spec .lim dt::before{content:"! ";font-weight:700}
+.spec .lim dd{color:var(--ink)}
+@media(max-width:820px){.spec{grid-template-columns:1fr}.spec>div{grid-template-columns:1fr}}
+.tbl{width:100%;border-collapse:collapse;margin-top:22px}
+.tbl th,.tbl td{text-align:left;padding:14px 22px 14px 0;border-top:1px solid var(--line);vertical-align:top;line-height:1.65;font-size:15px}
+.tbl thead th{font:500 11.5px/1.4 var(--mono);letter-spacing:.1em;color:var(--mute);border-top:0;padding-bottom:12px}
+.tbl tbody tr:first-child>*{border-top:2px solid var(--ink)}
+.tbl tbody th{font:700 16px/1.6 var(--serif);width:30%}
+.tbl td{color:var(--t2)}
+@media(max-width:700px){.tbl thead{display:none}.tbl,.tbl tbody,.tbl tr,.tbl th,.tbl td{display:block;width:auto}.tbl tr{padding:14px 0;border-top:1px solid var(--line)}.tbl tbody tr:first-child{border-top:2px solid var(--ink)}.tbl th,.tbl td,.tbl tbody tr:first-child>*{border:0;padding:0}.tbl tbody th{width:auto;margin-bottom:4px}.tbl td{margin-top:4px}.tbl td[data-l]::before{content:attr(data-l) "　";font:500 11px/1 var(--mono);color:var(--mute)}}
+.inds{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink);border-left:1px solid var(--line);margin-top:22px}
+.inds li{padding:22px clamp(16px,2vw,26px) 24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column}
+.inds b{font:900 clamp(19px,1.9vw,25px)/1.3 var(--serif)}
+.inds span{font-size:14.5px;line-height:1.7;color:var(--t2);margin:8px 0 14px;flex:1}
+.inds em{font:500 11.5px/1.5 var(--mono);font-style:normal;color:var(--acc);letter-spacing:.04em}
+.inds.c2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.inds{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.inds,.inds.c2{grid-template-columns:1fr}}
+.caps{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.caps li{font:500 12.5px/1 var(--mono);padding:10px 12px;border:1px solid var(--ink);border-radius:6px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px)}
+.cols h3{font:900 clamp(19px,1.9vw,24px)/1.4 var(--serif);padding-bottom:12px;border-bottom:2px solid currentColor;margin-bottom:14px}
+.cols p{color:var(--t2);font-size:15.5px}
+@media(max-width:820px){.cols{grid-template-columns:1fr}}
+.night .tbl tbody tr:first-child>*,.night .spec,.night .inds{border-top-color:var(--paper)}
+.faq.pf{margin-top:22px}
+.ptxt .warn{margin-top:22px;font-size:13.5px}
+@media(max-width:420px){.pname{font-size:clamp(24px,7.2vw,30px)}}
+/* 沒有 JavaScript 時，index.html#poc 也要能打開申請頁 */
+html:not(.js) main:has(#poc:target)>.view{display:none}
+html:not(.js) main:has(#poc:target)>#v-poc{display:block}
+@media (prefers-reduced-motion:reduce){
+  :root{--shift:0px}
+  html.first .curtain{display:none}
+  .rec,.caret,.bars i,.tl i,.spark path,.bd-pkt,.bd-wall i::before,.bd-wall i::after,.lat-line u,.eq i,.todo li::before,.conv path{animation:none}
+  .spark path{stroke-dasharray:none}.eq i{transform:scaleY(.6)}.tl i,.lat-line u{transform:none}.bd-wall i::before{display:none}
+  .view.on .hc{animation-name:fade}.view.on .seal{animation:fade .4s both}
+  .pcard:hover{transform:none}
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://voxmosa.com/#organization", "name": "Voxmosa", "url": "https://voxmosa.com/"}]}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S6MJZMYPVH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-S6MJZMYPVH");
+</script>
+</head>
+<body>
+<div class="curtain" aria-hidden="true"><svg viewBox="0 0 130 120" fill="none" stroke="#ED9A4A" stroke-linecap="round" stroke-linejoin="round"><path class="cv" pathLength="1" d="M20 24 L50 98 L80 24" stroke-width="12"/><path class="ca" d="M97 44 A38 38 0 0 1 97 78" stroke-width="10"/><path class="cb" d="M115 28 A62 62 0 0 1 115 94" stroke-width="10"/></svg></div>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="logo" href="index.html" data-route="home" aria-label="Voxmosa home"><svg aria-hidden="true" focusable="false" viewBox="3.30 19.60 640.96 94.90" fill="none"><path d="M31.15 112.00 3.30 19.60H14.78L40.00 105.27H41.71L66.92 19.60H78.41L50.56 112.00Z" fill="#141413"/><g transform="translate(88.24, 44.66) scale(0.5844)" stroke="#141413" stroke-linecap="round" fill="none"><circle cx="60" cy="60" r="51" stroke-width="17"/><path d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="13" opacity="0.6"/><path d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="13" opacity="0.33"/><path d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="13" opacity="0.17"/></g><path d="M200.08 112.00 225.95 79.26 200.87 47.45H213.41L232.68 72.40H234.53L253.67 47.45H266.34L241.13 79.26L267.00 112.00H254.33L234.53 86.26H232.68L212.88 112.00ZM298.16 112.00V47.45H308.32V55.50H310.17Q312.02 52.07 316.24 49.17Q320.46 46.26 328.12 46.26Q335.64 46.26 340.33 49.56Q345.02 52.86 347.13 57.62H348.98Q351.22 52.86 355.77 49.56Q360.33 46.26 368.51 46.26Q374.98 46.26 379.86 48.90Q384.75 51.54 387.59 56.49Q390.42 61.44 390.42 68.31V112.00H380.00V69.23Q380.00 62.76 376.23 59.00Q372.47 55.24 365.74 55.24Q358.61 55.24 354.06 59.86Q349.50 64.48 349.50 73.19V112.00H339.08V69.23Q339.08 62.76 335.31 59.00Q331.55 55.24 324.82 55.24Q317.69 55.24 313.14 59.86Q308.58 64.48 308.58 73.19V112.00ZM448.11 113.85Q438.34 113.85 430.88 109.76Q423.42 105.66 419.27 98.21Q415.11 90.75 415.11 80.58V78.87Q415.11 68.84 419.27 61.31Q423.42 53.79 430.88 49.70Q438.34 45.60 448.11 45.60Q457.88 45.60 465.33 49.70Q472.79 53.79 476.95 61.31Q481.11 68.84 481.11 78.87V80.58Q481.11 90.75 476.95 98.21Q472.79 105.66 465.33 109.76Q457.88 113.85 448.11 113.85ZM448.11 104.48Q458.40 104.48 464.54 97.94Q470.68 91.41 470.68 80.32V79.13Q470.68 68.04 464.54 61.51Q458.40 54.98 448.11 54.98Q437.94 54.98 431.74 61.51Q425.54 68.04 425.54 79.13V80.32Q425.54 91.41 431.74 97.94Q437.94 104.48 448.11 104.48ZM532.46 113.85Q520.44 113.85 512.19 108.30Q503.94 102.76 502.23 90.75L512.13 88.50Q513.18 94.84 516.09 98.47Q518.99 102.10 523.28 103.62Q527.57 105.14 532.46 105.14Q539.72 105.14 543.94 102.23Q548.16 99.33 548.16 94.44Q548.16 89.43 544.14 87.38Q540.11 85.34 533.12 84.02L527.70 83.09Q521.50 82.04 516.35 79.79Q511.20 77.55 508.17 73.72Q505.13 69.89 505.13 64.08Q505.13 55.37 511.86 50.49Q518.60 45.60 529.68 45.60Q540.64 45.60 547.44 50.55Q554.24 55.50 556.22 64.48L546.45 66.99Q545.26 59.99 540.77 57.15Q536.28 54.32 529.68 54.32Q523.08 54.32 519.26 56.76Q515.43 59.20 515.43 63.95Q515.43 68.57 519.06 70.75Q522.69 72.93 528.76 73.98L534.17 74.91Q541.04 76.10 546.51 78.14Q551.99 80.19 555.23 84.02Q558.46 87.84 558.46 94.05Q558.46 103.55 551.40 108.70Q544.34 113.85 532.46 113.85ZM602.42 113.85Q595.68 113.85 590.14 111.47Q584.60 109.10 581.43 104.61Q578.26 100.12 578.26 93.65Q578.26 87.05 581.43 82.76Q584.60 78.47 590.14 76.29Q595.68 74.12 602.55 74.12H624.33V69.36Q624.33 62.50 620.30 58.54Q616.28 54.58 608.36 54.58Q600.57 54.58 596.21 58.34Q591.86 62.10 590.27 68.44L580.50 65.27Q582.09 59.86 585.52 55.44Q588.95 51.02 594.69 48.31Q600.44 45.60 608.49 45.60Q620.90 45.60 627.76 52.01Q634.62 58.41 634.62 70.02V99.20Q634.62 103.16 638.32 103.16H644.26V112.00H635.15Q630.80 112.00 628.16 109.56Q625.52 107.12 625.52 103.02V102.36H623.93Q622.48 104.87 620.04 107.58Q617.60 110.28 613.37 112.07Q609.15 113.85 602.42 113.85ZM603.60 104.87Q612.84 104.87 618.59 99.39Q624.33 93.92 624.33 84.02V82.56H602.94Q596.74 82.56 592.71 85.27Q588.69 87.98 588.69 93.39Q588.69 98.80 592.85 101.84Q597.00 104.87 603.60 104.87Z" fill="#141413"/></svg></a>
+    <nav class="tabs" id="tabs" aria-label="Main">
+      <a href="mosatalk.html" data-route="talk">MosaTalk</a>
+      <a href="mosaminutes.html" data-route="minutes">MosaMinutes</a>
+      <a href="mosascore.html" data-route="score">MosaScore</a>
+      <a href="on-premise.html" data-route="onprem">Why on-prem</a>
+      <a href="languages.html" data-route="lang" aria-current="page">Taiwan languages</a>
+      <a href="research.html" data-route="research">Research</a>
+      <i class="ind" id="ind" aria-hidden="true"></i>
+    </nav>
+    <a class="lang" id="langsw" data-base="../" href="../languages.html" hreflang="zh-Hant-TW" lang="zh-Hant-TW" aria-label="繁體中文">中文</a>
+    <a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a>
+  </div>
+</header>
+
+<main id="views">
+
+<!-- ═════════ Home ═════════ -->
+<section class="view" id="v-home" data-title="Voxmosa | On-prem speech AI for meeting minutes, voice agents and Taiwan&#x27;s languages">
+  <div class="hero">
+    <div class="hero-in">
+      <div class="couplet" aria-hidden="true">
+        <span>Speech AI that hears <span class="dot">Taiwan,</span></span>
+        <span>running in <span class="dot">your own</span> server room.<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span>
+      </div>
+      <h1 class="sr-only">On-prem speech AI that hears Taiwan, running in your own server room — Mandarin, Taigi, Hakka, Indigenous languages and English</h1>
+      <div class="demo" data-a>
+        <div class="demo-top"><span class="rec"></span>Taigi–Mandarin code-switching<span>→ Traditional Chinese transcript</span><em>Sample</em></div>
+        <div class="lines" id="lines">
+          <p class="ln"><b class="spk">S1</b><span class="tx" lang="nan-Hant-TW"><span class="tg">彼个案子的預算，咱敢有確定落來？</span></span><span class="gl">Has the budget for that project been finalized?</span></p>
+          <p class="ln"><b class="spk b">S2</b><span class="tx" lang="zh-Hant-TW">上禮拜董事會通過了，我等一下把會議紀錄寄給你。</span><span class="gl">The board approved it last week — I'll send you the minutes shortly.</span></p>
+          <p class="ln"><b class="spk">S1</b><span class="tx" lang="nan-Hant-TW">好，數字若有 <span class="en">update</span> 你直接 <span class="en">tag</span> 我就好。</span><span class="gl">OK — if the numbers change, just tag me.</span></p>
+          <p class="ln"><b class="spk b">S2</b><span class="tx" lang="zh-Hant-TW">沒問題，摘要跟待辦我一起附上去。</span><span class="gl">No problem, I'll attach the summary and action items too.</span></p>
+        </div>
+        <div class="demo-foot">
+          <span class="lg" style="--c:var(--sig)">Taigi</span><span class="lg" style="--c:#8c8a84">English</span>
+          <span id="tm">0:17</span><span>Sample</span><button type="button" id="replay">Replay</button>
+        </div>
+      </div>
+      <div class="intro" data-a style="--d:3">
+        <p>Mandarin, Taigi, Hakka, Indigenous languages and English — all transcribed into Traditional Chinese, with every model running on your own servers.</p>
+        <div class="cta col"><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a><a class="btn ghost" href="#products" data-scroll>See the products</a></div>
+      </div>
+      <ul class="tags" data-a style="--d:5"><li>Runs air-gapped</li><li>No per-call API fees</li><li>Models trained in-house</li></ul>
+    </div>
+    <canvas class="ridge" aria-hidden="true"></canvas>
+  </div>
+
+  <div class="band night">
+    <div class="wrap">
+      <p class="kicker"><b>01</b>Data boundary</p>
+      <h2 class="rv">Audio never uploaded.<br>Transcripts never leave your server room.</h2>
+      <div class="bd rv" role="img" aria-label="Audio, transcripts, summaries, voiceprints, domain dictionaries and all four models stay inside your server room. Nothing is sent to the internet.">
+        <div class="bd-room">
+          <span class="bd-tab">Your server room</span>
+          <div class="bd-flow"><ol class="bd-pipe"><li><small>MODEL 1</small>Speech recognition</li><li><small>MODEL 2</small>Diarization</li><li><small>MODEL 3</small>Dialogue</li><li><small>MODEL 4</small>Speech synthesis</li></ol><span class="bd-pkt"></span></div>
+          <ul class="bd-data"><li>Audio</li><li>Transcripts</li><li>Summaries</li><li>Voiceprints</li><li>Domain dictionaries</li></ul>
+        </div>
+        <div class="bd-wall"><i></i><i></i><span>Boundary · offline</span></div>
+        <div class="bd-out"><span class="bd-tab">Internet</span><p>Not a single clip of audio, transcript or prompt goes out.</p></div>
+      </div>
+      <p class="fine rv" style="margin-top:26px"><a class="link" href="on-premise.html" data-route="onprem">Why it has to be on-prem</a></p>
+    </div>
+  </div>
+
+  <div class="band" id="products">
+    <div class="wrap">
+      <p class="kicker"><b>02</b>Products</p>
+      <h2 class="rv">Three products, one principle.</h2>
+      <div class="pcards">
+        <a class="pcard rv" href="mosatalk.html" data-route="talk">
+          <span class="no">01<span>Real-time</span></span>
+          <h3>MosaTalk</h3><span class="psb">On-prem AI voice agent</span>
+          <p>About one second from when the caller stops talking to when the AI answers — and callers can interrupt anytime.</p>
+          <div class="viz"><div class="bars" aria-hidden="true"><i style="height:40%"></i><i style="height:75%"></i><i style="height:100%"></i><i style="height:60%"></i><i style="height:85%"></i><i style="height:45%"></i><i style="height:70%"></i><i style="height:30%"></i><i style="height:90%"></i><i style="height:55%"></i></div><span class="go">→</span></div>
+        </a>
+        <a class="pcard rv" href="mosaminutes.html" data-route="minutes" style="--d:1">
+          <span class="no">02<span>After the meeting</span></span>
+          <h3>MosaMinutes</h3><span class="psb">On-prem AI meeting minutes</span>
+          <p>Transcript, speakers, summary and action items — edit while you listen until it's ready to send.</p>
+          <div class="viz"><div class="tl" aria-hidden="true"><i></i><i></i><i></i></div><span class="go">→</span></div>
+        </a>
+        <a class="pcard rv" href="mosascore.html" data-route="score" style="--d:2">
+          <span class="no">03<span class="badge">Validating</span></span>
+          <h3>MosaScore</h3><span class="psb">On-prem call analytics</span>
+          <p>Every call heard in full, every utterance tagged with emotion and intent.</p>
+          <div class="viz"><svg class="spark" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" vector-effect="non-scaling-stroke" d="M2 34 L28 26 L66 16 L98 4"/></svg><span class="go">→</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>03</b>Numbers we've run ourselves</p>
+      <div class="nums rv">
+        <div><strong>≈1<small>s</small></strong><p>From the end of speech to the AI's reply</p></div>
+        <div><strong>10<small>streams</small></strong><p>Live transcription on one NVIDIA DGX Spark GB10</p></div>
+        <div><strong>5<small>languages</small></strong><p>Built in, all transcribed into Traditional Chinese</p></div>
+        <div><strong>1<small>GPU</small></strong><p>Runs the whole system, recognition and summaries included</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="band deep">
+    <div class="wrap">
+      <p class="kicker"><b>04</b>Reproducible evaluation · coming soon</p>
+      <div class="vd rv">
+        <div>
+          <h2 style="font-size:clamp(24px,3vw,40px)">"What's your recognition accuracy?"</h2>
+          <p class="cer" aria-label="Character error rate: we leave this blank">CER ＝ <i></i> %</p>
+        </div>
+        <div>
+          <p style="font:700 clamp(18px,1.9vw,25px)/1.6 var(--serif)">Marketing numbers mean nothing. Reproducible numbers do.</p>
+          <p class="lede">The number that matters most is the one you measure on your own recordings in a proof of concept.</p>
+          <div class="cta" style="margin-top:26px"><a class="btn solid" href="index.html#poc" data-route="poc">Test it on your own audio</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ MosaTalk ═════════ -->
+<section class="view" id="v-talk" data-title="MosaTalk | An on-prem AI voice agent that understands Taigi - Voxmosa">
+  <div class="ph">
+    <div class="ph-in">
+      <p class="couplet" role="img" aria-label="Your customers call in. The AI understands, and answers."><span aria-hidden="true">Your customers call in.</span><span aria-hidden="true">The AI <span class="dot">understands,</span> and answers.<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span></p>
+      <div class="ptxt" data-a>
+        <p class="crumb">Product 01 · On-Premise</p>
+        <h1><span class="pname">MosaTalk</span><span class="psub">An on-prem AI voice agent that understands Taigi</span></h1>
+        <p class="lede">Customers tap Call on a web page or dial your existing support line, then simply talk to the AI.</p>
+        <div class="cta"><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a></div>
+      </div>
+      <div class="pvis" data-a style="--d:3">
+        <div class="mock dark">
+          <div class="mock-bar"><b>Latency Budget</b><span class="sp">Barge-in anytime</span></div>
+          <div class="lat">
+            <div class="lat-big"><strong>≈1s</strong><span>From the end of speech to the AI's reply</span></div>
+            <div class="lat-line"><u></u><span><b class="eq u" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></b>Caller stops</span><span>AI speaks<b class="eq a" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></b></span></div>
+          </div>
+          <ol class="stages">
+            <li><b>Listen</b><span>Fires the moment you finish; waits a beat when you hesitate — never cuts in</span></li>
+            <li><b>Think</b><span>Answers directly, only from the material you provide</span></li>
+            <li><b>Speak</b><span>Streams sentence by sentence, so the first one goes out fast</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band tone">
+    <div class="wrap">
+      <ul class="pts">
+        <li class="rv"><i>01</i><b>Barge-in anytime</b><span>The moment a caller speaks, the AI stops and listens.</span></li>
+        <li class="rv" style="--d:1"><i>02</i><b>No code to update knowledge</b><span>Load a simple Q&amp;A document and you're done.</span></li>
+        <li class="rv" style="--d:2"><i>03</i><b>Never makes things up</b><span>If the answer isn't in your material, it takes a callback number instead.</span></li>
+        <li class="rv" style="--d:3"><i>04</i><b>Your brand's voice</b><span>Clone a custom voice from a single reference recording.</span></li>
+      </ul>
+      <dl class="facts rv">
+        <div><dt>Languages</dt><dd>Mandarin, Taigi and English — understands Taigi, replies in Mandarin for now</dd></div>
+        <div><dt>Access</dt><dd>Browser calls with nothing to install, or your existing phone line</dd></div>
+        <div><dt>Hardware</dt><dd>One NVIDIA GPU, validated on a single 46 GB card</dd></div>
+      </dl>
+      <p class="plan rv"><b>In development</b><span>Taigi speech synthesis</span><span>Hakka support</span><span>Human handoff</span><span>Business-system API calls</span><span>Call analytics dashboard</span></p>
+    </div>
+  </div>
+  
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>Specs</b>Specs &amp; limitations</p>
+      <dl class="spec rv"><div class="lim"><dt>Languages</dt><dd>Mandarin, Taigi and English, with automatic language detection. For now it <b>understands Taigi but replies in Mandarin</b>; Taigi synthesis and Hakka are still in development, and Indigenous languages aren't in the voice agent yet.</dd></div><div><dt>Access</dt><dd>Standard WebRTC for browser calls with nothing to install, or your existing support line through a telephony provider — <b>a phone integration is already deployed in production with a telephony partner</b>.</dd></div><div><dt>Answer policy</dt><dd>Answers only from the material you provide, with numbers stated exactly; short and conversational, three sentences at most. If something isn't covered, it never makes it up and asks for a callback number instead.</dd></div><div><dt>Outbound calls</dt><dd>Besides answering calls, it can place them: the AI opens the conversation as soon as the call connects — useful for appointment reminders.</dd></div><div class="lim"><dt>Deployment modes</dt><dd>Standalone: one GPU server is the whole system, intranet only. Edge-split: the GPU host stays inside your network with no fixed IP and no open ports, but <b>it also needs one small cloud host</b>.</dd></div><div><dt>Hardware</dt><dd>Ubuntu Linux x86_64 with one NVIDIA GPU (validated on a single 46 GB card); recognition, dialogue and synthesis share the card through planned memory allocation.</dd></div><div><dt>Observability</dt><dd>An eight-color live event stream, so acceptance testing and troubleshooting aren't a black box.</dd></div><div><dt>Open standards</dt><dd>WebRTC and an OpenAI-compatible interface; models can be swapped or upgraded, and sourced to match procurement rules.</dd></div></dl><div class="blk"><h3 class="h3 rv">FAQ</h3><div class="faq pf rv"><details><summary>How is an AI voice agent different from a push-button IVR?</summary><p>An IVR makes callers press 1 or 2 through a menu, and one wrong turn means starting over. MosaTalk listens to what the caller says and answers in natural language — about one second after they stop talking — and callers can interrupt at any time.</p></details><details><summary>Can the AI answer our phones, including our existing support line?</summary><p>Yes. Customers can call from a web page in any modern browser that supports WebRTC, with nothing to install. Through a telephony provider integration, customers can also dial your existing support number from a landline or mobile and the AI answers.</p></details><details><summary>Does it understand Taigi? Can it reply in Taigi?</summary><p>It understands Taigi, including natural Taigi–Mandarin code-switching — the model is optimized for Taiwanese accents and Taigi. Taigi speech synthesis isn't available yet, so for now it understands Taigi and replies in Mandarin. Taigi synthesis and Hakka support are still in development, not deliverable features.</p></details><details><summary>Are call recordings uploaded to the cloud?</summary><p>No. Recognition, dialogue and speech synthesis all run on your own servers, with no calls to any cloud AI service. Standalone mode needs only your intranet; edge-split mode also needs one small cloud host.</p></details><details><summary>What hardware do we need?</summary><p>Ubuntu Linux x86_64 with one NVIDIA GPU with plenty of memory; it's validated on a single 46 GB card. We can supply the hardware and install it on site.</p></details><details><summary>Does updating the knowledge base require coding?</summary><p>No — a Q&amp;A-format document is enough. When a question isn't covered by your material, the AI doesn't make up an answer; it asks the caller to leave their contact details.</p></details></div></div>
+    </div>
+  </div>
+<div class="band"><div class="wrap end rv"><h2>Test it with your own knowledge base <em>and real customer calls.</em></h2><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a></div></div>
+</section>
+
+<!-- ═════════ MosaMinutes ═════════ -->
+<section class="view" id="v-minutes" data-title="MosaMinutes | On-prem AI meeting minutes and transcription platform - Voxmosa">
+  <div class="ph">
+    <div class="ph-in">
+      <p class="couplet" role="img" aria-label="When the meeting ends, the minutes are ready to send."><span aria-hidden="true">When the meeting ends,</span><span aria-hidden="true">the minutes are <span class="dot">ready to send.</span><i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span></p>
+      <div class="ptxt" data-a>
+        <p class="crumb">Product 02 · On-Premise</p>
+        <h1><span class="pname">MosaMinutes</span><span class="psub">On-prem AI meeting minutes</span></h1>
+        <p class="lede">Record or upload, and get a transcript, who said what, a summary and action items — without anything leaving your network.</p>
+        <div class="cta"><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a></div>
+      </div>
+      <div class="pvis" data-a style="--d:3">
+        <div class="mock">
+          <div class="mock-bar"><b>Proofreading</b><span class="sp">● Autosaved</span><span>1.5×</span></div>
+          <div class="ws" lang="zh-Hant-TW">
+            <div class="ws-row"><time>00:14</time><b>王主任</b><p>彼个案子的預算，咱敢有確定落來？</p></div>
+            <div class="ws-row act"><time>00:19</time><b>李專員</b><p>上禮拜董事會通過了，我等一下把會議紀錄寄給你<span class="caret"></span></p></div>
+            <div class="ws-row"><time>00:26</time><b>王主任</b><p>好，數字若有 update 你直接 tag 我就好。</p></div>
+          </div>
+          <div class="todo"><h4>ACTION ITEMS</h4><ul lang="zh-Hant-TW"><li>李專員寄送董事會決議之會議紀錄</li><li>預算數字更新後通知王主任</li></ul></div>
+          <div class="mock-foot">Sample · output in Traditional Chinese</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band tone">
+    <div class="wrap">
+      <ul class="pts">
+        <li class="rv"><i>01</i><b>Five languages, one transcript</b><span>Mandarin, Taigi, Hakka, Indigenous languages and English, all into Traditional Chinese.</span></li>
+        <li class="rv" style="--d:1"><i>02</i><b>Remembers who's who</b><span>Enroll a voiceprint once; the same speaker is recognized from then on.</span></li>
+        <li class="rv" style="--d:2"><i>03</i><b>Edits never get overwritten</b><span>Four independent editing channels that never clobber each other.</span></li>
+        <li class="rv" style="--d:3"><i>04</i><b>Ready to send</b><span>Export to Word, plain text or subtitles, with action items as checklists.</span></li>
+      </ul>
+      <dl class="facts rv">
+        <div><dt>Capacity</dt><dd>10 live streams on one NVIDIA DGX Spark GB10</dd></div>
+        <div><dt>Deployment</dt><dd>Containerized, runs on a single machine, works air-gapped</dd></div>
+        <div><dt>Admin</dt><dd>OIDC single sign-on, tiered permissions, audit logs</dd></div>
+      </dl>
+      <p class="plan rv"><b>In development</b><span>Automatic delivery</span><span>Sensitive-data masking</span><span>Direct online-meeting capture</span><span>Government document format</span><span>Cross-meeting Q&amp;A</span></p>
+    </div>
+  </div>
+  
+  <div class="band">
+    <div class="wrap">
+      <p class="kicker"><b>Field-tested</b>Problems fixed in production</p>
+      <div class="blk"><h3 class="h3 rv">The scariest failure isn't mishearing — it's inventing words.</h3><p class="lede rv">All three of these were found and fixed while processing real meetings in production, not written into a spec sheet.</p><ul class="pts c3"><li class="rv"><i>01</i><b>Short noises aren't treated as speech</b><span>A minimum speech length keeps 200 ms of background noise out of recognition — and off the bill.</span></li><li class="rv" style="--d:1"><i>02</i><b>No repetition loops</b><span>We found the root cause and fixed it at the system level, rather than hiding it with after-the-fact filtering.</span></li><li class="rv" style="--d:2"><i>03</i><b>Recognizer confidence is logged</b><span>Abnormal output is traceable and auditable, never silently mixed into the transcript.</span></li></ul></div>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>Specs</b>Specs &amp; limitations</p>
+      <dl class="spec rv"><div><dt>Capacity</dt><dd>One NVIDIA DGX Spark GB10 handles 10 live streams; uploads use a batch queue with no stream limit; scales out to multiple machines beyond that.</dd></div><div class="lim"><dt>Online meetings</dt><dd><b>It can't connect directly to Google Meet, Microsoft Teams or Zoom yet</b> — record or upload the audio instead. Direct capture of online-meeting audio is on the roadmap.</dd></div><div><dt>Languages</dt><dd>Mandarin, Taigi, Hakka (six accents), Indigenous languages (42 across 16 peoples) and English, all into Traditional Chinese with automatic punctuation; users can set a default language and accent.</dd></div><div><dt>Speakers</dt><dd>Voiceprint enrollment and automatic matching; you can set the expected number of speakers on upload; if speaker ID fails, you still get the full transcript.</dd></div><div><dt>Export</dt><dd>Word (with attendees, a summary section and action-item checklists), plain text and SRT subtitles.</dd></div><div><dt>Accounts &amp; audit</dt><dd>OIDC single sign-on (self-hosted identity providers supported), tiered permissions, admin actions logged with a required reason, and configurable result retention.</dd></div><div><dt>API</dt><dd>Access tokens for internal systems, synchronous and asynchronous; duplicate requests run only once. Usage is metered separately: quotas for browser users, credits for API calls.</dd></div><div><dt>Data integrity</dt><dd>Every recording is validated before it enters the system; its hash and byte count are logged on receipt, so the original audio's integrity is verifiable.</dd></div><div><dt>Deployment</dt><dd>Containerized, runs on a single machine, works air-gapped. Users need only a modern browser, on desktop or mobile.</dd></div><div><dt>Model sourcing</dt><dd>Built on industry-standard open-source technology and compatible interfaces; where procurement rules restrict model origin, models can be swapped for open-weight models from other sources.</dd></div></dl><div class="blk"><h3 class="h3 rv">More than software</h3><ul class="pts c3"><li class="rv"><i>01</i><b>Hardware and on-site installation</b><span>Tested and installed for you.</span></li><li class="rv" style="--d:1"><i>02</i><b>Continuous model improvement</b><span>Tuned to your real audio conditions and terminology.</span></li><li class="rv" style="--d:2"><i>03</i><b>Reproducible evaluation reports</b><span>On public benchmarks you choose or your own meeting audio.</span></li><li class="rv"><i>04</i><b>Compliance and supply-chain fit</b><span>Access control and audit tailored to your rules.</span></li><li class="rv" style="--d:1"><i>05</i><b>Scenario setup</b><span>Your minutes format and glossary turned into configuration.</span></li><li class="rv" style="--d:2"><i>06</i><b>Maintenance, updates and training</b><span>No in-house AI/MLOps team required.</span></li></ul></div><div class="blk"><h3 class="h3 rv">FAQ</h3><div class="faq pf rv"><details><summary>What is AI meeting transcription?</summary><p>It turns meeting recordings into a transcript automatically, identifies who said what, and writes a summary and action items. MosaMinutes lets you edit while you listen in the same screen, until it's ready to send.</p></details><details><summary>Can it transcribe recordings we already have?</summary><p>Yes. Besides live recording, you can upload existing audio files; uploads go through a batch queue that isn't limited by the number of live streams. The transcript is punctuated, split into paragraphs and labeled by speaker, with a summary and action items.</p></details><details><summary>Can meeting audio stay completely off the cloud?</summary><p>Yes — that's the default, not an add-on. Recording, transcription, summaries and action items all happen on your own servers. It's containerized, runs on a single machine, and works on air-gapped networks.</p></details><details><summary>Does it handle meetings in Taigi and Hakka?</summary><p>Mandarin, Taigi, Hakka, Indigenous languages and English are all transcribed into Traditional Chinese with automatic punctuation. Hakka covers all six accents: Sixian, Hailu, Dapu, Raoping, Zhao'an and South Sixian.</p></details><details><summary>Can it connect directly to Google Meet, Microsoft Teams or Zoom?</summary><p>Not yet. Today you record or upload audio. Capturing online-meeting audio directly from your computer (without a bot joining the call) is on the roadmap, not a deliverable feature.</p></details><details><summary>How many meetings can one machine transcribe at once?</summary><p>One NVIDIA DGX Spark GB10 handles 10 live transcription streams; uploads go through a batch queue with no stream limit. Beyond one machine's capacity, it scales out to multiple machines.</p></details><details><summary>If several people proofread at once, will edits get overwritten?</summary><p>No. Proofreading runs on four independent channels that never overwrite each other. When there's a real conflict, the system doesn't silently pick a side — it flags the exact sentence.</p></details></div></div>
+    </div>
+  </div>
+<div class="band"><div class="wrap end rv"><h2>Test it with your own <em>meeting recordings.</em></h2><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a></div></div>
+</section>
+
+<!-- ═════════ MosaScore ═════════ -->
+<section class="view" id="v-score" data-title="MosaScore | On-prem call quality analytics with 100% coverage - Voxmosa">
+  <div class="ph">
+    <div class="ph-in">
+      <p class="couplet" role="img" aria-label="The recordings were always there. No one had time to listen."><span aria-hidden="true">The recordings were always there.</span><span aria-hidden="true"><span class="dot">No one</span> had time to listen.<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span></p>
+      <div class="ptxt" data-a>
+        <p class="crumb">Product 03 · On-Premise</p>
+        <h1><span class="pname">MosaScore</span><span class="psub">On-prem call analytics <span class="badge">Validating</span></span></h1>
+        <p class="lede">Customer-service and telesales calls usually get 1–3% spot-checked. MosaScore hears every one in full and tags each utterance with emotion and intent.</p>
+        <div class="cta"><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a></div><p class="warn"><span><b>Current status　</b>MosaScore can be deployed on standard Linux GPU servers (with an Apple Silicon single-machine demo), but it is <b>not yet in production at a customer site</b>, and the purchase-intent scores haven't been validated against real sales outcomes. We publish no accuracy figures.</span></p>
+      </div>
+      <div class="pvis" data-a style="--d:3">
+        <div class="mock">
+          <div class="mock-bar"><b>Call analysis</b><span>01:02</span><span class="sp">● ASR　● EMO　● LLM</span></div>
+          <div class="sc-top">
+            <svg viewBox="0 0 320 126" role="img" aria-label="Purchase-intent score rising from 22 to 84 over the call">
+              <g stroke="rgba(20,20,19,.14)" stroke-width="1"><line x1="22" y1="112" x2="320" y2="112"/><line x1="22" y1="62" x2="320" y2="62" stroke-dasharray="3 4"/><line x1="22" y1="12" x2="320" y2="12" stroke-dasharray="3 4"/></g>
+              <g font-family="ui-monospace,Menlo,monospace" font-size="8" fill="#6b6960"><text x="0" y="15">100</text><text x="0" y="65">50</text><text x="0" y="115">0</text><text x="63" y="125" text-anchor="middle">00:11</text><text x="126" y="125" text-anchor="middle">00:24</text><text x="237" y="125" text-anchor="middle">00:47</text><text x="306" y="125" text-anchor="middle">01:02</text></g>
+              <path class="sc-path" pathLength="1" d="M63 90L126 71L237 49L310 28" fill="none" stroke="#ED9A4A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <g fill="#fbfaf8" stroke="#ED9A4A" stroke-width="2"><circle cx="63" cy="90" r="4"/><circle cx="126" cy="71" r="4"/><circle cx="237" cy="49" r="4"/><circle cx="310" cy="28" r="5.5" fill="#ED9A4A"/></g>
+              <g font-family="ui-monospace,Menlo,monospace" font-size="9" font-weight="700" fill="#141413" text-anchor="middle"><text x="63" y="80">22</text><text x="126" y="61">41</text><text x="237" y="39">63</text></g>
+            </svg>
+            <p class="sc-cap"><b>PURCHASE INTENT</b>Asked about payment — top-band anchor hit</p>
+            <strong class="sc-num">84</strong>
+          </div>
+          <ul class="sc-rows">
+            <li><time>00:11</time><span><i class="who c">Caller</i>Oh… I'm not really taking this stuff.</span><b>22</b></li>
+            <li><time>00:24</time><span><i class="who c">Caller</i>I don't sleep well — I toss and turn.</span><b>41</b></li>
+            <li><time>00:47</time><span><i class="who c">Caller</i>So how many bottles come in a set?</span><b>63</b></li>
+            <li><time>01:02</time><span><i class="who c">Caller</i>If I buy, can I pay on delivery?</span><b>84</b></li>
+          </ul>
+          <div class="mock-foot">Sample · translated from Mandarin</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band tone">
+    <div class="wrap covsec">
+      <div><p class="kicker"><b>01</b>Coverage</p><h2 class="rv">From 1–3% spot checks<br>to every single call.</h2><p class="lede rv">This is a difference in the order of magnitude of coverage — not a percentage gain in efficiency.</p></div>
+      <div class="covfigs rv">
+        <figure><div class="dots few" role="img" aria-label="Only two out of a hundred calls are reviewed"></div><figcaption><b>1–3%</b>Manual spot checks</figcaption></figure>
+        <figure><div class="dots all" role="img" aria-label="All hundred calls are reviewed"></div><figcaption><b>100%</b>MosaScore</figcaption></figure>
+      </div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="wrap">
+      <ul class="pts">
+        <li class="rv"><i>01</i><b>Dual-channel separation</b><span>Speaker labels are 100% correct by design.</span></li>
+        <li class="rv" style="--d:1"><i>02</i><b>One dictionary per industry</b><span>Swap the dictionary, not the code.</span></li>
+        <li class="rv" style="--d:2"><i>03</i><b>Every score has a reason</b><span>Emotion plus a 0–100 purchase-intent score, per utterance.</span></li>
+        <li class="rv" style="--d:3"><i>04</i><b>Every call is checkable</b><span>Utterance-level playback plus per-channel subtitles.</span></li>
+      </ul>
+      <p class="plan rv"><b>In development</b><span>Compliance scorecard</span><span>Mono / mixed audio</span><span>Bulk QA</span><span>Taigi recognition</span><span>Real-time alerts</span></p>
+    </div>
+  </div>
+  <div class="band night">
+    <div class="wrap">
+      <p class="kicker"><b>02</b>On score validity</p>
+      <div class="quote rv"><p>So far we've proven the pipeline works — not that the scores predict sales.<small>The scores have not yet been validated against real sales outcomes, so we publish no accuracy figures. Validation is the first phase of any deployment: we test against your own recordings and actual results — and if the answer is negative, you'll know before you invest.</small></p></div>
+      <div class="cta rv" style="margin-top:32px"><a class="btn solid" href="index.html#poc" data-route="poc">Validate it first</a></div>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>Field-tested</b>Every default backed by a test</p>
+      <div class="blk"><h3 class="h3 rv">Including the assumptions we had to throw out.</h3><p class="lede rv">Most design decisions came from corrections after testing, not from a spec sheet. A QA system is only credible if its own development holds up to QA.</p><table class="tbl rv"><thead><tr><th scope="col">Decision</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th scope="row">Switched the default recognition engine</th><td data-l="Evidence">Short-utterance latency dropped from about 2.5 s to about 0.5 s, with better recognition of domain terms</td></tr><tr><th scope="row">Dropped an even faster engine</th><td data-l="Evidence">It was twice as fast but produced wrong transcripts that "read like real speech" — more dangerous than obvious gibberish</td></tr><tr><th scope="row">Turned off the model's reasoning mode</th><td data-l="Evidence">The reasoning text was never read by the program, yet it pushed a single scoring pass from seconds to over 100 seconds</td></tr><tr><th scope="row">Don't let the AI rewrite transcripts</th><td data-l="Evidence">In testing it fixed one typo but over-edited two other sentences and deleted their endings</td></tr><tr><th scope="row">Agent turns aren't scored by default</th><td data-l="Evidence">Across six test calls, 61% of scoring compute went to content the interface never showed</td></tr></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="wrap">
+      <p class="kicker"><b>Fit</b>Where it fits — and the cloud alternative</p>
+      <div class="blk"><h3 class="h3 rv">For organizations with lots of call recordings that can't use cloud analytics.</h3><ul class="inds c2 rv"><li><b>Health-product and consumer telesales</b><span>Performance analysis, script comparison and compliance checks on advertising claims. Already fully tuned for this scenario.</span><em>Tuned</em></li><li><b>Banking and insurance telesales</b><span>Already required to record every call and keep it long-term; the compliance-audit need is the clearest.</span><em>Compliance audit</em></li><li><b>Contact-center QA</b><span>From sampling to full coverage, and a source of material for complaint prevention and training.</span><em>Full coverage</em></li><li><b>Healthcare and long-term-care hotlines</b><span>Data stays on the hospital's servers, with clear checks on what the agent may and may not say.</span><em>Data stays on-site</em></li></ul><p class="warn rv"><span><b>Needs separate evaluation　</b>B2B sales: deals close over months, so a single call's "purchase probability" doesn't apply and the scoring dimensions would need to be redefined.</span></p></div><div class="blk"><h3 class="h3 rv">How it differs from cloud call analytics</h3><p class="lede rv">If recordings leaving your premises isn't a concern and no regulation prevents it, cloud subscriptions are easier to adopt and currently more feature-complete.</p><table class="cmp rv" style="margin-top:22px"><thead><tr><th></th><th scope="col">Cloud call analytics</th><th scope="col">MOSASCORE</th></tr></thead><tbody><tr><th scope="row">Recordings and transcripts</th><td>Uploaded to the vendor's servers</td><td class="v">Stay entirely in your server room</td></tr><tr><th scope="row">Air-gapped networks</th><td>No — needs internet access</td><td class="v">Yes — no internet needed</td></tr><tr><th scope="row">Pricing</th><td>Subscription by hours or call volume</td><td class="v">Built once, no per-call API fees</td></tr><tr><th scope="row">Domain vocabulary</th><td>Mostly one shared, generic model</td><td class="v">A dedicated dictionary per customer</td></tr><tr><th scope="row">Line-by-line verification</th><td>Depends on the vendor</td><td class="v">Utterance playback + per-channel subtitles + full logs</td></tr><tr class="cloud"><th scope="row">Setup cost</th><td>Low — sign up and go</td><td class="v">Needs servers and setup; we can supply hardware and install on site</td></tr><tr class="cloud"><th scope="row">Maturity</th><td>Commercial service, feature-complete</td><td class="v">Core analysis pipeline complete; enterprise features in development</td></tr></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="band night">
+    <div class="wrap">
+      <p class="kicker"><b>Principles</b>A line we drew ourselves</p>
+      <div class="cols"><div class="rv"><h3>Emotion inference is for customers only</h3><p>Scoring contact-center agents is workplace monitoring, and emotion inference is its most contested form — the EU has banned emotion recognition in the workplace. Our principle: emotion inference applies only to customers; agent scoring is based on auditable, objective behavior and is never the sole basis for performance reviews. We drew this line at the design stage, not after a customer asked.</p></div><div class="rv" style="--d:1"><h3>Open standards, no lock-in</h3><p>Built on open-source models and standard compatible interfaces, so models can be swapped or upgraded. Where government or financial customers need a model set that meets supply-chain origin rules, we evaluate and swap in open-weight models from other sources, then re-validate quality.</p></div></div>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>Specs</b>Specs &amp; limitations</p>
+      <dl class="spec rv"><div class="lim"><dt>Audio format</dt><dd><b>Dual-channel .mp3 / .wav only for now</b> (one track for the customer, one for the agent). Mono and mixed recordings are on the roadmap.</dd></div><div class="lim"><dt>Status</dt><dd>Deployable on standard Linux GPU servers, but <b>not yet in production at a customer site</b>; purchase-intent scores are not yet validated against real sales outcomes.</dd></div><div class="lim"><dt>Processing speed</dt><dd>Every utterance runs full recognition, emotion and scoring, so <b>long calls take longer to process than their own length</b>. Batch QA is unaffected; real-time in-call assistance needs a different architecture.</dd></div><div><dt>Recognition tuning</dt><dd>Brand names, product names and terms are passed to the recognizer as hot words. In testing this fixed product-name errors that no amount of after-the-fact text correction could recover — they can only be solved at recognition time.</dd></div><div><dt>Post-processing</dt><dd>Ten layers of text cleanup, including simplified-to-traditional conversion, hallucination and repetition filtering, filler removal, punctuation and number normalization, and homophone correction with pinyin-similarity matching.</dd></div><div><dt>Scoring</dt><dd>A local LLM combines the transcript, conversation context and acoustic emotion to output emotion, intent, a 0–100 score and the reason for any change after each customer utterance; calibrated with five anchored bands and example sentences, and unaffected by the agent's script.</dd></div><div><dt>Server deployment</dt><dd>Ubuntu Linux x86_64 + NVIDIA GPU, fully functional on an intranet; browser-based, nothing to install.</dd></div><div><dt>Laptop demo</dt><dd>Apple Silicon M-series with 16 GB+ unified memory (24 GB recommended). Model weights need internet once to download; after that analysis runs fully offline, and the front end has no external dependencies — it demos in a room with no network.</dd></div></dl><div class="blk"><h3 class="h3 rv">FAQ</h3><div class="faq pf rv"><details><summary>What can call quality analytics actually do?</summary><p>Customer-service and telesales calls that used to be 1–3% spot-checked become searchable data: every call heard in full, transcribed line by line, tagged with emotion and a 0–100 purchase-intent score, with a reason for every score change. It currently requires dual-channel recordings.</p></details><details><summary>How accurate are the scores?</summary><p>The scores haven't been validated against real sales outcomes, so we publish no accuracy figures. Validation is the first phase of deployment: we test against your own recordings and actual results before anything else.</p></details><details><summary>Do recordings need to go to the cloud?</summary><p>No. The system runs on a Linux GPU server in your server room; recordings and transcripts never leave it.</p></details><details><summary>How is this different from a manager spot-checking calls?</summary><p>Spot checks see a sample; this sees every call. And every judgment is checkable on the spot: utterance-level playback plus per-channel subtitles, with dual-channel separation so speaker labels are correct without guessing.</p></details><details><summary>Every industry talks differently. Does that require code changes?</summary><p>No. Each industry gets its own domain dictionary — swap the dictionary, not the code.</p></details></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ Why on-prem ═════════ -->
+<section class="view" id="v-onprem" data-title="On-prem AI | Private deployment for speech recognition, meeting minutes and voice agents - Voxmosa">
+  <div class="ph wide night">
+    <div class="ph-in">
+      <p class="couplet" role="img" aria-label="No audio uploaded. No transcript leaves your servers."><span aria-hidden="true"><span class="dot">No audio</span> uploaded.</span><span aria-hidden="true"><span class="dot">No transcript</span> leaves your servers.<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span></p>
+      <div class="ptxt" data-a>
+        <p class="crumb">On-Premises</p>
+        <h1><span class="pname">On-prem speech AI</span><span class="psub">Four models, all running on your own servers</span></h1>
+        <p class="lede">No calls to any cloud AI service. Containerized, runs on a single machine, and works on air-gapped networks.</p>
+      </div>
+      <div class="pvis" data-a style="--d:3">
+        <div class="bd" style="margin-top:0" role="img" aria-label="Audio, transcripts, summaries, voiceprints, domain dictionaries and all four models stay inside your server room. Nothing is sent to the internet.">
+          <div class="bd-room">
+            <span class="bd-tab">Your server room</span>
+            <div class="bd-flow"><ol class="bd-pipe"><li><small>MODEL 1</small>Speech recognition</li><li><small>MODEL 2</small>Diarization</li><li><small>MODEL 3</small>Dialogue</li><li><small>MODEL 4</small>Speech synthesis</li></ol><span class="bd-pkt"></span></div>
+            <ul class="bd-data"><li>Audio</li><li>Transcripts</li><li>Summaries</li><li>Voiceprints</li><li>Domain dictionaries</li></ul>
+          </div>
+          <div class="bd-wall"><i></i><i></i><span>Boundary · offline</span></div>
+          <div class="bd-out"><span class="bd-tab">Internet</span><p>Not a single clip of audio, transcript or prompt goes out.</p></div>
+        </div>
+        <p class="fine">MosaTalk's edge-split mode also needs one small cloud host; standalone mode needs only your intranet.</p>
+      </div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="wrap">
+      <p class="kicker"><b>01</b>When it has to be on-prem</p>
+      <ul class="why">
+        <li class="rv"><i>1</i><b>The content itself is confidential</b><span>Board decisions, compliance reviews, client interviews, medical records.</span></li>
+        <li class="rv" style="--d:1"><i>2</i><b>The network is already closed</b><span>On an air-gapped network, anything that needs the internet is off the table.</span></li>
+        <li class="rv" style="--d:2"><i>3</i><b>Procurement specifies the source</b><span>On-prem lets you specify exactly where the models come from.</span></li>
+      </ul>
+      <div class="quote rv" style="margin-top:clamp(40px,6vw,72px)"><p>On-prem isn't a selling point. For some organizations, it's a prerequisite.<small>If none of the three cases above applies to you, we'll tell you straight: the cloud is a better fit.</small></p></div>
+    </div>
+  </div>
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>02</b>Cloud vs. on-prem</p>
+      <h2 class="rv">We list the row<br>where the cloud wins, too.</h2>
+      <table class="cmp rv">
+        <thead><tr><th></th><th scope="col">Cloud speech services</th><th scope="col">VOXMOSA</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Audio and transcripts</th><td>Uploaded to the vendor's servers</td><td class="v">Stay entirely in your server room</td></tr>
+          <tr><th scope="row">Air-gapped networks</th><td>No — needs internet access</td><td class="v">Yes — no internet needed</td></tr>
+          <tr><th scope="row">Taigi / Hakka / Indigenous</th><td>Local services exist, all cloud-based</td><td class="v">Supported, running on-prem</td></tr>
+          <tr><th scope="row">Pricing</th><td>Subscription — the more you use, the more you pay</td><td class="v">Built once, no per-call API fees</td></tr>
+          <tr><th scope="row">Model customization</th><td>No — one shared, generic model</td><td class="v">Yes — we train our own models</td></tr>
+          <tr><th scope="row">Voiceprints &amp; dictionaries</th><td>Usually can't be taken with you</td><td class="v">Stored on your side, with the system</td></tr><tr class="cloud"><th scope="row">Setup cost</th><td>Low — sign up and go</td><td class="v">Needs servers and setup; we can supply hardware and install on site</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="band">
+    <div class="wrap">
+      <p class="kicker"><b>03</b>Can one machine handle it?</p>
+      <div class="nums n3 rv">
+        <div><strong>10<small>streams</small></strong><p>Live meeting transcription on one NVIDIA DGX Spark GB10</p></div>
+        <div><strong>1<small>GPU</small></strong><p>The full voice-agent pipeline, validated on a single 46 GB card</p></div>
+        <div><strong>4<small>models</small></strong><p>Recognition, diarization, dialogue and synthesis — all inside your server room</p></div>
+      </div>
+      <p class="fine">These numbers come from environments we've run ourselves, not from a spec sheet; beyond one machine's capacity, it scales out to multiple machines. We can supply the hardware and install it on site.</p>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>Sizing</b>Configurations we've validated</p>
+      <table class="tbl rv"><thead><tr><th scope="col">Item</th><th scope="col">MosaMinutes (transcription)</th><th scope="col">MosaTalk (voice agent)</th></tr></thead><tbody><tr><th scope="row">Machine</th><td data-l="MosaMinutes (transcription)">One NVIDIA DGX Spark GB10 (128 GB unified memory)</td><td data-l="MosaTalk (voice agent)">One NVIDIA GPU with plenty of memory (validated on a 46 GB card)</td></tr><tr><th scope="row">Operating system</th><td data-l="MosaMinutes (transcription)">Stock DGX OS (Ubuntu-based)</td><td data-l="MosaTalk (voice agent)">Ubuntu Linux x86_64</td></tr><tr><th scope="row">Deployment</th><td data-l="MosaMinutes (transcription)">Containerized, runs on a single machine</td><td data-l="MosaTalk (voice agent)">Standalone mode needs only your intranet</td></tr><tr><th scope="row">Clients</th><td data-l="MosaMinutes (transcription)">Any modern browser, nothing to install</td><td data-l="MosaTalk (voice agent)">WebRTC browsers, or dial in from a phone</td></tr><tr><th scope="row">Hardware supply</th><td data-l="MosaMinutes (transcription)">We can supply and install on site</td><td data-l="MosaTalk (voice agent)">We can supply and install on site</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="wrap">
+      <p class="kicker"><b>Industries</b>Industries &amp; compliance</p>
+      <div class="blk"><h3 class="h3 rv">For these organizations, the use case <em>is</em> the compliance requirement.</h3><p class="lede rv">We tailor access control, audit logs and data retention to each industry's actual regulations and internal controls, rather than applying one template.</p><ul class="inds rv"><li><b>Government</b><span>Official meetings, public hearings and committee records. Running on-prem meets both security rules and data-residency requirements.</span><em>Official document export · supply-chain rules</em></li><li><b>Financial services</b><span>Board, compliance and risk meetings, plus high-volume product inquiries.</span><em>Internal control · audit trail</em></li><li><b>Healthcare</b><span>Internal meetings, case reviews, patient education and appointment inquiries, with data kept on hospital servers.</span><em>Medical records · sensitive-field masking</em></li><li><b>Law firms</b><span>Client interviews and case discussions. Confidentiality duties make on-prem a requirement, not an option.</span><em>Confidentiality · evidentiary records</em></li><li><b>Long-term care, education &amp; research</b><span>Family consultations, service briefings, interviews and teaching records, plus preservation of local-language speech data.</span><em>Indigenous-language preservation · interview transcripts</em></li><li><b>Enterprises</b><span>Regular meetings, project reviews, client meetings and support-line routing — anywhere content must not leak.</span><em>SSO · retention settings</em></li></ul><ul class="caps rv"><li>OIDC single sign-on</li><li>Tiered permissions</li><li>Audit logs</li><li>Result retention</li><li>Containerized</li><li>Air-gap friendly</li><li>Model-origin options</li><li>Duplicate-request protection</li></ul></div><div class="blk"><h3 class="h3 rv">After deployment</h3><p class="lede rv">The hard part of on-prem isn't installing it — it's who maintains it, how it meets internal controls, and how long data is kept. All of that is part of the engagement.</p><div class="cols"><div class="rv"><h3>More than delivering software</h3><p>Scenario setup, industry compliance adjustments, hardware supply and on-site installation, maintenance and version updates, and evaluation reports that meet academic standards.</p></div><div class="rv" style="--d:1"><h3>Compliance is tailored, not templated</h3><p>Government, financial, healthcare and legal requirements differ. We adjust access control, audit logs and data retention to your actual regulations and internal controls.</p></div></div></div>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>FAQ</b>FAQ</p>
+      <div class="faq pf rv"><details><summary>What is on-prem AI? Is it the same as private cloud or local deployment?</summary><p>In Taiwan's procurement language, on-prem, local, private and intranet deployment usually mean the same thing: models and data live on machines your organization controls, not in a vendor's cloud. "Private cloud" is broader — sometimes your own data center, sometimes a rented dedicated cloud environment. Ours is the former: physical machines on your premises, with no internet required.</p></details><details><summary>Does it work on networks with no internet access at all?</summary><p>Yes. It's containerized and runs on a single machine, completing recognition, summaries and speech synthesis without going online. The exception is MosaTalk's edge-split mode, which needs one small cloud host; standalone mode needs only your intranet.</p></details><details><summary>Is on-prem always more expensive?</summary><p>The upfront cost is higher — cloud services work as soon as you sign up, while on-prem needs servers and setup. The difference comes later: cloud subscriptions charge by seat or by hour, so the more you use the more you pay; on-prem is built once with no per-call API fees. The answer depends on your volume and how many years you'll use it, not the first invoice. We can run the numbers with your actual meeting or call volume.</p></details><details><summary>Can the models be tuned to our terminology?</summary><p>Yes. Our speech recognition models are trained on architectures we built ourselves rather than by adjusting a generic model's parameters, so they can be deeply customized for your domain terms, recording conditions and acoustics. MosaScore also uses one domain dictionary per industry — swap the dictionary, no code changes.</p></details><details><summary>Our procurement rules specify model origin. Can you meet that?</summary><p>Yes. Model sources and the supply chain can be specified to match your procurement rules. That's a structural difference from cloud services, where the buyer usually has no control over the vendor's model stack.</p></details><details><summary>Is keeping audio off the cloud a legal requirement, or an internal policy?</summary><p>We've seen both, and they come from different places. Personal data and medical records are governed by Taiwan's Personal Data Protection Act; government agencies also have the Cyber Security Management Act and its security-level requirements; financial institutions follow their regulator's internal-control and audit rules. Even more common is a third case: no law forbids the cloud, but internal policy or a client contract says data may not leave your environment. We don't decide which applies to you — that's for your compliance and security teams. Our job is to make "not in the cloud" technically real, and to adjust access control, audit logs and retention to your actual requirements.</p></details><details><summary>What is your recognition accuracy?</summary><p>We don't give marketing numbers. Character error rates, competitor comparisons, test methodology and raw audio will be published in full to academic standards, and we can evaluate on public benchmarks you choose or your own audio. Until then, the most meaningful number is the one measured on your own recordings in a proof of concept.</p></details></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ Taiwan languages ═════════ -->
+<section class="view on" id="v-lang" data-title="Taiwan language speech AI | Taigi, six Hakka accents and Indigenous-language recognition - Voxmosa">
+  <div class="ph wide">
+    <div class="ph-in">
+      <p class="couplet" role="img" aria-label="You can't just fine-tune a Mandarin model to hear this."><span aria-hidden="true">You can't just <span class="dot">fine-tune</span></span><span aria-hidden="true">a Mandarin model to hear this.<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span></p>
+      <div class="ptxt" data-a>
+        <p class="crumb">Taiwan Languages</p>
+        <h1><span class="pname">Taiwan's languages</span><span class="psub">Taigi, all six Hakka accents, and Indigenous languages</span></h1>
+        <p class="lede">Our speech recognition models are trained on architectures we built ourselves — not by tweaking an off-the-shelf model.</p>
+        <div class="pstats">
+          <div><b>6</b><span>Hakka accents</span></div><div><b>42</b><span>Indigenous languages, 16 peoples</span></div><div><b>5</b><span>Built-in transcription languages</span></div>
+        </div>
+      </div>
+      <div class="pvis" data-a style="--d:3">
+        <div class="conv" role="img" aria-label="Mandarin, Taigi, Hakka, Indigenous languages and English are all transcribed into Traditional Chinese">
+          <ul class="conv-in">
+            <li style="--c:#141413">Mandarin</li><li style="--c:#ED9A4A">Taigi<small>Code-switching OK</small></li><li style="--c:#54524b">Hakka<small>All six accents</small></li><li style="--c:#8c8a84">Indigenous<small>16 peoples · 42 languages</small></li><li style="--c:#b5b2aa">English</li>
+          </ul>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 10C58 10 42 50 100 50" stroke="#141413"/><path d="M0 30C58 30 42 50 100 50" stroke="#ED9A4A"/><path d="M0 50L100 50" stroke="#54524b"/><path d="M0 70C58 70 42 50 100 50" stroke="#8c8a84"/><path d="M0 90C58 90 42 50 100 50" stroke="#b5b2aa"/></svg>
+          <div class="conv-out" lang="zh-Hant-TW">繁體中文<small lang="en">TRADITIONAL CHINESE</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band tone">
+    <div class="wrap two">
+      <div class="rv">
+        <h3 class="sub">Which product supports what</h3>
+        <table class="mx">
+          <thead><tr><th scope="col">Language</th><th scope="col">Meeting minutes</th><th scope="col">Voice agent</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Mandarin</th><td><span class="st">Supported</span></td><td><span class="st">Listen &amp; speak</span></td></tr>
+            <tr><th scope="row">Taigi</th><td><span class="st">Supported</span></td><td><span class="st half">Understands; speech planned</span></td></tr>
+            <tr><th scope="row">Hakka</th><td><span class="st">Supported</span></td><td><span class="st none">Planned</span></td></tr>
+            <tr><th scope="row">Indigenous</th><td><span class="st">Supported</span></td><td><span class="st none">Not yet</span></td></tr>
+            <tr><th scope="row">English</th><td><span class="st">Supported</span></td><td><span class="st">Listen &amp; speak</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="rv" style="--d:1">
+        <h3 class="sub">Six Hakka accents <span>Recognition · Synthesis</span></h3>
+        <ul class="qcards" style="margin-top:18px"><li><b>Sixian</b></li><li><b>Hailu</b></li><li><b>Dapu</b></li><li><b>Raoping</b></li><li><b>Zhao'an</b></li><li><b>South Sixian</b></li></ul>
+        <blockquote><span lang="zh-Hant-TW">「客語語音合成、語音識別技術由牧仁資訊研發」</span><br><small style="font:400 14px/1.6 var(--sans);color:var(--t2)">"Hakka speech synthesis and recognition technology developed by Voxmosa (牧仁資訊)."</small></blockquote>
+        <p class="fine" style="margin-top:0">From the Gohakka platform's copyright notice. Don't take our word for it — go look. Gohakka's machine translation and language models are provided by the platform operator, Shunxi Technology (瞬息科技), not by us; the Hakka corpus belongs to the Hakka Affairs Council, and our team handled part of its preparation.</p>
+        <div class="hlinks"><a class="link ext" href="https://gohakka.org/" target="_blank" rel="noopener">gohakka.org</a><a class="link ext" href="https://huggingface.co/ILRDF" target="_blank" rel="noopener">Hugging Face / ILRDF</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="wrap">
+      <div class="quote rv"><p>Code-switching is how Taiwan actually talks.<small>Few people in Taiwan's meetings or call centers speak pure Taigi for long. In practice it's a sentence of Mandarin, a sentence of Taigi, with a few English words in between.</small></p></div>
+      <p class="fine rv" style="margin-top:30px">Our Indigenous-language models are built in a long-term partnership with iThuan, deployed in the Indigenous Languages Research and Development Foundation's language AI system, and published on Hugging Face. The corpus belongs to the Council of Indigenous Peoples, and our team handled part of its preparation. Peoples and language counts follow the Council of Indigenous Peoples' classification, and Hakka accents follow the Hakka Affairs Council's six-accent classification — both can be checked item by item.　<a class="link" href="research.html" data-route="research">Competition results and publications</a></p>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>FAQ</b>FAQ</p>
+      <div class="faq pf rv"><details><summary>Can Taigi recordings be transcribed?</summary><p>Yes, including recordings that mix Taigi and Mandarin. MosaMinutes transcribes Taigi into a Traditional Chinese transcript with automatic punctuation and speaker labels, all on your own machines.</p></details><details><summary>Which Hakka accents does transcription support?</summary><p>All six: Sixian, Hailu, Dapu, Raoping, Zhao'an and South Sixian, for both recognition and synthesis. The classification follows the Hakka Affairs Council's six accents and can be checked item by item.</p></details><details><summary>What about Indigenous languages?</summary><p>MosaMinutes supports 42 languages across 16 Indigenous peoples. Our team built these models in a long-term partnership with iThuan, and they're public on Hugging Face for anyone to download and check. The voice agent doesn't support Indigenous languages yet.</p></details><details><summary>How is this different from a general-purpose speech recognition service?</summary><p>General services usually add local-language support by fine-tuning an existing model, and accuracy drops as accents and code-switching pile up. Our models are trained on architectures we built ourselves, so they can be customized for specific accents, terminology and recording conditions. The other difference is deployment: local-language recordings are often the most sensitive, and general services all run in the cloud.</p></details><details><summary>What is the recognition accuracy?</summary><p>We don't give marketing numbers. Accuracy for local languages depends heavily on accent, recording conditions and how much code-switching there is, so a percentage without a test set means nothing. Character error rates, competitor comparisons, methodology and raw audio will be published in full; until then, the most meaningful number is the one measured on your own recordings.</p></details></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ Research ═════════ -->
+<section class="view" id="v-research" data-title="Team &amp; research | Taiwan multilingual ASR challenge winners and 41 international papers - Voxmosa">
+  <div class="band" style="padding-bottom:clamp(36px,5vw,64px)">
+    <div class="wrap">
+      <p class="kicker" data-a><b>Research-led</b>Team &amp; research</p>
+      <h1 data-a style="--d:1;font:900 clamp(34px,5.4vw,74px)/1.2 var(--serif)">A research-led speech team.</h1>
+      <p class="lede" data-a style="--d:2">Long focused on speech recognition for Taiwan's languages. Our ASR models are trained on architectures we built ourselves, and our open-source project FormoSpeech is on Hugging Face.</p>
+      <div class="hlinks" data-a style="--d:3"><a class="link ext" href="https://huggingface.co/formospeech" target="_blank" rel="noopener">Hugging Face / formospeech</a></div>
+    </div>
+  </div>
+  <div class="band tone" style="padding-top:clamp(36px,5vw,64px)">
+    <div class="wrap">
+      <ol class="awards">
+        <li class="rv"><b>2025</b><strong>Best Technical Paper Award</strong><span>O-COCOSDA 2025</span></li>
+        <li class="rv" style="--d:1"><b>2022</b><strong>1st place, Hakka ASR Challenge (general track)</strong><span>FSR 2022</span></li>
+        <li class="rv" style="--d:2"><b>2020</b><strong>1st place, Taiwanese ASR Challenge (industry track)</strong><span>FSR 2020</span></li>
+        <li class="rv" style="--d:3"><b>2018</b><strong>2nd place, Mandarin ASR Challenge (industry track)</strong><span>FSR 2018</span></li>
+        <li class="rv" style="--d:4"><b>2008</b><strong>Best Student Paper Award</strong><span>ISCSLP 2008</span></li>
+      </ol>
+    </div>
+  </div>
+  <div class="band">
+    <div class="wrap">
+      <h3 class="sub">Publications <span>41 papers</span></h3>
+      <div class="filters" id="filters" role="group" aria-label="Filter publications by topic"><button type="button" data-c="all" aria-pressed="true">All<b>41</b></button><button type="button" data-c="tw" aria-pressed="false">Taiwan languages<b>6</b></button><button type="button" data-c="rb" aria-pressed="false">Robust ASR &amp; enhancement<b>15</b></button><button type="button" data-c="sp" aria-pressed="false">Speaker &amp; language ID<b>13</b></button><button type="button" data-c="qa" aria-pressed="false">Quality &amp; assessment<b>7</b></button></div>
+      <ul class="pubs" id="publist"><li style="--d:0"><span class="y">2026</span><span class="v">LREC</span><span class="t">TG-ASR: Translation-guided learning with parallel gated cross attention for low-resource automatic speech recognition</span><a href="https://arxiv.org/abs/2602.22039" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:1"><span class="y">2026</span><span class="v">LREC</span><span class="t">Efficient dialect-aware and conditioning for low-resource Taiwanese Hakka speech processing</span><a href="https://arxiv.org/abs/2602.22522" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:2"><span class="y">2026</span><span class="v">TASLP</span><span class="t">Universal robust speech adaptation for cross-domain speech recognition and enhancement</span><a href="https://arxiv.org/abs/2602.04307" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:3"><span class="y">2026</span><span class="v">ICASSP</span><span class="t">SCENE: Semantic-aware codec enhancement with neural embeddings</span><a href="https://arxiv.org/abs/2601.22189" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:4"><span class="y">2026</span><span class="v">Interspeech</span><span class="t">Personalized keyword spotting for user-defined keywords leveraging text-independent speaker verification</span><a href="https://arxiv.org/abs/2606.20106" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:5"><span class="y">2026</span><span class="v">IEEE ICME</span><span class="t">Robust generative audio quality assessment: Disentangling quality from spurious correlations</span><a href="https://arxiv.org/abs/2603.16201" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:6"><span class="y">2025</span><span class="v">O-COCOSDA</span><span class="t">Exploring the impact of data quantity on ASR in extremely low-resource languages</span><a href="https://arxiv.org/abs/2409.08872" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:7"><span class="y">2025</span><span class="v">IEEE ASRU</span><span class="t">Revealing the role of audio channels in ASR performance degradation</span><a href="https://arxiv.org/abs/2508.08967" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:8"><span class="y">2025</span><span class="v">ICASSP</span><span class="t">Channel-aware domain-adaptive generative adversarial network for robust speech recognition</span><a href="https://arxiv.org/abs/2409.12386" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:9"><span class="y">2025</span><span class="v">IEEE ASRU</span><span class="t">QAMRO: Quality-aware adaptive margin ranking optimization for human-aligned assessment of audio generation systems</span><a href="https://arxiv.org/abs/2508.08957" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:10"><span class="y">2025</span><span class="v">APSIPA ASC</span><span class="t">DRASP: A dual-resolution attentive statistics pooling framework for automatic MOS prediction</span><a href="https://arxiv.org/abs/2508.21407" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:11"><span class="y">2024</span><span class="v">O-COCOSDA</span><span class="t">VoxHakka: A dialectally diverse multi-speaker text-to-speech system for Taiwanese Hakka</span><a href="https://arxiv.org/abs/2409.01548" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:12"><span class="y">2024</span><span class="v">IEEE SLT</span><span class="t">Effective noise-aware data simulation for domain-adaptive speech enhancement leveraging dynamic stochastic perturbation</span><a href="https://arxiv.org/abs/2409.01545" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:13"><span class="y">2023</span><span class="v">Interspeech</span><span class="t">A training and inference strategy using noisy and enhanced speech as target for speech enhancement without clean speech</span><a href="https://arxiv.org/abs/2210.15368" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:14"><span class="y">2023</span><span class="v">IEEE SPL</span><span class="t">Multi-target filter and detector for unknown-number speaker diarization</span><a href="https://arxiv.org/abs/2203.16007" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:15"><span class="y">2022</span><span class="v">Interspeech</span><span class="t">Chain-based discriminative autoencoders for speech recognition</span><a href="https://arxiv.org/abs/2203.13687" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2022</span><span class="v">ISCSLP</span><span class="t">Speech-enhanced and noise-aware acoustic modeling for robust speech recognition</span><a href="https://arxiv.org/abs/2203.13696" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2022</span><span class="v">EUSIPCO</span><span class="t">Filter-based discriminative autoencoders for children speech recognition</span><a href="https://arxiv.org/abs/2204.00164" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2022</span><span class="v">Interspeech</span><span class="t">Disentangling the impacts of language and channel variability on speech separation networks</span><a href="https://arxiv.org/abs/2203.16040" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2021</span><span class="v">Interspeech</span><span class="t">AlloST: Low-resource speech translation without source transcription</span><a href="https://arxiv.org/abs/2105.00171" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2021</span><span class="v">CSRC</span><span class="t">The Academia Sinica system for the SLT 2021 children speech recognition challenge</span><span></span></li><li style="--d:16"><span class="y">2021</span><span class="v">Interspeech</span><span class="t">Dual-path filter network: Speaker-aware modeling for speech separation</span><a href="https://arxiv.org/abs/2106.07579" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2021</span><span class="v">APSIPA ASC</span><span class="t">Generation of speaker representations using heterogeneous training batch assembly</span><a href="https://arxiv.org/abs/2203.16646" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2020</span><span class="v">O-COCOSDA</span><span class="t">Using Taigi dramas with Mandarin Chinese subtitles to improve Taigi speech recognition</span><span></span></li><li style="--d:16"><span class="y">2020</span><span class="v">CHiME</span><span class="t">The Academia Sinica systems of speech recognition and speaker diarization for the CHiME-6 challenge</span><span></span></li><li style="--d:16"><span class="y">2020</span><span class="v">TASLP</span><span class="t">Subspace-based representation and learning for phonotactic spoken language recognition</span><a href="https://arxiv.org/abs/2203.15576" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2019</span><span class="v">Interspeech</span><span class="t">Exploring the encoder layers of discriminative autoencoders for LVCSR</span><span></span></li><li style="--d:16"><span class="y">2019</span><span class="v">O-COCOSDA</span><span class="t">Mandarin mispronunciation detection and diagnosis feedback using articulatory attributes based multi-task learning</span><span></span></li><li style="--d:16"><span class="y">2019</span><span class="v">APSIPA ASC</span><span class="t">Multi-task learning for acoustic modeling using articulatory attributes</span><span></span></li><li style="--d:16"><span class="y">2017</span><span class="v">Interspeech</span><span class="t">Discriminative autoencoders for acoustic modeling</span><span></span></li><li style="--d:16"><span class="y">2017</span><span class="v">IJCLCLP</span><span class="t">A replay spoofing detection system based on discriminative autoencoders</span><span></span></li><li style="--d:16"><span class="y">2017</span><span class="v">ICASSP</span><span class="t">Discriminative autoencoders for speaker verification</span><span></span></li><li style="--d:16"><span class="y">2017</span><span class="v">ROCLING</span><span class="t">Speaker diarization based on i-vector PLDA scoring and using GMM-HMM forced alignment</span><span></span></li><li style="--d:16"><span class="y">2016</span><span class="v">Interspeech</span><span class="t">Minimization of regression and ranking losses with shallow neural networks on automatic sincerity evaluation</span><span></span></li><li style="--d:16"><span class="y">2014</span><span class="v">Interspeech</span><span class="t">Clustering-based i-vector formulation for speaker recognition</span><span></span></li><li style="--d:16"><span class="y">2014</span><span class="v">ICASSP</span><span class="t">Speaker verification using kernel-based binary classifiers with binary operation derived features</span><span></span></li><li style="--d:16"><span class="y">2014</span><span class="v">Interspeech</span><span class="t">Ensemble of machine learning algorithms for cognitive and physical speaker load detection</span><span></span></li><li style="--d:16"><span class="y">2013</span><span class="v">ICASSP</span><span class="t">Subspace-based phonotactic language recognition using multivariate dynamic linear models</span><span></span></li><li style="--d:16"><span class="y">2012</span><span class="v">Interspeech</span><span class="t">Subspace-based feature representation and learning for language recognition</span><span></span></li><li style="--d:16"><span class="y">2009</span><span class="v">IEEE ASRU</span><span class="t">Generalized likelihood ratio discriminant analysis</span><span></span></li><li style="--d:16"><span class="y">2007</span><span class="v">IEEE ASRU</span><span class="t">Training data selection for improving discriminative training of acoustic models</span><span></span></li></ul>
+      <h3 class="sub" style="margin-top:clamp(48px,6vw,80px)">Press <span>In Chinese</span></h3>
+      <ul class="press">
+        <li><time>2026.07</time><a href="https://hakkanews.tw/2026/07/29/294068/" target="_blank" rel="noopener">Hakka fairy tales and two-host podcasts in one second: inside "Hakka GPT"</a><span>Hakka News</span></li>
+        <li><time>2025.08</time><a href="https://udn.com/news/story/7240/8962411" target="_blank" rel="noopener">Tackling two major challenges in AI speech technology</a><span>Economic Daily News</span></li>
+        <li><time>2025.02</time><a href="https://www.ctee.com.tw/news/20250219701857-430502" target="_blank" rel="noopener">Real-time speech enhancement aimed at the streaming industry</a><span>Commercial Times</span></li>
+        <li><time>2024.10</time><a href="https://www.sinotrade.com.tw/richclub/news/670e2f1332ba0c9331e17cd6" target="_blank" rel="noopener">VoxHakka, the first Hakka text-to-speech system, launches</a><span>Economic Daily News</span></li>
+        <li><time>2024.09</time><a href="https://www.sinotrade.com.tw/richclub/news/66e29f8332ba0c933165c586" target="_blank" rel="noopener">Cross-domain speech enhancement shows AI innovation</a><span>Economic Daily News</span></li>
+      </ul>
+      <p class="fine">Headlines translated from Chinese. Coverage of technology led by core team members at previous organizations.</p>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>Notes</b>Research notes · in preparation</p>
+      <p class="lede rv" style="margin-top:0">Technical articles, evaluation methodology and observations on Taiwanese speech data — where we'll spell out what "academic rigor" means in practice.</p><ul class="pts c3" style="margin-top:22px"><li class="rv"><i>Coming soon</i><b>How to evaluate Taigi speech recognition fairly</b></li><li class="rv" style="--d:1"><i>Coming soon</i><b>Fitting three models into one GPU's memory</b></li><li class="rv" style="--d:2"><i>Coming soon</i><b>Why meeting proofreading shouldn't be "last write wins"</b></li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ PoC ═════════ -->
+<section class="view" id="v-poc" data-title="Request a PoC - Voxmosa">
+  <div class="band night" id="poc" style="min-height:calc(100svh - 62px)">
+    <div class="wrap">
+      <div class="poc">
+        <div data-a>
+          <p class="kicker"><b>PoC</b>Proof of concept</p>
+          <h1>Prove it on your own audio <em>first.</em><br>Then we talk deployment.</h1>
+          <p class="lede">We run a proof of concept on your real meeting recordings or customer calls, and deliver a reproducible evaluation report with a clear methodology.</p>
+          <div class="poc-meta"><a href="mailto:how@voxmosa.com" data-mail>how@voxmosa.com</a><span>We reply within two business days</span></div>
+        </div>
+        <form class="form" id="pocform" action="#" method="post" novalidate data-a style="--d:2">
+          <div class="form-h"><b>Request a PoC</b><span>Reply within 2 business days</span></div>
+          <div class="row2">
+            <label class="fl"><span>Organization</span><input name="org" type="text" placeholder="e.g. Acme Bank" autocomplete="organization" required></label>
+            <label class="fl"><span>Contact</span><input name="name" type="text" placeholder="Name" autocomplete="name" required></label>
+          </div>
+          <label class="fl"><span>Email</span><input name="email" type="email" placeholder="you@example.com" autocomplete="email" required></label>
+          <fieldset class="fl"><legend>Request type</legend>
+            <div class="pills">
+              <label><input type="radio" name="type" value="Proof of concept" checked><span>Proof of concept</span></label>
+              <label><input type="radio" name="type" value="Technical briefing"><span>Technical briefing</span></label>
+              <label><input type="radio" name="type" value="Investment"><span>Investment</span></label>
+              <label><input type="radio" name="type" value="Careers"><span>Careers</span></label>
+            </div>
+          </fieldset>
+          <label class="fl"><span>What problem are you trying to solve?</span><textarea name="msg" rows="3" placeholder="e.g. Ten committee meetings a week; outsourced transcription is too expensive, and nothing can go to the cloud."></textarea></label>
+          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn solid" type="submit">Send request</button>
+          <small id="formnote" aria-live="polite">Submitting opens your email app with everything filled in.</small>
+        </form>
+      </div>
+      <div class="faq">
+        <details><summary>Can it run entirely in our own server room?</summary><p>Yes — that's the default, not an add-on. It's containerized, runs on a single machine, and works on air-gapped networks with no internet access.</p></details>
+        <details><summary>What hardware do we need?</summary><p>One NVIDIA GPU with plenty of memory runs the whole system. MosaMinutes handles 10 live streams on one NVIDIA DGX Spark GB10; MosaTalk is validated on a single 46 GB card. We can supply the hardware and install it on site.</p></details>
+        <details><summary>What's your recognition accuracy?</summary><p>We don't give marketing numbers. Character error rates, competitor comparisons, test methodology and raw audio will all be published in full. Until then, the number that matters is the one measured on your own recordings.</p></details>
+        <details><summary>How is this different from a cloud service?</summary><p>Recordings and transcripts stay entirely in your server room, it works air-gapped, and there are no per-call API fees. But we don't claim it's better across the board — without compliance or security constraints, a cloud subscription is usually cheaper and more flexible.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="index.html" data-route="home" aria-label="Voxmosa home"><svg aria-hidden="true" focusable="false" viewBox="3.70 19.60 640.56 94.89" fill="none"><path d="M33.40 112.00 3.70 19.60H12.54L40.13 107.12H41.71L69.30 19.60H78.14L48.44 112.00Z" fill="#f4f3f0"/><g transform="translate(88.04, 44.47) scale(0.5909)" stroke="#f4f3f0" stroke-linecap="round" fill="none"><circle cx="60" cy="60" r="51" stroke-width="15"/><path d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="11" opacity="0.6"/><path d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="11" opacity="0.33"/><path d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="11" opacity="0.17"/></g><path d="M200.48 112.00 227.27 79.40 201.40 47.85H211.30L232.29 74.12H233.87L254.86 47.85H264.76L238.89 79.40L265.68 112.00H255.65L233.87 84.68H232.29L210.51 112.00ZM298.42 112.00V47.85H306.08V56.30H307.66Q309.64 52.73 314.00 49.63Q318.35 46.53 326.40 46.53Q334.19 46.53 339.01 50.09Q343.83 53.66 345.94 58.67H347.52Q349.77 53.66 354.52 50.09Q359.27 46.53 367.85 46.53Q374.45 46.53 379.34 49.23Q384.22 51.94 386.99 56.76Q389.76 61.58 389.76 68.04V112.00H381.84V68.84Q381.84 61.97 377.69 57.81Q373.53 53.66 366.00 53.66Q358.35 53.66 353.20 58.61Q348.05 63.56 348.05 73.06V112.00H340.13V68.84Q340.13 61.97 335.97 57.81Q331.82 53.66 324.29 53.66Q316.64 53.66 311.49 58.61Q306.34 63.56 306.34 73.06V112.00ZM448.11 113.85Q438.34 113.85 431.01 109.69Q423.69 105.53 419.66 98.07Q415.64 90.62 415.64 80.72V79.13Q415.64 69.23 419.66 61.77Q423.69 54.32 431.01 50.16Q438.34 46.00 448.11 46.00Q457.88 46.00 465.20 50.16Q472.53 54.32 476.55 61.77Q480.58 69.23 480.58 79.13V80.72Q480.58 90.62 476.55 98.07Q472.53 105.53 465.20 109.69Q457.88 113.85 448.11 113.85ZM448.11 106.72Q459.46 106.72 466.06 99.53Q472.66 92.33 472.66 80.45V79.40Q472.66 67.52 466.06 60.32Q459.46 53.13 448.11 53.13Q436.89 53.13 430.22 60.32Q423.56 67.52 423.56 79.40V80.45Q423.56 92.33 430.22 99.53Q436.89 106.72 448.11 106.72ZM532.72 113.85Q521.10 113.85 512.85 108.30Q504.60 102.76 502.76 89.96L510.54 88.50Q511.60 95.50 514.83 99.53Q518.07 103.55 522.75 105.27Q527.44 106.98 532.72 106.98Q540.64 106.98 545.46 103.75Q550.28 100.52 550.28 94.84Q550.28 89.03 545.72 86.79Q541.17 84.54 533.64 83.22L527.57 82.17Q521.50 81.11 516.62 78.93Q511.73 76.76 508.89 73.06Q506.06 69.36 506.06 63.82Q506.06 55.50 512.59 50.75Q519.12 46.00 529.95 46.00Q540.90 46.00 547.57 50.95Q554.24 55.90 555.95 65.27L548.56 66.86Q547.24 59.20 542.29 56.03Q537.34 52.86 529.95 52.86Q522.69 52.86 518.33 55.64Q513.98 58.41 513.98 63.82Q513.98 69.10 517.94 71.54Q521.90 73.98 528.76 75.17L534.83 76.23Q541.43 77.28 546.71 79.33Q551.99 81.38 555.09 85.07Q558.20 88.77 558.20 94.84Q558.20 103.95 551.33 108.90Q544.47 113.85 532.72 113.85ZM603.21 113.85Q596.48 113.85 591.00 111.54Q585.52 109.23 582.35 104.74Q579.18 100.25 579.18 93.92Q579.18 87.45 582.35 83.22Q585.52 79.00 590.93 76.89Q596.34 74.78 602.94 74.78H626.44V69.63Q626.44 61.84 621.95 57.48Q617.46 53.13 608.88 53.13Q600.44 53.13 595.49 57.29Q590.54 61.44 588.82 68.44L581.16 66.20Q582.75 60.52 586.18 55.97Q589.61 51.41 595.29 48.71Q600.96 46.00 608.88 46.00Q621.03 46.00 627.69 52.34Q634.36 58.67 634.36 70.02V101.18Q634.36 105.14 638.06 105.14H644.26V112.00H635.81Q631.72 112.00 629.34 109.56Q626.97 107.12 626.97 102.89V101.97H625.65Q623.93 104.87 621.23 107.64Q618.52 110.42 614.16 112.13Q609.81 113.85 603.21 113.85ZM603.74 106.72Q613.90 106.72 620.17 100.58Q626.44 94.44 626.44 83.22V81.64H603.08Q596.21 81.64 591.66 84.61Q587.10 87.58 587.10 93.78Q587.10 99.99 591.79 103.35Q596.48 106.72 603.74 106.72Z" fill="#f4f3f0"/></svg></a>
+        <p class="foot-tagline">A speech AI team focused on Taiwan's languages and on-prem private deployment. Every conversation stays in your own server room.</p>
+        <a class="foot-mail" href="mailto:how@voxmosa.com" data-mail>how@voxmosa.com</a>
+      </div>
+      <nav class="foot-col" aria-label="Products">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="mosatalk.html" data-route="talk">MosaTalk voice agent</a></li>
+          <li><a href="mosaminutes.html" data-route="minutes">MosaMinutes meeting minutes</a></li>
+          <li><a href="mosascore.html" data-route="score">MosaScore call analytics</a></li>
+        </ul>
+      </nav>
+      <nav class="foot-col" aria-label="Architecture and track record">
+        <h4>Architecture &amp; track record</h4>
+        <ul>
+          <li><a href="on-premise.html" data-route="onprem">On-prem deployment</a></li>
+          <li><a href="languages.html" data-route="lang">Taiwan language models</a></li>
+          <li><a href="research.html" data-route="research">Team &amp; 41 publications</a></li>
+          <li><a href="index.html#poc" data-route="poc">Request a proof of concept</a></li>
+        </ul>
+      </nav>
+      <nav class="foot-col" aria-label="Open source and external validation">
+        <h4>Open source &amp; validation</h4>
+        <ul>
+          <li><a class="ext" href="https://huggingface.co/formospeech" target="_blank" rel="noopener">Hugging Face / formospeech</a></li>
+          <li><a class="ext" href="https://huggingface.co/ILRDF" target="_blank" rel="noopener">Hugging Face / ILRDF</a></li>
+          <li><a class="ext" href="https://gohakka.org/" target="_blank" rel="noopener">Gohakka Hakka platform</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="foot-bar">
+      <p>© 2026 Voxmosa 牧仁資訊有限公司 All rights reserved.</p>
+      <div class="foot-meta">
+        <span>On-Premise Voice AI</span>
+        <span>Taiwan Multilingual ASR · TTS · Diarization</span>
+        <span><a href="../languages.html" lang="zh-Hant-TW" hreflang="zh-Hant-TW">中文</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var MAIL = 'how@voxmosa.com';   /* 聯絡信箱：只需改這一行 */
+  var $ = function(s, r){ return (r || document).querySelector(s); };
+  var $$ = function(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var root = document.documentElement;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var first = root.classList.contains('first');
+  var EN = /^en/.test(root.lang);
+  $$('[data-mail]').forEach(function(a){ a.href = 'mailto:' + MAIL; a.textContent = MAIL; });
+
+  /* ── 直排標題拆字（只做一次，之後每次切換由 CSS 重播） ── */
+  $$('.couplet').forEach(function(t){
+    var n = 0;
+    (function wrap(node){
+      Array.prototype.slice.call(node.childNodes).forEach(function(c){
+        if (c.nodeType === 3){
+          var f = document.createDocumentFragment();
+          (EN ? c.nodeValue.split(/(\s+)/) : Array.from(c.nodeValue)).forEach(function(ch){
+            if (!ch) return;
+            if (!ch.trim()){ if (EN) f.appendChild(document.createTextNode(ch)); return; }
+            var s = document.createElement('span'); s.className = 'hc'; s.style.setProperty('--i', n++); s.textContent = ch; f.appendChild(s);
+          });
+          node.replaceChild(f, c);
+        } else if (c.nodeType === 1 && !c.classList.contains('seal')){
+          if (c.classList.contains('tcy')){
+            var s = document.createElement('span'); s.className = 'hc'; s.style.setProperty('--i', n++);
+            node.replaceChild(s, c); s.appendChild(c);
+          } else wrap(c);
+        }
+      });
+    })(t);
+    t.style.setProperty('--n', n);
+  });
+
+  /* ── 逐字稿打字 ── */
+  var typer = (function(){
+    var lines = $$('#lines .ln'), chars = [], timer, tm = $('#tm');
+    lines.forEach(function(ln, li){
+      var tx = $('.tx', ln), w = document.createTreeWalker(tx, NodeFilter.SHOW_TEXT), nodes = [];
+      while (w.nextNode()) nodes.push(w.currentNode);
+      nodes.forEach(function(n){
+        var wrap = n.parentElement !== tx ? n.parentElement : null, f = document.createDocumentFragment();
+        Array.from(n.textContent).forEach(function(c){
+          var s = document.createElement('span'); s.className = 'ch' + (wrap ? ' ' + wrap.className : ''); s.textContent = c;
+          f.appendChild(s); chars.push({ s: s, li: li });
+        });
+        (wrap || n).replaceWith(f);
+      });
+    });
+    function spk(li, on){ $('.spk', lines[li]).style.opacity = on ? 1 : .22; var g = $('.gl', lines[li]); if (g) g.style.opacity = on ? 1 : 0; }
+    function reset(){ clearTimeout(timer); chars.forEach(function(c){ c.s.classList.remove('on', 'cur'); }); lines.forEach(function(_, li){ spk(li, false); }); }
+    function play(delay){
+      reset();
+      if (reduce){ chars.forEach(function(c){ c.s.classList.add('on'); }); lines.forEach(function(_, li){ spk(li, true); }); return; }
+      var i = 0;
+      timer = setTimeout(function step(){
+        if (i > 0) chars[i - 1].s.classList.remove('cur');
+        if (i >= chars.length) return;
+        var c = chars[i], next = chars[i + 1];
+        c.s.classList.add('on', 'cur'); spk(c.li, true); i++;
+        tm.textContent = '0:' + ('0' + Math.round(17 * i / chars.length)).slice(-2);
+        timer = setTimeout(step, next && next.li !== c.li ? 480 : (/[，。？]/.test(c.s.textContent) ? 180 : 42));
+      }, delay || 0);
+    }
+    $('#replay').addEventListener('click', function(){ play(0); });
+    return { play: play, stop: function(){ clearTimeout(timer); } };
+  })();
+
+  /* ── 山稜聲波（單一畫布） ── */
+  (function(){
+    $$('canvas.ridge').forEach(function(cv){
+      var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, n = 0, base = [], peak = 0, on = false, raf = 0, t0 = 0, px = -1e5, pxs = -1e5, gut = 0;
+      function g(x, c, w){ return Math.exp(-Math.pow((x - c) / w, 2)); }
+      function size(){
+        var r = cv.getBoundingClientRect(); if (!r.width) return;
+        dpr = Math.min(2, window.devicePixelRatio || 1); W = r.width; H = r.height;
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+        gut = Math.max(20, Math.min(60, W * .042));
+        n = Math.max(40, Math.floor((W - gut * 2) / (W < 700 ? 7 : 10))); base = []; peak = 0;
+        for (var i = 0; i < n; i++){
+          var x = i / (n - 1), env = .15 + .22 * g(x, .1, .06) + .5 * g(x, .34, .13) + .86 * g(x, .6, .1) + .38 * g(x, .82, .07);
+          base[i] = Math.min(1, env * (.6 + .4 * Math.abs((Math.sin(i * 12.9898) * 43758.5453) % 1)));
+          if (base[i] > base[peak]) peak = i;
+        }
+      }
+      function draw(now){
+        if (!on) return;
+        if (!t0) t0 = now + (first ? 1100 : 100);
+        var t = (now - t0) / 1000, step = (W - gut * 2) / n, bw = Math.max(2, step * .56);
+        pxs += (px - pxs) * .14;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < n; i++){
+          var grow = Math.min(1, Math.max(0, (t - i * .006) / .8)); grow = 1 - Math.pow(1 - grow, 3);
+          var x = gut + i * step, s = .8 + .13 * Math.sin(i * .33 - t * 2.1) + .07 * Math.sin(i * .92 + t * 3.4), d = (x - pxs) / 70;
+          s += .45 * Math.exp(-d * d);
+          var h = Math.min(H, base[i] * H * .8 * s * grow);
+          ctx.fillStyle = i === peak ? '#ED9A4A' : '#141413';
+          ctx.fillRect(x, H - h, bw, h);
+        }
+        if (reduce && t > 1) return;
+        raf = requestAnimationFrame(draw);
+      }
+      new IntersectionObserver(function(es){
+        var was = on; on = es[0].isIntersecting;
+        if (on && !was){ size(); t0 = 0; raf = requestAnimationFrame(draw); }
+      }).observe(cv);
+      window.addEventListener('resize', function(){ if (on) size(); });
+      window.addEventListener('pointermove', function(e){ if (on) px = e.clientX - cv.getBoundingClientRect().left; }, { passive: true });
+    });
+  })();
+
+  /* ── 捲動進場與數字跳動 ── */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .08, rootMargin: '0px 0px -6% 0px' });
+  $$('.rv').forEach(function(e){ io.observe(e); });
+  var cio = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (!e.isIntersecting) return; cio.unobserve(e.target);
+      var c = e.target._c, s = performance.now();
+      (function tick(now){
+        var p = Math.min(1, (now - s) / 1100); c.n.nodeValue = String(Math.round(c.end * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) requestAnimationFrame(tick);
+      })(s);
+    });
+  }, { threshold: .6 });
+  if (!reduce) $$('.nums strong,.pstats b,.sc-num').forEach(function(el){
+    var n = el.firstChild; if (!n || n.nodeType !== 3 || !/^\d+$/.test(n.nodeValue.trim())) return;
+    var end = +n.nodeValue; if (end < 5) return;
+    el._c = { n: n, end: end }; cio.observe(el);
+  });
+
+  /* ── 畫面切換（支援獨立多頁 SEO + History API 無縫轉場 + Hash 相容） ── */
+  var routes = ['home', 'talk', 'minutes', 'score', 'onprem', 'lang', 'research', 'poc'];
+  var fileMap = {
+    'home': 'index.html',
+    'talk': 'mosatalk.html',
+    'minutes': 'mosaminutes.html',
+    'score': 'mosascore.html',
+    'onprem': 'on-premise.html',
+    'lang': 'languages.html',
+    'research': 'research.html',
+    'poc': 'index.html#poc'
+  };
+  var tabs = $$('#tabs a'), ind = $('#ind'), curR = null;
+  function detectRoute(){
+    var h = location.hash.replace(/^#\/?/, '');
+    if (h && routes.indexOf(h) >= 0) return h;
+    var p = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    for (var k in fileMap){ if (fileMap[k] === p) return k; }
+    var pre = $('.view.on');
+    if (pre && pre.id) return pre.id.replace(/^v-/, '');
+    return 'home';
+  }
+  function moveInd(){
+    var a = $('#tabs a[aria-current]');
+    if (!a){ ind.style.transform = 'translateX(' + (ind._x || 0) + 'px) scaleX(0)'; return; }
+    ind._x = a.offsetLeft; ind.style.transform = 'translateX(' + a.offsetLeft + 'px) scaleX(' + (a.offsetWidth / 100) + ')';
+    if (a.scrollIntoView && $('#tabs').scrollWidth > $('#tabs').clientWidth) a.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function measure(v){
+    $$('.bd-flow', v).forEach(function(f){ f.style.setProperty('--w', f.offsetWidth + 'px'); });
+    $$('.bd-wall', v).forEach(function(w){ w.style.setProperty('--tw', (w.offsetWidth / 2 - 12) + 'px'); });
+  }
+  function show(r, pushUrl){
+    if (!r || routes.indexOf(r) < 0) r = 'home';
+    if (r === curR) return;
+    var next = $('#v-' + r), prev = $('.view.on');
+    root.style.setProperty('--dir', curR === null ? 0 : (routes.indexOf(r) > routes.indexOf(curR) ? 1 : -1));
+    if (curR !== null) root.style.setProperty('--t0', '.05s');
+    if (prev && prev !== next) prev.classList.remove('on');
+    next.classList.add('on');
+    if (curR !== null) window.scrollTo(0, 0);
+    document.title = next.getAttribute('data-title');
+    tabs.forEach(function(a){ if (a.getAttribute('data-route') === r) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (pushUrl && window.history && history.pushState && location.protocol !== 'file:'){
+      try { history.pushState({ route: r }, next.getAttribute('data-title'), fileMap[r] || 'index.html'); } catch(err){}
+    }
+    moveInd(); measure(next);
+    var sw = $('#langsw'); if (sw) sw.setAttribute('href', sw.getAttribute('data-base') + (fileMap[r] || 'index.html'));
+    if (r === 'home') typer.play(curR === null && first ? 2000 : 600); else typer.stop();
+    curR = r;
+  }
+  window.addEventListener('popstate', function(e){
+    show((e.state && e.state.route) || detectRoute(), false);
+  });
+  window.addEventListener('hashchange', function(){
+    var h = location.hash.replace(/^#\/?/, '');
+    if (h && routes.indexOf(h) >= 0) show(h, false);
+  });
+  document.addEventListener('click', function(e){
+    var sc = e.target.closest && e.target.closest('a[data-scroll]');
+    if (sc){
+      e.preventDefault(); var t = $(sc.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      return;
+    }
+    var rt = e.target.closest && e.target.closest('a[data-route]');
+    if (rt && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey){
+      var targetR = rt.getAttribute('data-route');
+      if (targetR && routes.indexOf(targetR) >= 0){
+        e.preventDefault();
+        if (location.protocol === 'file:' && targetR !== 'poc'){
+          show(targetR, false);
+        } else {
+          show(targetR, true);
+        }
+      }
+    }
+  });
+  window.addEventListener('resize', function(){ moveInd(); var v = $('.view.on'); if (v) measure(v); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(moveInd);
+  show(detectRoute(), false);
+
+  /* ── 研究發表 ── */
+  (function(){
+    var CATS = EN ? [['all', 'All'], ['tw', 'Taiwan languages'], ['rb', 'Robust ASR & enhancement'], ['sp', 'Speaker & language ID'], ['qa', 'Quality & assessment']]
+                  : [['all', '全部'], ['tw', '臺灣多語言'], ['rb', '強健辨識與增強'], ['sp', '語者與語言辨識'], ['qa', '語音品質與評測']];
+    var P = [
+      ['tw', 2026, 'LREC', 'TG-ASR: Translation-guided learning with parallel gated cross attention for low-resource automatic speech recognition', '2602.22039'],
+      ['tw', 2026, 'LREC', 'Efficient dialect-aware and conditioning for low-resource Taiwanese Hakka speech processing', '2602.22522'],
+      ['tw', 2025, 'O-COCOSDA', 'Exploring the impact of data quantity on ASR in extremely low-resource languages', '2409.08872'],
+      ['tw', 2024, 'O-COCOSDA', 'VoxHakka: A dialectally diverse multi-speaker text-to-speech system for Taiwanese Hakka', '2409.01548'],
+      ['tw', 2021, 'Interspeech', 'AlloST: Low-resource speech translation without source transcription', '2105.00171'],
+      ['tw', 2020, 'O-COCOSDA', 'Using Taigi dramas with Mandarin Chinese subtitles to improve Taigi speech recognition', ''],
+      ['rb', 2026, 'TASLP', 'Universal robust speech adaptation for cross-domain speech recognition and enhancement', '2602.04307'],
+      ['rb', 2026, 'ICASSP', 'SCENE: Semantic-aware codec enhancement with neural embeddings', '2601.22189'],
+      ['rb', 2025, 'IEEE ASRU', 'Revealing the role of audio channels in ASR performance degradation', '2508.08967'],
+      ['rb', 2025, 'ICASSP', 'Channel-aware domain-adaptive generative adversarial network for robust speech recognition', '2409.12386'],
+      ['rb', 2024, 'IEEE SLT', 'Effective noise-aware data simulation for domain-adaptive speech enhancement leveraging dynamic stochastic perturbation', '2409.01545'],
+      ['rb', 2023, 'Interspeech', 'A training and inference strategy using noisy and enhanced speech as target for speech enhancement without clean speech', '2210.15368'],
+      ['rb', 2022, 'Interspeech', 'Chain-based discriminative autoencoders for speech recognition', '2203.13687'],
+      ['rb', 2022, 'ISCSLP', 'Speech-enhanced and noise-aware acoustic modeling for robust speech recognition', '2203.13696'],
+      ['rb', 2022, 'EUSIPCO', 'Filter-based discriminative autoencoders for children speech recognition', '2204.00164'],
+      ['rb', 2021, 'CSRC', 'The Academia Sinica system for the SLT 2021 children speech recognition challenge', ''],
+      ['rb', 2020, 'CHiME', 'The Academia Sinica systems of speech recognition and speaker diarization for the CHiME-6 challenge', ''],
+      ['rb', 2019, 'Interspeech', 'Exploring the encoder layers of discriminative autoencoders for LVCSR', ''],
+      ['rb', 2017, 'Interspeech', 'Discriminative autoencoders for acoustic modeling', ''],
+      ['rb', 2009, 'IEEE ASRU', 'Generalized likelihood ratio discriminant analysis', ''],
+      ['rb', 2007, 'IEEE ASRU', 'Training data selection for improving discriminative training of acoustic models', ''],
+      ['sp', 2026, 'Interspeech', 'Personalized keyword spotting for user-defined keywords leveraging text-independent speaker verification', '2606.20106'],
+      ['sp', 2023, 'IEEE SPL', 'Multi-target filter and detector for unknown-number speaker diarization', '2203.16007'],
+      ['sp', 2022, 'Interspeech', 'Disentangling the impacts of language and channel variability on speech separation networks', '2203.16040'],
+      ['sp', 2021, 'Interspeech', 'Dual-path filter network: Speaker-aware modeling for speech separation', '2106.07579'],
+      ['sp', 2021, 'APSIPA ASC', 'Generation of speaker representations using heterogeneous training batch assembly', '2203.16646'],
+      ['sp', 2020, 'TASLP', 'Subspace-based representation and learning for phonotactic spoken language recognition', '2203.15576'],
+      ['sp', 2017, 'IJCLCLP', 'A replay spoofing detection system based on discriminative autoencoders', ''],
+      ['sp', 2017, 'ICASSP', 'Discriminative autoencoders for speaker verification', ''],
+      ['sp', 2017, 'ROCLING', 'Speaker diarization based on i-vector PLDA scoring and using GMM-HMM forced alignment', ''],
+      ['sp', 2014, 'Interspeech', 'Clustering-based i-vector formulation for speaker recognition', ''],
+      ['sp', 2014, 'ICASSP', 'Speaker verification using kernel-based binary classifiers with binary operation derived features', ''],
+      ['sp', 2013, 'ICASSP', 'Subspace-based phonotactic language recognition using multivariate dynamic linear models', ''],
+      ['sp', 2012, 'Interspeech', 'Subspace-based feature representation and learning for language recognition', ''],
+      ['qa', 2026, 'IEEE ICME', 'Robust generative audio quality assessment: Disentangling quality from spurious correlations', '2603.16201'],
+      ['qa', 2025, 'IEEE ASRU', 'QAMRO: Quality-aware adaptive margin ranking optimization for human-aligned assessment of audio generation systems', '2508.08957'],
+      ['qa', 2025, 'APSIPA ASC', 'DRASP: A dual-resolution attentive statistics pooling framework for automatic MOS prediction', '2508.21407'],
+      ['qa', 2019, 'O-COCOSDA', 'Mandarin mispronunciation detection and diagnosis feedback using articulatory attributes based multi-task learning', ''],
+      ['qa', 2019, 'APSIPA ASC', 'Multi-task learning for acoustic modeling using articulatory attributes', ''],
+      ['qa', 2016, 'Interspeech', 'Minimization of regression and ranking losses with shallow neural networks on automatic sincerity evaluation', ''],
+      ['qa', 2014, 'Interspeech', 'Ensemble of machine learning algorithms for cognitive and physical speaker load detection', '']
+    ];
+    var box = $('#filters'), list = $('#publist'), cur = 'all';
+    function esc(s){ return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    function draw(){
+      var rows = P.filter(function(p){ return cur === 'all' || p[0] === cur; });
+      if (cur === 'all') rows = rows.slice().sort(function(a, b){ return b[1] - a[1]; });
+      list.innerHTML = rows.map(function(p, i){
+        return '<li style="--d:' + Math.min(i, 16) + '"><span class="y">' + p[1] + '</span><span class="v">' + p[2] + '</span><span class="t">' + esc(p[3]) + '</span>' +
+          (p[4] ? '<a href="https://arxiv.org/abs/' + p[4] + '" target="_blank" rel="noopener">arXiv ↗</a>' : '<span></span>') + '</li>';
+      }).join('');
+      $$('button', box).forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.c === cur ? 'true' : 'false'); });
+    }
+    box.innerHTML = CATS.map(function(c){
+      var n = c[0] === 'all' ? P.length : P.filter(function(p){ return p[0] === c[0]; }).length;
+      return '<button type="button" data-c="' + c[0] + '">' + c[1] + '<b>' + n + '</b></button>';
+    }).join('');
+    box.addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b || b.dataset.c === cur) return; cur = b.dataset.c; draw(); });
+    draw();
+  })();
+
+  /* ── PoC 表單 ──
+     FORM_ENDPOINT 填入表單服務網址（例：Formspree 的 'https://formspree.io/f/xxxxxxxx'）後，按下送出就會直接寄出；
+     留空時維持舊做法：開啟訪客的郵件程式。 */
+  var FORM_ENDPOINT = 'https://formspree.io/f/moedvvzw';
+  (function(){
+    var form = $('#pocform'); if (!form) return;
+    var note = $('#formnote'), btn = $('button[type=submit]', form);
+    var T = EN
+      ? { sending: 'Sending…', ok: 'Thanks — we’ve received your request.', okSub: 'We’ll reply to {email} within two business days.', fail: 'Something went wrong. Please email us directly at ', mail: 'Your mail app should now be open. If nothing appeared, email us at ', end: '.' }
+      : { sending: '送出中…', ok: '已收到您的申請。', okSub: '我們會在兩個工作日內回覆到 {email}。', fail: '送出失敗，請直接來信 ', mail: '已開啟郵件程式。若沒有跳出視窗，請直接來信 ', end: '。' };
+    function noteWithMail(prefix){
+      note.textContent = prefix;
+      var a = document.createElement('a'); a.href = 'mailto:' + MAIL; a.textContent = MAIL;
+      note.appendChild(a); note.appendChild(document.createTextNode(T.end));
+    }
+    function mailto(d){
+      var body = EN
+        ? 'Organization: ' + d.get('org') + '\nContact: ' + d.get('name') + '\nEmail: ' + d.get('email') + '\nRequest type: ' + d.get('type') + '\n\nProblem to solve:\n' + (d.get('msg') || '') + '\n'
+        : '單位名稱：' + d.get('org') + '\n聯絡人：' + d.get('name') + '\nEmail：' + d.get('email') + '\n需求類型：' + d.get('type') + '\n\n想解決的問題：\n' + (d.get('msg') || '') + '\n';
+      location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent('[' + d.get('type') + '] ' + d.get('org')) + '&body=' + encodeURIComponent(body);
+      noteWithMail(T.mail);
+    }
+    function done(email){
+      var box = document.createElement('div'); box.className = 'form-done'; box.setAttribute('role', 'status'); box.tabIndex = -1;
+      var b = document.createElement('b'); b.textContent = T.ok;
+      var p = document.createElement('p'); p.textContent = T.okSub.replace('{email}', email);
+      box.appendChild(b); box.appendChild(p); form.appendChild(box); form.classList.add('sent'); box.focus();
+    }
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (!form.checkValidity()){ form.reportValidity(); return; }
+      var d = new FormData(form);
+      if (d.get('_gotcha')) return;
+      if (!FORM_ENDPOINT || !window.fetch){ mailto(d); return; }
+      var label = btn.textContent; btn.disabled = true; btn.textContent = T.sending; note.textContent = '';
+      d.append('_subject', '[Voxmosa ' + (EN ? 'EN' : 'ZH') + '] ' + d.get('type') + ' — ' + d.get('org'));
+      d.append('page', location.href);
+      fetch(FORM_ENDPOINT, { method: 'POST', body: d, headers: { Accept: 'application/json' } })
+        .then(function(r){ if (!r.ok) throw new Error(r.status); done(d.get('email')); })
+        .catch(function(){ btn.disabled = false; btn.textContent = label; noteWithMail(T.fail); });
+    });
+  })();
+})();
+</script>
+</body>
+</html>

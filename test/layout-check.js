@@ -31,8 +31,12 @@ const BASELINE = path.join(__dirname, "baseline");
 // "thousands of elements moved" -- a number that means nothing.
 const ENV_FILE = path.join(__dirname, "baseline", ".env.txt");
 const CURRENT = path.join(__dirname, "current");
-const PAGES = ["index.html", "mosatalk.html", "mosaminutes.html", "mosascore.html",
-               "on-premise.html", "languages.html"];
+// 頁面自動找：根目錄與 en/ 底下所有 .html（404.html 除外）。
+// 以前這份清單是寫死的，新增頁面時漏加不會有任何東西失敗 —— 頁面只是安靜地沒有測試覆蓋。
+const PAGES = [
+  ...fs.readdirSync(ROOT).filter((f) => f.endsWith(".html") && f !== "404.html").sort(),
+  ...fs.readdirSync(path.join(ROOT, "en")).filter((f) => f.endsWith(".html")).sort().map((f) => "en/" + f),
+];
 
 // 手機 / 平板 / 桌機 —— 對齊頁面 media query 的斷點（480/900/1080）
 const WIDTHS = [375, 768, 1440];
@@ -143,15 +147,26 @@ const SNAPSHOT = `(function () {
 
 // 導覽列「存在」不等於「看得見」：連結可能被容器裁掉或推出畫面，
 // link-check 只讀原始碼看不到這件事。這裡用實際的 bounding rect 判斷。
+//
+// 手機寬度時導覽列是一排可以左右滑動的分頁（.tabs，overflow-x:auto），後面幾項本來就在
+// 畫面外，滑過去就看得到。所以「看得見」的定義是：在畫面內，或位於一個本身在畫面內、
+// 可以水平捲動的容器裡（捲得到就算）。只檢查頁首導覽列，頁尾與內文的同名連結不在範圍內。
 const NAV_PROBE = `(function () {
-  var want = /^(MosaTalk|MosaMinutes|MosaScore|技術實力|為什麼地端|團隊)$/;
+  var nav = document.querySelector("header nav");
+  if (!nav) return "找不到頁首導覽列";
   var bad = [];
-  [].slice.call(document.querySelectorAll("a")).forEach(function (a) {
+  [].slice.call(nav.querySelectorAll("a")).forEach(function (a) {
     var t = (a.textContent || "").trim();
-    if (!want.test(t)) return;
+    if (!t) return;
     var r = a.getBoundingClientRect();
+    var inView = function (x) { return x.left >= -0.5 && x.right <= window.innerWidth + 0.5; };
+    var scroller = null;
+    for (var el = a.parentElement; el; el = el.parentElement) {
+      var ox = getComputedStyle(el).overflowX;
+      if ((ox === "auto" || ox === "scroll") && el.scrollWidth > el.clientWidth) { scroller = el; break; }
+    }
     var onScreen = r.width > 0 && r.height > 0 &&
-                   r.left >= -0.5 && r.right <= window.innerWidth + 0.5;
+                   (inView(r) || (scroller && inView(scroller.getBoundingClientRect())));
     if (!onScreen) bad.push(t + "(" + Math.round(r.left) + "~" + Math.round(r.right) +
                             " of " + window.innerWidth + ")");
   });
@@ -269,7 +284,7 @@ function compare(name, before, after) {
   let port = 9500, failures = 0, checked = 0;
   for (const page of PAGES) {
     for (const width of WIDTHS) {
-      const key = `${page.replace(".html", "")}-${width}`;
+      const key = `${page.replace(".html", "").replace("/", "-")}-${width}`;
       const txt = path.join(BASELINE, `${key}.txt`);
       const png = path.join(BASELINE, `${key}.png`);  // 只有 --save 會寫這個
       const { layout, nav, png: shot } = await capture(chromePath, base, page, width, port++);

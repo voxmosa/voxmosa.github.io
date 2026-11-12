@@ -1,494 +1,1500 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
+<!doctype html>
+<html lang="zh-Hant-TW">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MosaMinutes | 地端 AI 會議記錄與逐字稿轉錄 - Voxmosa</title>
-  <meta name="description" content="地端 AI 會議記錄與會議逐字稿轉錄。國語、台語、客語、原住民族語、英語一律轉為繁體中文，自動分辨語者並產出摘要與待辦，錄音與逐字稿全程不離開貴單位機房。">
-  <link rel="canonical" href="https://voxmosa.com/mosaminutes.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Voxmosa">
-  <meta property="og:locale" content="zh_TW">
-  <meta property="og:title" content="MosaMinutes | 地端 AI 會議記錄與逐字稿轉錄">
-  <meta property="og:description" content="地端 AI 會議記錄與會議逐字稿轉錄。國語、台語、客語、原住民族語、英語一律轉為繁體中文，自動分辨語者並產出摘要與待辦，錄音與逐字稿全程不離開貴單位機房。">
-  <meta property="og:url" content="https://voxmosa.com/mosaminutes.html">
-  <meta property="og:image" content="https://voxmosa.com/og.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MosaMinutes | 地端 AI 會議記錄與逐字稿轉錄">
-  <meta name="twitter:description" content="地端 AI 會議記錄與會議逐字稿轉錄。國語、台語、客語、原住民族語、英語一律轉為繁體中文，自動分辨語者並產出摘要與待辦，錄音與逐字稿全程不離開貴單位機房。">
-  <meta name="twitter:image" content="https://voxmosa.com/og.png">
-  <meta name="theme-color" content="#141413">
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="./favicon.png" type="image/png" sizes="144x144">
-  <link rel="preload" href="./vendor/fonts/noto-sans-tc-200-500-var.woff2" as="font" type="font/woff2" crossorigin>
-<link href="./vendor/fonts/fonts.css" rel="stylesheet" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MosaMinutes | 地端 AI 會議記錄與逐字稿轉錄平台 - Voxmosa</title>
+<meta name="description" content="錄音或上傳檔案自動產出繁體中文逐字稿、語者分離、會議摘要與待辦清單。支援國語、台語、客語、原住民族語與英語，容器化單機部署，資料完全不出貴單位機房。">
+<link rel="canonical" href="https://voxmosa.com/mosaminutes.html">
+<link rel="alternate" hreflang="zh-Hant-TW" href="https://voxmosa.com/mosaminutes.html">
+<link rel="alternate" hreflang="en" href="https://voxmosa.com/en/mosaminutes.html">
+<link rel="alternate" hreflang="x-default" href="https://voxmosa.com/mosaminutes.html">
+<meta property="og:title" content="MosaMinutes | 地端 AI 會議記錄與逐字稿轉錄平台 - Voxmosa">
+<meta property="og:description" content="五種語言全轉繁體中文，聲紋註冊一次自動認人，四條獨立校對通道互不覆蓋，改完即可直接匯出 Word 與字幕。">
+<meta property="og:url" content="https://voxmosa.com/mosaminutes.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="Voxmosa">
+<meta property="og:image" content="https://voxmosa.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Voxmosa：聽得懂臺灣的語音 AI，跑在你自己的機房裡">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://voxmosa.com/og.png">
+<meta name="twitter:image:alt" content="Voxmosa：聽得懂臺灣的語音 AI，跑在你自己的機房裡">
+<meta name="theme-color" content="#f4f3f0">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="icon" href="./favicon.png" type="image/png" sizes="144x144">
+<link rel="preload" href="./vendor/fonts/noto-serif-tc-700-900-var.woff2" as="font" type="font/woff2" crossorigin>
+<link href="./vendor/fonts/fonts.css" rel="stylesheet">
+<script>(function(d){d.classList.add('js');try{if(!sessionStorage.getItem('vx')){d.classList.add('first');d.style.setProperty('--t0','1.2s');sessionStorage.setItem('vx','1')}}catch(e){}})(document.documentElement)</script>
 <style>
-body { margin:0; background:#141413; }
-h1,h2,h3,h4,h5,h6{margin:0;font-size:inherit;font-weight:inherit}
-p{margin:0}
+:root{
+  --paper:#f4f3f0; --paper2:#e9e7e2; --card:#fbfaf8;
+  --ink:#141413; --deep:#0F0F0E; --raise:#1c1b19;
+  --t2:#54524b; --mute:#6b6960; --line:#dedbd4;
+  --sig:#ED9A4A; --acc:#c47a20;
+  --serif:"Noto Serif TC","Songti TC","Noto Serif CJK TC","Source Han Serif TC",serif;
+  --sans:"Space Grotesk","Noto Sans TC","PingFang TC","Microsoft JhengHei","Noto Sans CJK TC",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --gut:clamp(20px,4.2vw,60px); --e:cubic-bezier(.2,.75,.2,1); --dir:1; --shift:26px; --t0:.05s;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);font-size:16px;line-height:1.75;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;line-break:strict;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+::selection{background:var(--sig);color:var(--ink)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gut)}
+.band{padding:clamp(56px,7.5vw,108px) 0}
+.tone{background:var(--paper2)}
+.night,.deep{background:var(--ink);color:var(--paper);--t2:#b5b2aa;--mute:#9a978e;--line:#2a2926;--acc:#ED9A4A}
+.deep{background:var(--deep)}
+.kicker{display:flex;align-items:center;gap:14px;font:500 11.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:24px}
+.kicker b{color:var(--acc);font-weight:500}
+.kicker::after{content:"";flex:1;height:1px;background:var(--line)}
+h2{font:900 clamp(28px,4.4vw,58px)/1.26 var(--serif);letter-spacing:.01em;text-wrap:balance}
+h2 em{font-style:normal;color:var(--acc)}
+.lede{font-size:clamp(15.5px,1.25vw,18px);color:var(--t2);max-width:38em;margin-top:20px}
+.fine{font-size:13px;color:var(--mute);margin-top:18px;line-height:1.7}
+.link{font-weight:700;border-bottom:1.5px solid var(--sig);padding-bottom:1px}
+.link::after{content:"→";display:inline-block;margin-left:.35em;font-family:var(--mono);transition:transform .25s var(--e)}
+.link:hover::after{transform:translateX(5px)}
+.link.ext::after{content:"↗"}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border:1.5px solid var(--ink);border-radius:6px;font-weight:700;font-size:15px;line-height:1.3;cursor:pointer;white-space:nowrap;transition:background-color .2s,color .2s,border-color .2s,transform .2s var(--e)}
+.btn:active{transform:scale(.97)}
+.btn.solid{background:var(--sig);border-color:var(--sig);color:var(--ink)}
+.btn.solid:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.night .btn.solid:hover,.deep .btn.solid:hover{background:var(--paper);border-color:var(--paper);color:var(--ink)}
+.night .btn.ghost,.deep .btn.ghost{border-color:var(--paper);color:var(--paper)}
+.night .btn.ghost:hover{background:var(--paper);color:var(--ink)}
+.badge{display:inline-block;font:500 11px/1 var(--mono);letter-spacing:.08em;padding:6px 8px;border:1.5px solid var(--sig);color:var(--acc);border-radius:3px;vertical-align:middle;white-space:nowrap}
 
-a { color:#f4f3f0; text-decoration:none; } a:hover { color:#ED9A4A; }
+/* 開場 */
+.curtain{position:fixed;inset:0;z-index:200;background:var(--deep);display:none;place-items:center;pointer-events:none}
+html.first .curtain{display:grid;animation:curtain .7s cubic-bezier(.76,0,.24,1) .85s forwards}
+.curtain svg{width:clamp(92px,11vw,140px);height:auto}
+.cv{stroke-dasharray:1;stroke-dashoffset:1;animation:cdraw .5s cubic-bezier(.6,0,.2,1) .05s forwards}
+.ca,.cb{opacity:0;animation:cfade .25s ease .42s forwards;--o:.66}
+.cb{animation-delay:.56s;--o:.32}
+@keyframes curtain{to{transform:translateY(-101%)}}
+@keyframes cdraw{to{stroke-dashoffset:0}}
+@keyframes cfade{to{opacity:var(--o)}}
 
-@media (max-width:1080px){.r-gtc-repeat-4-1fr{grid-template-columns:1fr 1fr!important}.r-gap-72px{gap:44px!important}
-}
-@media (max-width:900px){.r-mw-1280px{padding-left:24px!important;padding-right:24px!important}.r-gtc-1fr-1fr-1fr,
-  .r-gtc-1fr-1fr,
-  .r-gtc-repeat-3-1fr,
-  .r-gtc-repeat-4-1fr,
-  .r-gtc-1-35fr-1fr,
-  .r-gtc-1-1fr-1fr,
-  .r-gtc-1-05fr-1fr,
-  .r-gtc-1fr-1-25fr,
-  .r-gtc-1fr-1-35fr,
-  .r-gtc-auto-1fr,
-  .r-gtc-180px-1fr{grid-template-columns:1fr!important}.r-brr-1px-solid-rgb-234-231-224{border-right:none!important;border-bottom:1px solid #eae7e0!important}.r-brl-1px-solid-rgb-38-37-31{border-left:none!important;padding-left:0!important;border-top:1px solid #26251f!important;padding-top:24px!important}.r-gap-64px{gap:40px!important}.r-fs-52px{font-size:36px!important}.r-fs-46px{font-size:34px!important}.r-fs-42px{font-size:31px!important}.r-fs-40px{font-size:30px!important}.r-fs-34px{font-size:26px!important}.r-fs-28px{font-size:24px!important}.r-fs-27px{font-size:23px!important}.r-fs-26px{font-size:22px!important}.r-fs-25px{font-size:21px!important}.r-pad-17px-24px{padding:14px 14px!important}.r-pad-18px-20px{padding:13px 13px!important}.r-pad-44px{padding:30px!important}/* 只調垂直，水平交給 .r-mw-1280px 的容器慣例決定；
-     用 shorthand 會連水平一起蓋掉，那不是本意。 */
-  .r-pad-44px-56px{padding-top:30px!important;padding-bottom:30px!important}.r-pad-40px{padding:28px!important}.r-pad-38px-40px{padding:26px 24px!important}.r-pad-34px-36px{padding:26px 24px!important}.r-gap-30px,
-  .r-gap-28px{gap:14px!important;flex-wrap:wrap!important}.r-gap-40px{gap:20px!important;flex-wrap:wrap!important}
-}
-@media (max-width:620px){.r-mw-1280px{padding-left:18px!important;padding-right:18px!important}.r-gtc-1-4fr-1fr-1fr,
-  .r-gtc-1-2fr-1fr-1fr,
-  .r-gtc-0-7fr-1fr-1fr{grid-template-columns:1fr!important}.r-gtc-56px-1fr,
-  .r-gtc-76px-1fr,
-  .r-gtc-58px-108px-1fr{grid-template-columns:1fr!important;gap:6px!important}.r-fs-52px{font-size:30px!important}.r-fs-42px{font-size:26px!important}.r-fs-40px{font-size:26px!important}.r-fs-34px{font-size:23px!important}.r-pad-112px-56px,
-  .r-pad-104px-56px-112px,
-  .r-pad-104px-56px-116px,
-  .r-pad-104px-56px,
-  .r-pad-96px-56px-100px,
-  .r-pad-96px-56px-88px{padding-top:64px!important;padding-bottom:64px!important}
+/* 導覽 */
+.nav{position:sticky;top:0;z-index:60;background:var(--paper);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1440px;margin:0 auto;padding:0 var(--gut);height:62px;display:flex;align-items:center;gap:clamp(16px,2.4vw,36px)}
+.logo{display:flex;align-items:center;flex:none}
+.logo svg{display:block;height:24px;width:auto}
+.tabs{position:relative;display:flex;gap:2px;margin-left:clamp(8px,2.4vw,40px);height:100%}
+.tabs a{position:relative;display:flex;align-items:center;padding:0 10px;font-size:14px;font-weight:500;color:var(--t2);white-space:nowrap;transition:color .2s}
+.tabs a:hover,.tabs a[aria-current]{color:var(--ink)}
+.ind{position:absolute;left:0;bottom:-1px;height:3px;width:100px;background:var(--sig);transform-origin:left;transform:translateX(0) scaleX(0);transition:transform .42s var(--e);pointer-events:none}
+.nav .btn{padding:9px 12px;font-size:14px;flex:none;width:136px}
+@media(max-width:1220px){
+  .nav-in{height:auto;flex-wrap:wrap;padding-top:12px;gap:0 12px}
+  .lang{margin-left:auto}
+  .tabs{order:3;flex-basis:100%;margin:8px calc(var(--gut)*-1) 0;padding:0 calc(var(--gut) - 10px);height:44px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs a{padding:0 10px}
 }
 
-@media (max-width:900px){.r-display-grid > *{min-width:0!important}
+/* 畫面切換 */
+.view{display:none}
+.view.on{display:block;animation:vin .5s var(--e) both}
+@keyframes vin{from{opacity:0;transform:translateX(calc(var(--dir)*var(--shift)))}to{opacity:1;transform:none}}
+.view.on [data-a]{animation:up .75s var(--e) both;animation-delay:calc(var(--t0) + var(--d,0)*85ms)}
+@keyframes up{from{opacity:0;transform:translateY(var(--shift))}to{opacity:1;transform:none}}
+.rv{opacity:0;transform:translateY(var(--shift));transition:opacity .7s var(--e),transform .7s var(--e);transition-delay:calc(var(--d,0)*80ms)}
+.rv.in{opacity:1;transform:none}
+html:not(.js) .rv{opacity:1;transform:none}
+
+/* 直排標題與印章 */
+.couplet{writing-mode:vertical-rl;font:900 clamp(36px,5.6vh,68px)/1.32 var(--serif);letter-spacing:.045em;white-space:nowrap;justify-self:end}
+.couplet>span{display:block}
+.couplet>span+span{margin-right:.14em}
+.tcy{-webkit-text-combine:horizontal;text-combine-upright:all;letter-spacing:0}
+.dot{-webkit-text-emphasis:filled dot var(--sig);text-emphasis:filled dot var(--sig);-webkit-text-emphasis-position:over right;text-emphasis-position:over right}
+.hc{display:inline-block;line-height:1}
+.view.on .hc{animation:hc .6s var(--e) both;animation-delay:calc(var(--t0) + var(--i)*45ms)}
+@keyframes hc{from{opacity:0;transform:translateY(-.5em)}to{opacity:1;transform:none}}
+.seal{display:inline-grid;grid-template-columns:1fr 1fr;place-items:center;writing-mode:horizontal-tb;font:700 .31em/1 var(--serif);letter-spacing:0;width:3.1em;height:3.1em;padding:.32em;margin-top:1.1em;background:var(--sig);color:var(--ink);border-radius:4px;transform:rotate(-4deg);vertical-align:baseline;outline:1.5px solid rgba(20,20,19,.5);outline-offset:-.24em}
+.view.on .seal{animation:stamp .45s cubic-bezier(.3,1.45,.5,1) both;animation-delay:calc(var(--t0) + var(--n,20)*45ms + .2s)}
+@keyframes stamp{from{opacity:0;transform:rotate(-18deg) scale(2.4)}55%{opacity:1}to{opacity:1;transform:rotate(-4deg) scale(1)}}
+@media(max-width:820px){.couplet{font-size:clamp(32px,9.6vw,42px)}}
+
+/* 首頁主視覺 */
+.hero-in{max-width:1440px;margin:0 auto;padding:clamp(24px,4.6vh,56px) var(--gut) 0;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto 1fr auto;grid-template-areas:"demo title" "intro title" "tags title";column-gap:clamp(28px,6vw,96px);row-gap:clamp(18px,3.2vh,34px);min-height:calc(100svh - 62px - clamp(70px,15vh,150px))}
+.hero-in .couplet{grid-area:title}
+.demo{grid-area:demo;min-width:0}
+.demo-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font:500 11.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);border-top:2px solid var(--ink);padding-top:14px;margin-bottom:clamp(14px,2.6vh,28px)}
+.rec{width:9px;height:9px;border-radius:50%;background:var(--sig);animation:blink 1.4s steps(2) infinite}
+.demo-top em{font-style:normal;margin-left:auto}
+@keyframes blink{50%{opacity:.25}}
+.lines{display:grid;gap:clamp(8px,1.6vh,16px)}
+.ln{display:grid;grid-template-columns:34px 1fr;gap:clamp(10px,1.4vw,20px);align-items:start;font:700 clamp(19px,2.5vw,37px)/1.5 var(--serif)}
+.spk{font:500 11px/1 var(--mono);border:1.5px solid var(--ink);padding:4px 0;text-align:center;border-radius:3px;margin-top:.9em;transition:opacity .3s}
+.spk.b{background:var(--ink);color:var(--paper)}
+.tg,.en{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:.24em}
+.tg{text-decoration-color:var(--sig)}.en{text-decoration-color:#8c8a84}
+.js .ch{opacity:0}.js .ch.on{opacity:1}.ch.cur{box-shadow:3px 0 0 var(--sig)}
+.demo-foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin-top:clamp(12px,2.2vh,22px);font:500 11.5px/1.6 var(--mono);color:var(--mute)}
+.lg{display:inline-flex;align-items:center;gap:7px}
+.lg::before{content:"";width:18px;height:3px;background:var(--c)}
+.demo-foot button{background:none;border:0;border-bottom:1px dashed var(--mute);cursor:pointer;padding:0}
+.demo-foot button:hover{color:var(--acc)}
+.intro{grid-area:intro;align-self:end;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px clamp(24px,4vw,56px);align-items:end;min-width:0}
+.intro p{font-size:clamp(15.5px,1.3vw,18.5px);color:var(--t2);max-width:30em}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.tags{grid-area:tags;display:flex;flex-wrap:wrap;gap:6px 0;font:500 12px/1.6 var(--mono);letter-spacing:.06em;color:var(--t2)}
+.tags li+li::before{content:"／";color:var(--acc);margin:0 12px}
+.ridge{display:block;width:100%;height:clamp(70px,15vh,150px)}
+@media(max-width:820px){
+  .hero-in{grid-template-areas:"intro title" "demo demo" "tags tags";grid-template-rows:auto;column-gap:18px;min-height:0}
+  .intro{grid-template-columns:1fr;align-self:stretch;align-content:space-between}
+  .cta.col{flex-direction:column}.cta.col .btn{width:100%}
+  .tags{font-size:11px}.tags li+li::before{margin:0 7px}
 }
+
+/* 產品卡 */
+.pcards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,24px);margin-top:clamp(32px,4.4vw,56px)}
+.pcard{position:relative;display:flex;flex-direction:column;background:var(--card);border:1.5px solid var(--ink);border-radius:8px;padding:clamp(20px,2.2vw,30px);min-height:clamp(300px,30vw,400px);transition:transform .35s var(--e),background-color .25s}
+.pcard:hover{transform:translateY(-8px)}
+.pcard .no{font:500 12px/1 var(--mono);color:var(--mute);letter-spacing:.1em;display:flex;justify-content:space-between;align-items:center}
+.pcard h3{font:900 clamp(28px,3vw,42px)/1.1 var(--serif);margin:16px 0 6px;letter-spacing:-.01em}
+.pcard .psb{font:500 12px/1.5 var(--mono);letter-spacing:.1em;color:var(--acc)}
+.pcard p{font-size:15px;color:var(--t2);margin-top:14px;max-width:22em}
+.pcard .viz{margin-top:auto;padding-top:22px;height:86px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.pcard .go{flex:none;width:42px;height:42px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font:500 16px/1 var(--mono);transition:background-color .25s,transform .35s var(--e)}
+.pcard:hover .go{background:var(--sig);border-color:var(--sig);transform:translateX(4px)}
+.bars{display:flex;align-items:flex-end;gap:3px;height:56px}
+.bars i{width:4px;background:var(--ink);border-radius:1px;transform-origin:bottom;animation:bar 1.1s ease-in-out infinite alternate}
+.bars i:nth-child(3n){animation-duration:.8s}.bars i:nth-child(4n+1){animation-duration:1.4s;background:var(--sig)}
+@keyframes bar{from{transform:scaleY(.25)}to{transform:scaleY(1)}}
+.tl{display:grid;gap:7px;width:60%}
+.tl i{height:6px;background:var(--ink);border-radius:1px;transform-origin:left;animation:tl 3.4s var(--e) infinite}
+.tl i:nth-child(2){width:78%;animation-delay:.35s}.tl i:nth-child(3){width:52%;animation-delay:.7s;background:var(--sig)}
+@keyframes tl{0%{transform:scaleX(0)}35%,88%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+.spark{width:62%;height:56px;overflow:visible}
+.spark path{fill:none;stroke:var(--sig);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;animation:draw 3.6s var(--e) infinite}
+@keyframes draw{0%{stroke-dashoffset:1}45%,90%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@media(max-width:900px){.pcards{grid-template-columns:1fr}.pcard{min-height:0}}
+
+/* 資料邊界 */
+.bd{display:grid;grid-template-columns:minmax(0,1.75fr) clamp(76px,9vw,132px) minmax(0,1fr);margin-top:clamp(36px,5vw,64px)}
+.bd-room,.bd-out{position:relative;border-radius:6px;padding:clamp(38px,4.4vw,56px) clamp(18px,2.8vw,40px) clamp(24px,3vw,36px)}
+.bd-room{border:2px solid var(--sig)}
+.bd-tab{position:absolute;top:-11px;left:22px;background:var(--ink);padding:0 12px;font:500 12.5px/20px var(--mono);letter-spacing:.12em;color:var(--sig)}
+.bd-flow{position:relative}
+.bd-flow::before{content:"";position:absolute;left:4%;right:4%;top:50%;height:1px;background:var(--line)}
+.bd-pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1.8vw,26px)}
+.bd-pipe li{position:relative;z-index:1;background:var(--raise);border:1px solid var(--line);border-radius:4px;padding:16px 6px 18px;text-align:center;font:700 clamp(14px,1.5vw,19px)/1.3 var(--serif)}
+.bd-pipe small{display:block;font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--mute);margin-bottom:9px}
+.bd-pkt{position:absolute;top:50%;left:0;width:9px;height:9px;margin:-4.5px;border-radius:50%;background:var(--sig);animation:pkt 5s linear infinite}
+@keyframes pkt{from{transform:translateX(0)}to{transform:translateX(var(--w,600px))}}
+.bd-data{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.bd-data li{font-size:13.5px;line-height:1;padding:8px 13px;border:1px dashed var(--line);border-radius:4px;color:var(--t2)}
+.bd-wall{position:relative;display:grid;place-items:center}
+.bd-wall::before{content:"";position:absolute;top:-18px;bottom:-18px;left:50%;border-left:2px dashed var(--mute)}
+.bd-wall span{position:relative;writing-mode:vertical-rl;background:var(--ink);padding:16px 0;font:500 12px/1 var(--mono);letter-spacing:.24em}
+.bd-wall i{position:absolute;left:0;width:50%;height:1px;background:var(--line)}
+.bd-wall i::before{content:"";position:absolute;top:-4px;left:0;width:9px;height:9px;border-radius:50%;background:var(--sig);animation:try 3s cubic-bezier(.5,0,.6,1) infinite}
+.bd-wall i::after{content:"✕";position:absolute;right:-7px;top:-9px;font:500 14px/18px var(--mono);color:var(--sig);background:var(--ink);animation:xx 3s linear infinite}
+.bd-wall i:nth-of-type(1){top:22%}.bd-wall i:nth-of-type(2){top:78%}
+.bd-wall i:nth-of-type(2)::before,.bd-wall i:nth-of-type(2)::after{animation-delay:-1.5s}
+@keyframes try{0%{transform:translateX(-12px);opacity:0}14%{opacity:1}54%{transform:translateX(var(--tw,40px));opacity:1}62%{transform:translateX(calc(var(--tw,40px) - 12px));opacity:1}100%{transform:translateX(-12px);opacity:0}}
+@keyframes xx{0%,48%,74%,100%{transform:scale(1)}56%{transform:scale(1.8)}}
+.bd-out{border:1px dashed var(--line);color:var(--mute);display:grid;align-content:center}
+.bd-out .bd-tab{color:var(--mute)}
+.bd-out p{font:700 clamp(15px,1.5vw,19px)/1.7 var(--serif)}
+@media(max-width:820px){
+  .bd{grid-template-columns:1fr}
+  .bd-wall{height:72px}.bd-wall::before{top:50%;bottom:auto;left:0;right:0;border-left:0;border-top:2px dashed var(--mute)}
+  .bd-wall span{writing-mode:horizontal-tb;padding:0 14px}.bd-wall i{display:none}
+  .bd-pipe{grid-template-columns:1fr 1fr}.bd-flow::before,.bd-pkt{display:none}
+}
+
+/* 數字 */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink)}
+.nums div{padding:24px clamp(14px,2vw,28px) 6px;border-left:1px solid var(--line)}
+.nums div:first-child{padding-left:0;border-left:0}
+.nums strong{display:block;font:900 clamp(58px,9vw,132px)/.95 var(--serif);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.nums small{font-size:.34em;letter-spacing:0;margin-left:.1em;font-weight:700}
+.nums p{font-size:14px;line-height:1.65;color:var(--t2);margin-top:12px;max-width:16em}
+.nums.n3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:820px){.nums,.nums.n3{grid-template-columns:1fr 1fr}.nums div{padding-left:0;border-left:0;padding-bottom:18px}.nums div:nth-child(even){padding-left:18px;border-left:1px solid var(--line)}}
+
+/* CER */
+.vd{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,6vw,96px);align-items:end}
+.cer{margin-top:clamp(22px,3.4vw,40px);font:900 clamp(38px,6vw,88px)/1 var(--serif);display:flex;align-items:center;gap:.18em;white-space:nowrap}
+.cer i{display:block;flex:none;width:1.7em;height:.78em;background:var(--sig);border-radius:4px;transform-origin:left;transform:scaleX(0);transition:transform .6s cubic-bezier(.7,0,.2,1) .5s}
+.rv.in .cer i{transform:none}
+@media(max-width:820px){.vd{grid-template-columns:1fr}}
+
+/* 產品畫面 */
+.ph-in{max-width:1440px;margin:0 auto;padding:clamp(26px,4.6vh,56px) var(--gut) clamp(48px,6.5vw,88px);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr) auto;grid-template-areas:"txt vis title";column-gap:clamp(28px,4.2vw,68px);row-gap:clamp(28px,4vw,48px);align-items:start}
+.ph.wide .ph-in{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"txt title" "vis title";grid-template-rows:auto 1fr}
+.ph-in .couplet{grid-area:title}
+.ptxt{grid-area:txt;min-width:0}.pvis{grid-area:vis;min-width:0}
+.ph.wide .pvis{align-self:end}
+.crumb{font:500 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);border-top:2px solid currentColor;padding-top:14px;margin-bottom:clamp(20px,3.2vh,36px)}
+.pname{display:block;font:900 clamp(40px,4.4vw,66px)/1.05 var(--serif);letter-spacing:-.02em}
+.pname.zh{letter-spacing:.02em;font-size:clamp(38px,4.8vw,72px)}
+.psub{display:block;font:700 clamp(16px,1.5vw,20px)/1.55 var(--serif);color:var(--acc);margin:14px 0 20px}
+.ptxt .lede{margin-top:0}
+.ptxt .cta{margin-top:26px}
+@media(max-width:1180px){.ph-in,.ph.wide .ph-in{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"txt title" "vis vis";grid-template-rows:auto}}
+@media(max-width:820px){.ph-in{column-gap:18px}.pname,.pname.zh{font-size:clamp(27px,8.2vw,34px)}.psub{font-size:15.5px}.ptxt .lede{font-size:15px}}
+
+.pts{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink);border-left:1px solid var(--line)}
+.pts li{padding:22px clamp(16px,1.8vw,26px) 26px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pts i{font:500 12px/1 var(--mono);font-style:normal;color:var(--mute)}
+.pts b{display:block;font:700 clamp(18px,1.7vw,22px)/1.45 var(--serif);margin:14px 0 6px}
+.pts span{font-size:14.5px;color:var(--t2);line-height:1.65;display:block}
+.pts.c3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.pts,.pts.c3{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.pts,.pts.c3{grid-template-columns:1fr}}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0 clamp(20px,3vw,44px);margin-top:clamp(28px,4vw,48px)}
+.facts div{border-top:1px solid var(--ink);padding:16px 0 4px}
+.facts dt{font:500 11.5px/1 var(--mono);letter-spacing:.12em;color:var(--mute);margin-bottom:10px}
+.facts dd{font:700 16.5px/1.6 var(--serif)}
+@media(max-width:760px){.facts{grid-template-columns:1fr}}
+.plan{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:clamp(28px,4vw,44px)}
+.plan b{font:500 11.5px/1 var(--mono);letter-spacing:.1em;padding:9px 11px;border:1.5px dashed var(--ink);margin-right:6px;white-space:nowrap}
+.plan span{font-size:13.5px;line-height:1;padding:9px 12px;border:1px dashed var(--mute);border-radius:4px;color:var(--t2)}
+.quote{display:grid;grid-template-columns:5px 1fr;gap:clamp(16px,2.4vw,30px)}
+.quote::before{content:"";background:var(--sig)}
+.quote p{font:900 clamp(21px,2.9vw,38px)/1.5 var(--serif);max-width:24em;text-wrap:balance}
+.quote small{display:block;font:400 clamp(14.5px,1.2vw,16.5px)/1.8 var(--sans);color:var(--t2);margin-top:12px;max-width:44em}
+.end{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 40px}
+.end h2{font-size:clamp(26px,3.6vw,48px)}
+
+/* 示意畫面 */
+.mock{position:relative;background:var(--card);color:var(--ink);border:1.5px solid var(--ink);border-radius:8px;box-shadow:8px 8px 0 var(--ink);overflow:hidden;--line:#dedbd4;--mute:#6b6960;--t2:#54524b}
+.mock.dark{background:var(--ink);color:var(--paper);box-shadow:8px 8px 0 #8c8a84;--line:#2a2926;--mute:#9a978e;--t2:#b5b2aa}
+.mock-bar{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);font:500 11px/1 var(--mono);letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+.mock-bar .sp{margin-left:auto}
+.mock-foot{padding:11px 18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--mute)}
+.lat{padding:clamp(20px,2.8vw,34px) clamp(18px,2.8vw,34px) 8px}
+.lat-big{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.lat-big strong{font:900 clamp(70px,9.4vw,128px)/.8 var(--serif);letter-spacing:-.03em}
+.lat-big span{font-size:14px;color:var(--t2);padding-bottom:4px;max-width:12em;line-height:1.6}
+.lat-line{position:relative;height:28px;margin:28px 0 4px;display:flex;justify-content:space-between;align-items:center;font:500 11px/1 var(--mono);letter-spacing:.08em;color:var(--mute)}
+.lat-line::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--line)}
+.lat-line span{position:relative;background:var(--ink);padding:0 10px}.lat-line span:first-of-type{padding-left:0}.lat-line span:last-child{padding-right:0;color:var(--sig)}
+.lat-line u{position:absolute;top:50%;left:0;height:3px;width:100%;margin-top:-1.5px;background:var(--sig);transform-origin:left;animation:sweep 4.4s linear infinite}
+@keyframes sweep{0%,33%{transform:scaleX(0);opacity:1}58%,94%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+.eq{display:inline-flex;align-items:center;gap:2px;height:14px;vertical-align:-3px;margin-right:8px}
+.eq.a{margin:0 0 0 8px}
+.eq i{display:block;width:2.5px;height:100%;background:currentColor;border-radius:1px;transform:scaleY(.14);animation:eqU 4.4s linear infinite}
+.eq.a i{animation-name:eqA}
+.eq i:nth-child(2){animation-delay:.07s}.eq i:nth-child(3){animation-delay:.15s}.eq i:nth-child(4){animation-delay:.04s}.eq i:nth-child(5){animation-delay:.11s}
+@keyframes eqU{0%{transform:scaleY(.14)}4%{transform:scaleY(1)}9%{transform:scaleY(.35)}14%{transform:scaleY(.9)}19%{transform:scaleY(.3)}24%{transform:scaleY(1)}29%{transform:scaleY(.5)}34%,100%{transform:scaleY(.14)}}
+@keyframes eqA{0%,58%{transform:scaleY(.14)}62%{transform:scaleY(1)}67%{transform:scaleY(.4)}72%{transform:scaleY(.95)}77%{transform:scaleY(.3)}82%{transform:scaleY(1)}87%{transform:scaleY(.45)}92%{transform:scaleY(.8)}98%,100%{transform:scaleY(.14)}}
+.stages{padding:0 clamp(18px,2.8vw,34px) 6px}
+.stages li{display:grid;grid-template-columns:60px 1fr;gap:14px;padding:13px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.65;color:var(--t2)}
+.stages b{font:900 23px/1.25 var(--serif);color:var(--paper)}
+.ws{padding:6px 18px 4px}
+.ws-row{display:grid;grid-template-columns:48px 68px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.ws-row time{font:500 12px/1 var(--mono);color:var(--mute)}
+.ws-row b{font-size:13px}
+.ws-row p{font:700 clamp(15.5px,1.4vw,18px)/1.65 var(--serif)}
+.ws-row.act{background:rgba(237,154,74,.12);margin:0 -18px;padding-left:18px;padding-right:18px;box-shadow:inset 3px 0 0 var(--sig)}
+.caret{display:inline-block;width:2px;height:1.1em;background:var(--sig);vertical-align:-.16em;margin-left:2px;animation:blink 1s steps(2) infinite}
+.todo{padding:16px 18px 18px;background:var(--paper2);border-top:1px solid var(--line)}
+.todo h4{font:500 11px/1 var(--mono);letter-spacing:.12em;color:var(--mute);margin-bottom:12px}
+.todo li{display:flex;gap:10px;align-items:center;font-size:14.5px;padding:4px 0}
+.todo li::before{content:"✓";flex:none;width:15px;height:15px;border:1.5px solid var(--ink);border-radius:2px;font:500 11px/12.5px var(--mono);text-align:center;color:transparent;animation:tick 7s linear infinite}
+.todo li:nth-child(2)::before{animation-delay:1.3s}
+@keyframes tick{0%,22%{background-color:transparent;color:transparent}27%,86%{background-color:var(--ink);color:var(--card)}92%,100%{background-color:transparent;color:transparent}}
+.sc-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 20px;padding:18px 18px 8px;align-items:end}
+.sc-top svg{width:100%;height:auto;display:block;overflow:visible;grid-column:1/-1}
+.sc-path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s var(--e) .3s}
+.in .sc-path,.view.on .ph .sc-path{stroke-dashoffset:0}
+.sc-num{margin-top:14px;font:900 clamp(60px,7.6vw,100px)/.8 var(--serif);color:var(--acc);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sc-cap{align-self:end;padding-bottom:6px;font-size:13.5px;line-height:1.6;color:var(--t2)}
+.sc-cap b{display:block;font:500 11px/1 var(--mono);letter-spacing:.12em;color:var(--mute);margin-bottom:8px}
+.sc-rows{padding:4px 18px 6px}
+.sc-rows li{display:grid;grid-template-columns:44px 1fr 40px;gap:10px;align-items:baseline;padding:9px 0;border-top:1px solid var(--line);font-size:14.5px}
+.sc-rows time{font:500 12px/1 var(--mono);color:var(--mute)}
+.sc-rows b{font:500 14px/1 var(--mono);text-align:right;color:var(--acc)}
+.who{display:inline-block;font:500 11px/1 var(--mono);font-style:normal;border:1.2px solid var(--ink);padding:3px 5px;margin-right:9px;border-radius:2px;vertical-align:1px}
+.who.c{background:var(--ink);color:var(--card)}
+.sc-rows li.agent{color:var(--mute)}
+.warn{display:grid;grid-template-columns:auto 1fr;gap:12px;margin-top:24px;padding:14px 16px;border:1.5px solid var(--sig);border-radius:6px;font-size:14px;line-height:1.75}
+.warn::before{content:"！";font:900 20px/1.2 var(--serif);color:var(--acc)}
+.covsec{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(28px,6vw,96px);align-items:center}
+.covfigs{display:flex;gap:clamp(20px,4vw,56px)}
+.covfigs figure{display:grid;gap:12px}
+.dots{width:clamp(112px,14vw,180px);aspect-ratio:1}
+.dots.few{background:radial-gradient(circle,var(--sig) 0 36%,transparent 38%) 33.33% 22.22%/10% 10% no-repeat,radial-gradient(circle,var(--sig) 0 36%,transparent 38%) 77.77% 66.66%/10% 10% no-repeat,radial-gradient(circle,transparent 0 20%,rgba(20,20,19,.34) 22% 36%,transparent 38%) 0 0/10% 10%}
+.dots.all{background:radial-gradient(circle,var(--ink) 0 36%,transparent 38%) 0 0/10% 10%;clip-path:inset(0 0 100% 0);transition:clip-path 1.5s steps(10) .3s}
+.in .dots.all{clip-path:inset(0)}
+.covfigs figcaption{font:500 12px/1.6 var(--mono);color:var(--mute)}
+.covfigs figcaption b{display:block;font:900 clamp(32px,4vw,54px)/1.1 var(--serif);color:var(--ink)}
+@media(max-width:900px){.covsec{grid-template-columns:1fr}.mock{box-shadow:6px 6px 0 var(--ink)}.mock.dark{box-shadow:6px 6px 0 #8c8a84}.ws-row{grid-template-columns:40px 1fr}.ws-row p{grid-column:1/-1}}
+
+/* 地端 */
+.why{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.why li{padding:26px clamp(18px,2.6vw,36px) 6px;border-left:1px solid var(--line)}
+.why li:first-child{padding-left:0;border-left:0}
+.why i{font:900 42px/1 var(--serif);font-style:normal;color:var(--acc)}
+.why b{display:block;font:700 clamp(19px,1.8vw,23px)/1.45 var(--serif);margin:16px 0 8px}
+.why span{font-size:14.5px;color:var(--t2);display:block}
+@media(max-width:820px){.why{grid-template-columns:1fr}.why li{padding:22px 0;border-left:0;border-bottom:1px solid var(--line)}}
+.cmp{width:100%;border-collapse:collapse;margin-top:clamp(32px,4.4vw,56px)}
+.cmp th,.cmp td{text-align:left;padding:16px 20px 16px 0;border-top:1px solid var(--line);vertical-align:top;line-height:1.6}
+.cmp thead th{font:500 11.5px/1.4 var(--mono);letter-spacing:.1em;color:var(--mute);border-top:0;padding-bottom:12px}
+.cmp tbody tr:first-child>*{border-top:2px solid var(--ink)}
+.cmp tbody th{font:700 15.5px/1.6 var(--sans);width:27%}
+.cmp td{width:33%;color:var(--mute);font-size:15px}
+.cmp td.v{width:40%;color:var(--ink);font:700 clamp(16px,1.45vw,18.5px)/1.6 var(--serif)}
+.cmp td.v::before{content:"";display:inline-block;width:9px;height:9px;background:var(--sig);border-radius:50%;margin-right:11px}
+.cmp tr.cloud td:not(.v){color:var(--ink);font-weight:700}
+.cmp tr.cloud td:not(.v)::after{content:"這一項雲端佔優";display:inline-block;margin-left:10px;font:500 11px/1 var(--mono);padding:5px 7px;border:1.5px solid var(--ink);border-radius:3px;vertical-align:2px;white-space:nowrap}
+.cmp tr.cloud td.v{font:400 15px/1.6 var(--sans);color:var(--mute)}.cmp tr.cloud td.v::before{background:transparent;border:1.5px dashed var(--mute)}
+@media(max-width:760px){
+  .cmp thead{display:none}.cmp,.cmp tbody,.cmp tr,.cmp th,.cmp td,.cmp td.v{display:block;width:auto}
+  .cmp tr{padding:16px 0;border-top:1px solid var(--line)}.cmp tbody tr:first-child{border-top:2px solid var(--ink)}
+  .cmp th,.cmp td,.cmp tbody tr:first-child>*{border:0;padding:0}.cmp tbody th{margin-bottom:6px}.cmp td{margin-top:4px}
+}
+
+/* 語言 */
+.conv{display:grid;grid-template-columns:auto minmax(40px,1fr) auto;height:clamp(280px,29vw,380px);grid-template-rows:100%}
+.conv-in{display:grid;grid-template-rows:repeat(5,1fr)}
+.conv-in li{display:flex;flex-direction:column;justify-content:center;padding-right:clamp(10px,2vw,26px);font:900 clamp(18px,2.5vw,34px)/1.2 var(--serif);border-right:4px solid var(--c)}
+.conv-in small{font:500 clamp(10.5px,1vw,12px)/1.5 var(--mono);color:var(--mute);letter-spacing:.06em;margin-top:4px}
+.conv svg{width:100%;height:100%;display:block;min-height:0}
+.conv path{fill:none;stroke-width:2.5;vector-effect:non-scaling-stroke;stroke-dasharray:7 7;animation:flow 1.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-14}}
+.conv-out{writing-mode:vertical-rl;display:flex;align-items:center;justify-content:center;gap:.5em;padding:0 clamp(12px,2.4vw,32px);background:var(--ink);color:var(--paper);font:900 clamp(24px,3.8vw,52px)/1 var(--serif);letter-spacing:.14em;border-radius:6px}
+.conv-out small{font:500 12px/1 var(--mono);letter-spacing:.3em;color:#b5b2aa}
+.pstats{display:flex;flex-wrap:wrap;gap:16px clamp(24px,4vw,56px);margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+.pstats b{display:block;font:900 clamp(42px,4.8vw,68px)/1 var(--serif);font-variant-numeric:tabular-nums}
+.pstats span{display:block;font-size:13.5px;color:var(--t2);margin-top:6px}
+.mx{width:100%;border-collapse:collapse;font-size:15px}
+.mx th,.mx td{text-align:left;padding:14px 14px 14px 0;border-top:1px solid var(--line);vertical-align:top;line-height:1.6}
+.mx thead th{font:500 11.5px/1.5 var(--mono);letter-spacing:.08em;color:var(--mute);border-top:2px solid var(--ink)}
+.mx tbody th{font:700 17px/1.5 var(--serif);white-space:nowrap}
+.st{display:inline-flex;gap:8px;align-items:baseline}
+.st::before{content:"";flex:none;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink);background:var(--ink);transform:translateY(1px)}
+.st.half::before{background:linear-gradient(90deg,var(--ink) 50%,transparent 50%)}
+.st.none{color:var(--mute)}.st.none::before{background:transparent;border-style:dashed;border-color:var(--mute)}
+.two{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:start}
+@media(max-width:900px){.two{grid-template-columns:1fr}}
+.qcards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.qcards li{border:1.5px solid var(--ink);border-radius:6px;padding:16px 10px 13px;text-align:center}
+.qcards b{display:block;font:900 clamp(20px,2vw,26px)/1.2 var(--serif)}
+.qcards span{display:block;font:500 11px/1 var(--mono);letter-spacing:.06em;margin-top:10px;color:var(--mute)}
+blockquote{font:700 clamp(16px,1.5vw,19px)/1.75 var(--serif);border-left:3px solid var(--sig);padding-left:16px;margin:18px 0 12px}
+.hlinks{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:18px;font-size:14.5px}
+.sub{font:900 clamp(20px,2.1vw,27px)/1.3 var(--serif);display:flex;align-items:baseline;gap:14px;padding-bottom:14px;border-bottom:2px solid var(--ink);margin-bottom:4px}
+.sub span{font:500 11.5px/1 var(--mono);letter-spacing:.14em;color:var(--mute);text-transform:uppercase}
+
+/* 研究 */
+.awards{display:grid;grid-template-columns:repeat(5,1fr);border-top:2px solid var(--ink)}
+.awards li{padding:22px 16px 6px 0;border-right:1px solid var(--line);margin-right:16px}
+.awards li:last-child{border:0;margin:0}
+.awards b{display:block;font:900 clamp(30px,3.4vw,46px)/1 var(--serif);color:var(--acc);font-variant-numeric:tabular-nums}
+.awards strong{display:block;font:700 15.5px/1.55 var(--serif);margin:14px 0 6px}
+.awards span{font-size:13px;color:var(--mute);line-height:1.5;display:block}
+.press li{display:grid;grid-template-columns:76px 1fr;gap:4px 14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.press time{font:500 12.5px/1.9 var(--mono);color:var(--mute)}
+.press a,.press b{font:700 16px/1.55 var(--serif)}.press a:hover{color:var(--acc)}
+.press span{grid-column:2;font-size:13px;color:var(--mute);line-height:1.4}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.filters button{font:500 13.5px/1 var(--sans);padding:10px 14px;border:1.5px solid var(--ink);border-radius:6px;background:transparent;cursor:pointer;transition:background-color .2s,color .2s}
+.filters button b{font:500 12px/1 var(--mono);margin-left:6px;opacity:.65}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.pubs li{display:grid;grid-template-columns:52px 118px 1fr auto;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);align-items:baseline;font-size:15px;line-height:1.55;animation:up .45s var(--e) both;animation-delay:calc(var(--d,0)*22ms)}
+.pubs .y{font:500 13px/1 var(--mono)}.pubs .v{font:500 12px/1.4 var(--mono);color:var(--acc)}
+.pubs a{font:500 12px/1 var(--mono);color:var(--mute);border-bottom:1px solid var(--line);white-space:nowrap}.pubs a:hover{color:var(--acc)}
+@media(max-width:900px){
+  .awards{grid-template-columns:1fr}.awards li{display:grid;grid-template-columns:76px 1fr;gap:0 14px;border-right:0;margin:0;padding:14px 0;border-bottom:1px solid var(--line)}
+  .awards b{font-size:26px;grid-row:1/3}.awards strong{margin:0 0 4px}
+  .pubs li{grid-template-columns:44px 1fr auto;gap:4px 12px}.pubs .t{grid-column:1/-1;grid-row:2}
+}
+
+/* PoC */
+.poc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,6vw,96px);align-items:start}
+.poc h1{font:900 clamp(30px,4.2vw,56px)/1.26 var(--serif)}
+.poc h1 em{font-style:normal;color:var(--sig)}
+.poc-meta{margin-top:30px;display:grid;gap:10px;font:500 14px/1.5 var(--mono)}
+.poc-meta a{border-bottom:1px solid var(--line);width:fit-content}.poc-meta span{color:var(--mute)}
+.form{background:var(--paper);color:var(--ink);border-radius:8px;padding:clamp(22px,3vw,38px);--line:#dedbd4;--mute:#6b6960;--acc:#c47a20}
+.form-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.form-h b{font:900 23px/1.2 var(--serif)}.form-h span{font:500 12px/1 var(--mono);color:var(--acc)}
+.fl{display:grid;gap:6px;margin-bottom:16px;border:0}
+.fl>span,.fl legend{font:700 13px/1.4 var(--sans)}
+.fl input,.fl textarea{width:100%;background:transparent;border:0;border-bottom:1.5px solid var(--ink);padding:9px 0;font-size:16px;border-radius:0;outline:none;transition:border-color .2s}
+.fl input:focus,.fl textarea:focus{border-color:var(--sig)}
+.fl ::placeholder{color:#8c8a84}
+.fl textarea{resize:vertical;min-height:76px;line-height:1.7}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.pills label{position:relative;cursor:pointer}
+.pills input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.pills span{display:block;font-size:14px;line-height:1;padding:10px 14px;border:1.5px solid var(--ink);border-radius:6px;transition:background-color .2s,color .2s}
+.pills input:checked+span{background:var(--ink);color:var(--paper)}
+.pills input:focus-visible+span{outline:2px solid var(--acc);outline-offset:2px}
+.form .btn{width:100%;padding:15px;font-size:16px;margin-top:4px}
+.form .btn.solid:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.form small{display:block;font-size:12.5px;color:var(--mute);margin-top:12px;line-height:1.6}
+.faq{margin-top:clamp(40px,6vw,72px);border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr 24px;gap:18px;align-items:center;padding:18px 0;font:700 clamp(16.5px,1.5vw,19px)/1.5 var(--serif)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"＋";font:500 18px/1 var(--mono);color:var(--sig);transition:transform .3s var(--e)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 40px 20px 0;color:var(--t2);max-width:50em;font-size:15px}
+@media(max-width:900px){.poc{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+footer{background:var(--ink);color:var(--paper);padding:clamp(44px,6vw,76px) var(--gut) 38px;--line:#2a2926;--mute:#9a978e;--t2:#b5b2aa;border-top:1px solid var(--line)}
+.foot{max-width:1240px;margin:0 auto}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.15fr;gap:36px clamp(24px,4vw,56px);padding-bottom:clamp(32px,4.5vw,52px);border-bottom:1px solid var(--line)}
+.foot-brand .logo svg{height:22px;width:auto}
+.foot-tagline{font-size:14.5px;color:var(--t2);margin-top:14px;max-width:22em;line-height:1.7}
+.foot-mail{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font:500 13.5px/1.4 var(--mono);color:var(--sig);border-bottom:1px solid rgba(237,154,74,.4);padding-bottom:2px;transition:border-color .2s,color .2s}
+.foot-mail:hover{color:var(--paper);border-color:var(--paper)}
+.foot-col h4{font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
+.foot-col ul{display:grid;gap:9px;font-size:14px;color:var(--t2)}
+.foot-col a{display:inline-flex;align-items:center;gap:5px;width:fit-content;transition:color .2s}
+.foot-col a:hover{color:var(--paper)}
+.foot-col a.ext::after{content:"↗";font-family:var(--mono);font-size:11.5px;color:var(--mute)}
+.foot-col a.ext:hover::after{color:var(--sig)}
+.foot-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;padding-top:24px;font:500 12px/1.6 var(--mono);color:var(--mute)}
+.foot-meta{display:flex;flex-wrap:wrap;gap:6px 18px}
+.foot-meta span+span::before{content:"·";margin-right:18px;color:var(--line)}
+@media(max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.foot-grid{grid-template-columns:1fr;gap:28px}.foot-bar{flex-direction:column;align-items:flex-start}}
+
+.lang{flex:none;margin-left:auto;width:54px;text-align:center;font:500 12px/1 var(--mono);letter-spacing:.12em;padding:9px 0;border:1.5px solid var(--line);border-radius:6px;transition:border-color .2s,color .2s}
+.lang:hover{border-color:var(--ink)}
+/* English */
+.gl{display:block;grid-column:2;font:400 clamp(12.5px,1vw,14.5px)/1.5 var(--sans);color:var(--mute);margin-top:-.15em;transition:opacity .35s}
+.js .gl{opacity:0}
+html[lang=en] .couplet{font-size:clamp(26px,4.2vh,48px);letter-spacing:.01em}
+html[lang=en] .couplet>span+span{margin-right:.34em}
+html[lang=en] .dot{-webkit-text-emphasis:none;text-emphasis:none;color:var(--acc)}
+html[lang=en] .seal{font-size:.42em}
+html[lang=en] .cmp tr.cloud td:not(.v)::after{content:"Cloud wins"}
+html[lang=en] .stages li{grid-template-columns:76px 1fr}
+html[lang=en] .stages b{font-size:20px}
+html[lang=en] .conv-out{font-size:clamp(22px,3vw,42px);flex-wrap:nowrap;white-space:nowrap}
+html[lang=en] .conv-out small{font-size:10px;letter-spacing:.1em}
+@media(max-width:820px){html[lang=en] .couplet{font-size:clamp(20px,6vw,26px)}}
+@media(max-width:520px){.logo svg{height:19px}.nav .btn{padding:8px 10px;font-size:13px;width:118px}.lang{padding:8px 0;width:48px}.nav-in{gap:0 8px}}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.form .btn[disabled]{opacity:.65;cursor:progress}
+.form.sent>*:not(.form-done){display:none}
+.form-done{display:grid;gap:12px;padding:clamp(28px,4vw,48px) 0;animation:up .55s var(--e) both;outline:none}
+.form-done b{display:flex;align-items:center;gap:14px;font:900 clamp(21px,2.2vw,26px)/1.4 var(--serif)}
+.form-done b::before{content:"✓";flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--sig);color:var(--ink);font:500 18px/1 var(--mono)}
+.form-done p{color:var(--mute);font-size:15px;padding-left:52px}
+#formnote a{color:var(--acc);border-bottom:1px solid currentColor}
+.blk+.blk{margin-top:clamp(48px,6.4vw,80px)}
+.h3{font:900 clamp(21px,2.3vw,30px)/1.35 var(--serif);margin-bottom:10px;text-wrap:balance}
+.h3+.lede{margin-top:0;margin-bottom:24px}
+.spec{display:grid;grid-template-columns:repeat(2,1fr);gap:0 clamp(24px,4vw,56px);border-top:2px solid var(--ink);margin-top:22px}
+.spec>div{display:grid;grid-template-columns:minmax(92px,8.5em) 1fr;gap:4px 18px;padding:15px 0;border-bottom:1px solid var(--line)}
+.spec dt{font:500 11.5px/1.7 var(--mono);letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+.spec dd{font-size:15px;line-height:1.75;color:var(--t2)}
+.spec dd b{color:var(--ink)}
+.spec .lim dt{color:var(--acc)}
+.spec .lim dt::before{content:"! ";font-weight:700}
+.spec .lim dd{color:var(--ink)}
+@media(max-width:820px){.spec{grid-template-columns:1fr}.spec>div{grid-template-columns:1fr}}
+.tbl{width:100%;border-collapse:collapse;margin-top:22px}
+.tbl th,.tbl td{text-align:left;padding:14px 22px 14px 0;border-top:1px solid var(--line);vertical-align:top;line-height:1.65;font-size:15px}
+.tbl thead th{font:500 11.5px/1.4 var(--mono);letter-spacing:.1em;color:var(--mute);border-top:0;padding-bottom:12px}
+.tbl tbody tr:first-child>*{border-top:2px solid var(--ink)}
+.tbl tbody th{font:700 16px/1.6 var(--serif);width:30%}
+.tbl td{color:var(--t2)}
+@media(max-width:700px){.tbl thead{display:none}.tbl,.tbl tbody,.tbl tr,.tbl th,.tbl td{display:block;width:auto}.tbl tr{padding:14px 0;border-top:1px solid var(--line)}.tbl tbody tr:first-child{border-top:2px solid var(--ink)}.tbl th,.tbl td,.tbl tbody tr:first-child>*{border:0;padding:0}.tbl tbody th{width:auto;margin-bottom:4px}.tbl td{margin-top:4px}.tbl td[data-l]::before{content:attr(data-l) "　";font:500 11px/1 var(--mono);color:var(--mute)}}
+.inds{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink);border-left:1px solid var(--line);margin-top:22px}
+.inds li{padding:22px clamp(16px,2vw,26px) 24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column}
+.inds b{font:900 clamp(19px,1.9vw,25px)/1.3 var(--serif)}
+.inds span{font-size:14.5px;line-height:1.7;color:var(--t2);margin:8px 0 14px;flex:1}
+.inds em{font:500 11.5px/1.5 var(--mono);font-style:normal;color:var(--acc);letter-spacing:.04em}
+.inds.c2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.inds{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.inds,.inds.c2{grid-template-columns:1fr}}
+.caps{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.caps li{font:500 12.5px/1 var(--mono);padding:10px 12px;border:1px solid var(--ink);border-radius:6px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px)}
+.cols h3{font:900 clamp(19px,1.9vw,24px)/1.4 var(--serif);padding-bottom:12px;border-bottom:2px solid currentColor;margin-bottom:14px}
+.cols p{color:var(--t2);font-size:15.5px}
+@media(max-width:820px){.cols{grid-template-columns:1fr}}
+.night .tbl tbody tr:first-child>*,.night .spec,.night .inds{border-top-color:var(--paper)}
+.faq.pf{margin-top:22px}
+.ptxt .warn{margin-top:22px;font-size:13.5px}
+@media(max-width:420px){.pname{font-size:clamp(24px,7.2vw,30px)}}
+/* 沒有 JavaScript 時，index.html#poc 也要能打開申請頁 */
+html:not(.js) main:has(#poc:target)>.view{display:none}
+html:not(.js) main:has(#poc:target)>#v-poc{display:block}
+@media (prefers-reduced-motion:reduce){
+  :root{--shift:0px}
+  html.first .curtain{display:none}
+  .rec,.caret,.bars i,.tl i,.spark path,.bd-pkt,.bd-wall i::before,.bd-wall i::after,.lat-line u,.eq i,.todo li::before,.conv path{animation:none}
+  .spark path{stroke-dasharray:none}.eq i{transform:scaleY(.6)}.tl i,.lat-line u{transform:none}.bd-wall i::before{display:none}
+  .view.on .hc{animation-name:fade}.view.on .seal{animation:fade .4s both}
+  .pcard:hover{transform:none}
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
 </style>
-<style>html,body{height:100%;margin:0}#dc-root,#dc-root>.sc-host{height:100%}</style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "SoftwareApplication",
-      "@id": "https://voxmosa.com/mosaminutes.html#software",
-      "name": "MosaMinutes",
-      "applicationCategory": "BusinessApplication",
-      "applicationSubCategory": "地端 AI 會議記錄平台",
-      "operatingSystem": "Linux（地端 GPU 伺服器）",
-      "description": "讓會議紀錄自己走到該去的地方。錄音、轉寫、摘要、待辦分派，資料不出機房。",
-      "featureList": [
-        "五種語言全轉繁體中文，自動標點分段",
-        "聲紋註冊一次，之後自動認出同一個人",
-        "校對不會弄丟修改——四條獨立通道互不覆蓋",
-        "匯出 Word、純文字、字幕，待辦成勾選清單"
-      ],
-      "inLanguage": "zh-Hant",
-      "publisher": {
-        "@id": "https://voxmosa.com/#organization"
-      }
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://voxmosa.com/#organization",
-      "name": "Voxmosa",
-      "url": "https://voxmosa.com/"
-    }
-  ]
-}
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "@id": "https://voxmosa.com/mosaminutes.html#software", "name": "MosaMinutes", "applicationCategory": "BusinessApplication", "applicationSubCategory": "地端 AI 會議記錄平台", "operatingSystem": "Linux（地端 GPU 伺服器）", "description": "讓會議紀錄自己走到該去的地方。錄音、轉寫、摘要、待辦分派，資料不出機房。", "featureList": ["五種語言全轉繁體中文，自動標點分段", "聲紋註冊一次，之後自動認出同一個人", "校對不會弄丟修改——四條獨立通道互不覆蓋", "匯出 Word、純文字、字幕，待辦成勾選清單"], "inLanguage": "zh-Hant", "publisher": {"@id": "https://voxmosa.com/#organization"}}, {"@type": "Organization", "@id": "https://voxmosa.com/#organization", "name": "Voxmosa", "url": "https://voxmosa.com/"}]}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S6MJZMYPVH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-S6MJZMYPVH");
 </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6MJZMYPVH"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-S6MJZMYPVH");
-  </script>
 </head>
 <body>
-<div id="dc-root"><div class="sc-host">
+<div class="curtain" aria-hidden="true"><svg viewBox="0 0 130 120" fill="none" stroke="#ED9A4A" stroke-linecap="round" stroke-linejoin="round"><path class="cv" pathLength="1" d="M20 24 L50 98 L80 24" stroke-width="12"/><path class="ca" d="M97 44 A38 38 0 0 1 97 78" stroke-width="10"/><path class="cb" d="M115 28 A62 62 0 0 1 115 94" stroke-width="10"/></svg></div>
 
-<div style="width:100%;background:#141413;color:#f4f3f0;font-family:'Noto Sans TC','Space Grotesk',sans-serif;overflow-x:hidden">
+<header class="nav">
+  <div class="nav-in">
+    <a class="logo" href="index.html" data-route="home" aria-label="Voxmosa 首頁"><svg aria-hidden="true" focusable="false" viewBox="3.30 19.60 640.96 94.90" fill="none"><path d="M31.15 112.00 3.30 19.60H14.78L40.00 105.27H41.71L66.92 19.60H78.41L50.56 112.00Z" fill="#141413"/><g transform="translate(88.24, 44.66) scale(0.5844)" stroke="#141413" stroke-linecap="round" fill="none"><circle cx="60" cy="60" r="51" stroke-width="17"/><path d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="13" opacity="0.6"/><path d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="13" opacity="0.33"/><path d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="13" opacity="0.17"/></g><path d="M200.08 112.00 225.95 79.26 200.87 47.45H213.41L232.68 72.40H234.53L253.67 47.45H266.34L241.13 79.26L267.00 112.00H254.33L234.53 86.26H232.68L212.88 112.00ZM298.16 112.00V47.45H308.32V55.50H310.17Q312.02 52.07 316.24 49.17Q320.46 46.26 328.12 46.26Q335.64 46.26 340.33 49.56Q345.02 52.86 347.13 57.62H348.98Q351.22 52.86 355.77 49.56Q360.33 46.26 368.51 46.26Q374.98 46.26 379.86 48.90Q384.75 51.54 387.59 56.49Q390.42 61.44 390.42 68.31V112.00H380.00V69.23Q380.00 62.76 376.23 59.00Q372.47 55.24 365.74 55.24Q358.61 55.24 354.06 59.86Q349.50 64.48 349.50 73.19V112.00H339.08V69.23Q339.08 62.76 335.31 59.00Q331.55 55.24 324.82 55.24Q317.69 55.24 313.14 59.86Q308.58 64.48 308.58 73.19V112.00ZM448.11 113.85Q438.34 113.85 430.88 109.76Q423.42 105.66 419.27 98.21Q415.11 90.75 415.11 80.58V78.87Q415.11 68.84 419.27 61.31Q423.42 53.79 430.88 49.70Q438.34 45.60 448.11 45.60Q457.88 45.60 465.33 49.70Q472.79 53.79 476.95 61.31Q481.11 68.84 481.11 78.87V80.58Q481.11 90.75 476.95 98.21Q472.79 105.66 465.33 109.76Q457.88 113.85 448.11 113.85ZM448.11 104.48Q458.40 104.48 464.54 97.94Q470.68 91.41 470.68 80.32V79.13Q470.68 68.04 464.54 61.51Q458.40 54.98 448.11 54.98Q437.94 54.98 431.74 61.51Q425.54 68.04 425.54 79.13V80.32Q425.54 91.41 431.74 97.94Q437.94 104.48 448.11 104.48ZM532.46 113.85Q520.44 113.85 512.19 108.30Q503.94 102.76 502.23 90.75L512.13 88.50Q513.18 94.84 516.09 98.47Q518.99 102.10 523.28 103.62Q527.57 105.14 532.46 105.14Q539.72 105.14 543.94 102.23Q548.16 99.33 548.16 94.44Q548.16 89.43 544.14 87.38Q540.11 85.34 533.12 84.02L527.70 83.09Q521.50 82.04 516.35 79.79Q511.20 77.55 508.17 73.72Q505.13 69.89 505.13 64.08Q505.13 55.37 511.86 50.49Q518.60 45.60 529.68 45.60Q540.64 45.60 547.44 50.55Q554.24 55.50 556.22 64.48L546.45 66.99Q545.26 59.99 540.77 57.15Q536.28 54.32 529.68 54.32Q523.08 54.32 519.26 56.76Q515.43 59.20 515.43 63.95Q515.43 68.57 519.06 70.75Q522.69 72.93 528.76 73.98L534.17 74.91Q541.04 76.10 546.51 78.14Q551.99 80.19 555.23 84.02Q558.46 87.84 558.46 94.05Q558.46 103.55 551.40 108.70Q544.34 113.85 532.46 113.85ZM602.42 113.85Q595.68 113.85 590.14 111.47Q584.60 109.10 581.43 104.61Q578.26 100.12 578.26 93.65Q578.26 87.05 581.43 82.76Q584.60 78.47 590.14 76.29Q595.68 74.12 602.55 74.12H624.33V69.36Q624.33 62.50 620.30 58.54Q616.28 54.58 608.36 54.58Q600.57 54.58 596.21 58.34Q591.86 62.10 590.27 68.44L580.50 65.27Q582.09 59.86 585.52 55.44Q588.95 51.02 594.69 48.31Q600.44 45.60 608.49 45.60Q620.90 45.60 627.76 52.01Q634.62 58.41 634.62 70.02V99.20Q634.62 103.16 638.32 103.16H644.26V112.00H635.15Q630.80 112.00 628.16 109.56Q625.52 107.12 625.52 103.02V102.36H623.93Q622.48 104.87 620.04 107.58Q617.60 110.28 613.37 112.07Q609.15 113.85 602.42 113.85ZM603.60 104.87Q612.84 104.87 618.59 99.39Q624.33 93.92 624.33 84.02V82.56H602.94Q596.74 82.56 592.71 85.27Q588.69 87.98 588.69 93.39Q588.69 98.80 592.85 101.84Q597.00 104.87 603.60 104.87Z" fill="#141413"/></svg></a>
+    <nav class="tabs" id="tabs" aria-label="主要導覽">
+      <a href="mosatalk.html" data-route="talk">MosaTalk</a>
+      <a href="mosaminutes.html" data-route="minutes" aria-current="page">MosaMinutes</a>
+      <a href="mosascore.html" data-route="score">MosaScore</a>
+      <a href="on-premise.html" data-route="onprem">為什麼地端</a>
+      <a href="languages.html" data-route="lang">臺灣語言</a>
+      <a href="research.html" data-route="research">研究</a>
+      <i class="ind" id="ind" aria-hidden="true"></i>
+    </nav>
+    <a class="lang" id="langsw" data-base="en/" href="en/mosaminutes.html" hreflang="en" lang="en" aria-label="English version">EN</a>
+    <a class="btn solid" href="index.html#poc" data-route="poc">申請 PoC</a>
+  </div>
+</header>
 
-  <header style="position:sticky;top:0;z-index:20;background:rgba(20,20,19,0.92);backdrop-filter:blur(14px);border-bottom:1px solid #26251f">
-    <div class="r-mw-1280px r-gap-40px" style="max-width:1280px;margin:0 auto;padding:20px 56px;display:flex;align-items:center;justify-content:space-between;gap:40px">
-      <a aria-label="Voxmosa"href="index.html" class="r-fs-25px" style="display:flex;align-items:baseline;font-family:'Space Grotesk',sans-serif;font-size:25px;font-weight:400;letter-spacing:0.05em;line-height:1;color:#f4f3f0;flex:none">
-        <span>V</span>
-        <svg aria-hidden="true" viewBox="0 0 200 120" preserveAspectRatio="xMinYMid slice" style="height:0.53em;width:0.8em;transform:translateY(0.0205em);overflow:visible;display:block;flex:none" fill="none" stroke="currentColor" stroke-linecap="round">
-          <circle cx="60" cy="60" r="51" stroke-width="18" />
-          <path d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="14" opacity="0.6" />
-          <path d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="14" opacity="0.3" />
-        </svg>
-        <span>x</span><span style="display:inline-block;width:0.06em;flex:none"></span><span>mosa</span>
-      </a>
-      <nav class="r-gap-30px" style="display:flex;align-items:center;gap:30px;font-size:14px;font-weight:300;color:#b5b2aa">
-        <a href="mosatalk.html">MosaTalk</a>
-        <a href="mosaminutes.html" style="color:#ED9A4A">MosaMinutes</a>
-        <a href="mosascore.html">MosaScore</a>
-        <a href="index.html#tech">技術實力</a>
-        <a href="on-premise.html">為什麼地端</a>
-        <a href="languages.html">臺灣語言</a>
-        <a href="index.html#team">團隊</a>
-        <a href="#contact" style="background:#ED9A4A;color:#141413;padding:10px 19px;border-radius:4px;font-size:13.5px;font-weight:500">申請 PoC</a>
+<main id="views">
+
+<!-- ═════════ 首頁 ═════════ -->
+<section class="view" id="v-home" data-title="Voxmosa | 地端語音 AI：AI 會議記錄、語音客服與臺灣本土語言">
+  <div class="hero">
+    <div class="hero-in">
+      <div class="couplet" aria-hidden="true">
+        <span>聽得懂<span class="dot">臺灣</span>的語音<span class="tcy">AI</span>，</span>
+        <span>跑在你<span class="dot">自己</span>的機房裡。<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span>
+      </div>
+      <h1 class="sr-only">聽得懂臺灣的地端語音 AI，跑在你自己的機房裡 — 支援國語、台語、客語、原住民族語與英語</h1>
+      <div class="demo" data-a>
+        <div class="demo-top"><span class="rec"></span>國台語夾雜<span>→ 繁體中文逐字稿</span><em>Sample</em></div>
+        <div class="lines" id="lines">
+          <p class="ln"><b class="spk">S1</b><span class="tx"><span class="tg">彼个案子的預算，咱敢有確定落來？</span></span></p>
+          <p class="ln"><b class="spk b">S2</b><span class="tx">上禮拜董事會通過了，我等一下把會議紀錄寄給你。</span></p>
+          <p class="ln"><b class="spk">S1</b><span class="tx">好，數字若有 <span class="en">update</span> 你直接 <span class="en">tag</span> 我就好。</span></p>
+          <p class="ln"><b class="spk b">S2</b><span class="tx">沒問題，摘要跟待辦我一起附上去。</span></p>
+        </div>
+        <div class="demo-foot">
+          <span class="lg" style="--c:var(--sig)">台語</span><span class="lg" style="--c:#8c8a84">英語</span>
+          <span id="tm">0:17</span><span>示意畫面</span><button type="button" id="replay">重播</button>
+        </div>
+      </div>
+      <div class="intro" data-a style="--d:3">
+        <p>國語、台語、客語、原住民族語、英語，全部轉為繁體中文——所有模型都運行在貴單位自有的伺服器上。</p>
+        <div class="cta col"><a class="btn solid" href="index.html#poc" data-route="poc">申請 PoC</a><a class="btn ghost" href="#products" data-scroll>看三項產品</a></div>
+      </div>
+      <ul class="tags" data-a style="--d:5"><li>封閉網路可運行</li><li>無按次 API 費用</li><li>模型自行訓練</li></ul>
+    </div>
+    <canvas class="ridge" aria-hidden="true"></canvas>
+  </div>
+
+  <div class="band night">
+    <div class="wrap">
+      <p class="kicker"><b>01</b>資料邊界</p>
+      <h2 class="rv">音檔不上傳，<br>逐字稿不離開你的機房。</h2>
+      <div class="bd rv" role="img" aria-label="音檔、逐字稿、摘要、聲紋、領域字典與四個模型都留在貴單位的機房，沒有任何資料送到外部網路。">
+        <div class="bd-room">
+          <span class="bd-tab">貴單位的機房</span>
+          <div class="bd-flow"><ol class="bd-pipe"><li><small>MODEL 1</small>語音辨識</li><li><small>MODEL 2</small>語者分離</li><li><small>MODEL 3</small>對話生成</li><li><small>MODEL 4</small>語音合成</li></ol><span class="bd-pkt"></span></div>
+          <ul class="bd-data"><li>音檔</li><li>逐字稿</li><li>摘要</li><li>聲紋</li><li>領域字典</li></ul>
+        </div>
+        <div class="bd-wall"><i></i><i></i><span>邊界 · 不需連外</span></div>
+        <div class="bd-out"><span class="bd-tab">外部網路</span><p>沒有任何一段音訊、逐字稿或提示詞送出去。</p></div>
+      </div>
+      <p class="fine rv" style="margin-top:26px"><a class="link" href="on-premise.html" data-route="onprem">為什麼一定要地端</a></p>
+    </div>
+  </div>
+
+  <div class="band" id="products">
+    <div class="wrap">
+      <p class="kicker"><b>02</b>三項產品</p>
+      <h2 class="rv">三項產品，同一個原則。</h2>
+      <div class="pcards">
+        <a class="pcard rv" href="mosatalk.html" data-route="talk">
+          <span class="no">01<span>即時對話</span></span>
+          <h3>MosaTalk</h3><span class="psb">地端 AI 語音客服</span>
+          <p>說完話到 AI 開口約一秒，而且可以隨時插話。</p>
+          <div class="viz"><div class="bars" aria-hidden="true"><i style="height:40%"></i><i style="height:75%"></i><i style="height:100%"></i><i style="height:60%"></i><i style="height:85%"></i><i style="height:45%"></i><i style="height:70%"></i><i style="height:30%"></i><i style="height:90%"></i><i style="height:55%"></i></div><span class="go">→</span></div>
+        </a>
+        <a class="pcard rv" href="mosaminutes.html" data-route="minutes" style="--d:1">
+          <span class="no">02<span>事後記錄</span></span>
+          <h3>MosaMinutes</h3><span class="psb">地端 AI 會議記錄</span>
+          <p>逐字稿、語者、摘要與待辦，邊聽邊改到能直接發出去。</p>
+          <div class="viz"><div class="tl" aria-hidden="true"><i></i><i></i><i></i></div><span class="go">→</span></div>
+        </a>
+        <a class="pcard rv" href="mosascore.html" data-route="score" style="--d:2">
+          <span class="no">03<span class="badge">效度驗證中</span></span>
+          <h3>MosaScore</h3><span class="psb">地端通話品質分析</span>
+          <p>每一通都被完整聽過，逐句標上情緒與意圖分數。</p>
+          <div class="viz"><svg class="spark" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" vector-effect="non-scaling-stroke" d="M2 34 L28 26 L66 16 L98 4"/></svg><span class="go">→</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>03</b>自己跑過的數字</p>
+      <div class="nums rv">
+        <div><strong>≈1<small>s</small></strong><p>使用者說完話，到 AI 開口回答</p></div>
+        <div><strong>10<small>線</small></strong><p>單台 NVIDIA DGX Spark GB10 即時轉錄線數</p></div>
+        <div><strong>5<small>語</small></strong><p>產品內建支援語言，一律轉繁體中文</p></div>
+        <div><strong>1<small>張</small></strong><p>GPU 跑完整系統，含辨識與摘要</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="band deep">
+    <div class="wrap">
+      <p class="kicker"><b>04</b>可重現的評測報告 · 即將公開</p>
+      <div class="vd rv">
+        <div>
+          <h2 style="font-size:clamp(24px,3vw,40px)">「語音辨識的準確率是多少？」</h2>
+          <p class="cer" aria-label="字元錯誤率：我們不填這一格">CER ＝ <i></i> %</p>
+        </div>
+        <div>
+          <p style="font:700 clamp(18px,1.9vw,25px)/1.6 var(--serif)">行銷數字沒有意義，可重現的數字才有。</p>
+          <p class="lede">對貴單位最有意義的數字，是拿自己的錄音做一次概念驗證測出來的那一個。</p>
+          <div class="cta" style="margin-top:26px"><a class="btn solid" href="index.html#poc" data-route="poc">用自己的音檔驗證一次</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ MosaTalk ═════════ -->
+<section class="view" id="v-talk" data-title="MosaTalk | 聽得懂台語的地端 AI 語音客服 - Voxmosa">
+  <div class="ph">
+    <div class="ph-in">
+      <p class="couplet" role="img" aria-label="客戶打電話進來，AI 聽得懂，也答得出來。"><span aria-hidden="true">客戶打電話進來，</span><span aria-hidden="true"><span class="tcy">AI</span><span class="dot">聽得懂</span>，也答得出來。<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span></p>
+      <div class="ptxt" data-a>
+        <p class="crumb">Product 01 · On-Premise</p>
+        <h1><span class="pname">MosaTalk</span><span class="psub">聽得懂台語的地端 AI 語音客服</span></h1>
+        <p class="lede">客戶開網頁按下通話、或直撥既有的客服專線，就能和 AI 自然對談。</p>
+        <div class="cta"><a class="btn solid" href="index.html#poc" data-route="poc">申請 PoC</a></div>
+      </div>
+      <div class="pvis" data-a style="--d:3">
+        <div class="mock dark">
+          <div class="mock-bar"><b>Latency Budget</b><span class="sp">可隨時插話</span></div>
+          <div class="lat">
+            <div class="lat-big"><strong>≈1s</strong><span>使用者說完話，到 AI 開口回答</span></div>
+            <div class="lat-line"><u></u><span><b class="eq u" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></b>說完話</span><span>AI 開口<b class="eq a" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></b></span></div>
+          </div>
+          <ol class="stages">
+            <li><b>聽</b><span>說完即觸發，不空等；猶豫時多等一下，不搶話</span></li>
+            <li><b>想</b><span>直接作答，只依你提供的資料回答</span></li>
+            <li><b>說</b><span>逐句串流合成，第一句話最快送出</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band tone">
+    <div class="wrap">
+      <ul class="pts">
+        <li class="rv"><i>01</i><b>隨時插話</b><span>使用者一開口，AI 立即停下並聆聽。</span></li>
+        <li class="rv" style="--d:1"><i>02</i><b>換知識庫不寫程式</b><span>問答格式的文件即可載入。</span></li>
+        <li class="rv" style="--d:2"><i>03</i><b>不編造</b><span>資料未涵蓋時，引導客戶留下聯絡方式。</span></li>
+        <li class="rv" style="--d:3"><i>04</i><b>品牌的聲音</b><span>一段參考錄音即可複製專屬語者聲音。</span></li>
+      </ul>
+      <dl class="facts rv">
+        <div><dt>語言</dt><dd>國語、台語、英語——聽得懂台語，目前以國語回答</dd></div>
+        <div><dt>接入</dt><dd>網頁免安裝通話，或接上既有電話專線</dd></div>
+        <div><dt>硬體</dt><dd>一張 NVIDIA GPU，已於 46 GB 顯存單卡驗證</dd></div>
+      </dl>
+      <p class="plan rv"><b>開發規劃中</b><span>台語合成</span><span>客語能力</span><span>真人客服轉接</span><span>呼叫業務系統 API</span><span>通話分析儀表板</span></p>
+    </div>
+  </div>
+  
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>規格</b>規格與限制</p>
+      <dl class="spec rv"><div class="lim"><dt>語言</dt><dd>國語、台語、英語，並可自動偵測語言。台語目前<b>聽得懂、以國語回答</b>；台語合成與客語能力仍在開發規劃中，原住民族語尚未進入語音客服。</dd></div><div><dt>接入方式</dt><dd>標準 WebRTC，瀏覽器直接通話免安裝；也可經電話系統商介接既有客服專線——<b>電話介接已與電話系統商合作完成實際部署</b>。</dd></div><div><dt>回答原則</dt><dd>只根據你提供的資料回答，數字據實完整；回答簡潔口語，最多三句。資料未涵蓋時不編造，引導客戶留下聯絡電話。</dd></div><div><dt>撥打方式</dt><dd>除了被動接聽，也可設定主動撥打：通話一接通就由 AI 開場，適合預約提醒。</dd></div><div class="lim"><dt>部署模式</dt><dd>單機模式：一台 GPU 伺服器就是完整系統，僅需內網。邊緣分離模式：GPU 主機留在內網、不需固定 IP、不開任何連接埠，但<b>另需一台小型雲端主機</b>。</dd></div><div><dt>硬體</dt><dd>Ubuntu Linux x86_64，一張大顯存 NVIDIA GPU（已於 46 GB 顯存單卡驗證）；辨識、對話、合成三個模型經顯存規劃共用一張卡。</dd></div><div><dt>可觀測性</dt><dd>八色事件流即時監控，驗收與排查不是黑盒子。</dd></div><div><dt>開放技術</dt><dd>WebRTC 與 OpenAI 相容介面，模型可抽換升級，並可依採購規範指定來源。</dd></div></dl><div class="blk"><h3 class="h3 rv">常見問題</h3><div class="faq pf rv"><details><summary>AI 語音客服跟按鍵式 IVR 差在哪？</summary><p>IVR 要客戶照著選單按 1 按 2，按錯一層就得重來。MosaTalk 是直接聽客戶講話、用自然語言回答，客戶說完話到 AI 開口約一秒，而且可以隨時插話打斷。</p></details><details><summary>AI 可以幫忙接電話嗎？可以接現有的客服專線嗎？</summary><p>可以。客戶在網頁上按下通話即可交談，任何支援 WebRTC 的現代瀏覽器都能用、不需要安裝軟體；也可以經電話系統商介接後，讓客戶以一般市話或手機直撥既有的客服專線，由 AI 自動接聽。</p></details><details><summary>AI 語音客服聽得懂台語嗎？可以用台語回答嗎？</summary><p>辨識已經聽得懂台語，也聽得懂國台語夾雜的自然講話方式——模型是針對臺灣口音與台語最佳化的。但台語的語音合成還沒推出，所以目前是聽得懂台語、以國語回答；台語合成與客語能力都還在開發規劃中，不是現有可交付功能。</p></details><details><summary>客戶的通話錄音會上傳到雲端嗎？</summary><p>不會。辨識、對話生成與語音合成三個模型全部運行在貴單位自己的伺服器上，不呼叫任何雲端 AI 服務。單機模式僅需內網即可運作；若採邊緣分離模式，另需一台小型雲端主機。</p></details><details><summary>要準備什麼硬體？</summary><p>Ubuntu Linux x86_64，搭配一張大顯存的 NVIDIA GPU，已於 46 GB 顯存的單卡環境驗證。硬體我們可以一併供應並到場安裝。</p></details><details><summary>換知識庫需要寫程式嗎？</summary><p>不需要，問答格式的文件即可更換知識庫。遇到資料未涵蓋的問題時 AI 不會編造答案，而是引導客戶留下聯絡方式。</p></details></div></div>
+    </div>
+  </div>
+<div class="band"><div class="wrap end rv"><h2>用你自己的知識庫與客戶對話，<em>驗證一次。</em></h2><a class="btn solid" href="index.html#poc" data-route="poc">申請 PoC</a></div></div>
+</section>
+
+<!-- ═════════ MosaMinutes ═════════ -->
+<section class="view on" id="v-minutes" data-title="MosaMinutes | 地端 AI 會議記錄與逐字稿轉錄 - Voxmosa">
+  <div class="ph">
+    <div class="ph-in">
+      <p class="couplet" role="img" aria-label="會議結束，紀錄已經改到能直接發出去。"><span aria-hidden="true">會議結束，紀錄已經</span><span aria-hidden="true">改到能<span class="dot">直接</span>發出去。<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span></p>
+      <div class="ptxt" data-a>
+        <p class="crumb">Product 02 · On-Premise</p>
+        <h1><span class="pname">MosaMinutes</span><span class="psub">地端 AI 會議記錄平台</span></h1>
+        <p class="lede">錄音或上傳檔案，自動產出逐字稿、分辨誰在說話、寫出摘要與待辦——全程不離開貴單位的網路。</p>
+        <div class="cta"><a class="btn solid" href="index.html#poc" data-route="poc">申請 PoC</a></div>
+      </div>
+      <div class="pvis" data-a style="--d:3">
+        <div class="mock">
+          <div class="mock-bar"><b>校對工作區</b><span class="sp">● 自動儲存</span><span>1.5×</span></div>
+          <div class="ws">
+            <div class="ws-row"><time>00:14</time><b>王主任</b><p>彼个案子的預算，咱敢有確定落來？</p></div>
+            <div class="ws-row act"><time>00:19</time><b>李專員</b><p>上禮拜董事會通過了，我等一下把會議紀錄寄給你<span class="caret"></span></p></div>
+            <div class="ws-row"><time>00:26</time><b>王主任</b><p>好，數字若有 update 你直接 tag 我就好。</p></div>
+          </div>
+          <div class="todo"><h4>待辦事項</h4><ul><li>李專員寄送董事會決議之會議紀錄</li><li>預算數字更新後通知王主任</li></ul></div>
+          <div class="mock-foot">示意畫面</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band tone">
+    <div class="wrap">
+      <ul class="pts">
+        <li class="rv"><i>01</i><b>五種語言，全轉繁體中文</b><span>國語、台語、客語、原住民族語、英語。</span></li>
+        <li class="rv" style="--d:1"><i>02</i><b>記得誰是誰</b><span>聲紋註冊一次，之後自動認出同一個人。</span></li>
+        <li class="rv" style="--d:2"><i>03</i><b>校對不會被蓋掉</b><span>四條獨立通道，互不覆蓋。</span></li>
+        <li class="rv" style="--d:3"><i>04</i><b>改完就能發</b><span>匯出 Word、純文字、字幕，待辦成勾選清單。</span></li>
+      </ul>
+      <dl class="facts rv">
+        <div><dt>容量</dt><dd>一台 NVIDIA DGX Spark GB10，10 線即時轉錄</dd></div>
+        <div><dt>部署</dt><dd>容器化、單機即可運行，封閉網路不需連外</dd></div>
+        <div><dt>管理</dt><dd>OIDC 單一登入、分層權限、稽核紀錄</dd></div>
+      </dl>
+      <p class="plan rv"><b>開發規劃中</b><span>紀錄自動送達</span><span>敏感資料遮罩</span><span>線上會議直接擷取</span><span>公文格式</span><span>跨會議問答</span></p>
+    </div>
+  </div>
+  
+  <div class="band">
+    <div class="wrap">
+      <p class="kicker"><b>實測</b>上線後修正的問題</p>
+      <div class="blk"><h3 class="h3 rv">最讓人不安的不是聽錯，是無中生有。</h3><p class="lede rv">以下三項都是在實際環境處理真實會議時發現並修正的問題，不是規格書上的宣稱。</p><ul class="pts c3"><li class="rv"><i>01</i><b>太短的聲音不會被當成話</b><span>語音長度設有下限，兩百毫秒的環境雜音不會進入辨識，也不會計費。</span></li><li class="rv" style="--d:1"><i>02</i><b>不會陷入重複迴圈</b><span>找出成因並在系統層修掉，不是靠事後過濾遮掩。</span></li><li class="rv" style="--d:2"><i>03</i><b>辨識信心會被記錄</b><span>異常輸出可追溯、可稽核，不會無聲混進逐字稿。</span></li></ul></div>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>規格</b>規格與限制</p>
+      <dl class="spec rv"><div><dt>容量</dt><dd>單台 NVIDIA DGX Spark GB10 可即時 10 線同時轉錄；離線上傳走批次佇列，不受線數限制；超出單機容量可擴充為多機配置。</dd></div><div class="lim"><dt>線上會議</dt><dd><b>目前不能直接接 Google Meet、Microsoft Teams 或 Zoom</b>，做法是錄音或上傳音檔。直接擷取電腦上的線上會議音訊列在開發規劃中。</dd></div><div><dt>語言</dt><dd>國語、台語、客語（六腔）、原住民族語（16 族 42 語）、英語，一律轉為繁體中文並自動標點分段；可設定個人預設語言與口音。</dd></div><div><dt>語者</dt><dd>聲紋註冊與自動比對；上傳時可指定預期發言人數；語者辨識失敗不會讓整場會議失敗，仍產出完整逐字稿。</dd></div><div><dt>匯出</dt><dd>Word（含出席者、摘要區塊，待辦為勾選清單）、純文字、SRT 字幕。</dd></div><div><dt>帳號與稽核</dt><dd>OIDC 單一登入（支援自架身分提供者）、分層權限、管理操作留下紀錄且須填寫原因、可設定結果保留期限。</dd></div><div><dt>程式化 API</dt><dd>以存取權杖供內部系統呼叫，支援同步與非同步，重複請求只執行一次。用量控管：瀏覽器使用者以額度、API 以點數分開計算。</dd></div><div><dt>資料完整性</dt><dd>每份錄音進入系統前先完成驗證；收下的那一刻即記錄雜湊值與位元組數，原始錄音的完整性有據可查。</dd></div><div><dt>部署</dt><dd>容器化部署，單機即可運行，封閉網路不需連外。使用者端為任何現代瀏覽器，電腦與行動裝置皆可。</dd></div><div><dt>模型來源</dt><dd>建構於業界標準開源技術與相容介面；採購規範要求非紅色供應鏈時，可評估替換為其他來源的開放權重模型。</dd></div></dl><div class="blk"><h3 class="h3 rv">導入不只是交付軟體</h3><ul class="pts c3"><li class="rv"><i>01</i><b>主機供應與到場安裝</b><span>經測試驗證後協助完成安裝部署。</span></li><li class="rv" style="--d:1"><i>02</i><b>辨識模型持續改進</b><span>依貴單位的實際語音情境與領域用語持續優化。</span></li><li class="rv" style="--d:2"><i>03</i><b>可重現的評測報告</b><span>以指定公開基準或自備會議音檔評測。</span></li><li class="rv"><i>04</i><b>產業合規與供應鏈客製</b><span>依法規與內控要求客製存取控制與稽核。</span></li><li class="rv" style="--d:1"><i>05</i><b>場景客製化</b><span>把既有紀錄格式、專有名詞表整理成系統設定。</span></li><li class="rv" style="--d:2"><i>06</i><b>維護、更新與教育訓練</b><span>貴單位不需自建 AI／MLOps 團隊。</span></li></ul></div><div class="blk"><h3 class="h3 rv">常見問題</h3><div class="faq pf rv"><details><summary>AI 會議轉錄是什麼？</summary><p>把會議錄音自動轉成逐字稿，同時分辨誰在說話、寫出摘要與待辦事項。MosaMinutes 讓你在同一個畫面裡邊聽邊改，改到能直接發出去為止。</p></details><details><summary>現成的錄音檔可以直接轉成文字嗎？</summary><p>可以。除了現場收音，也能直接上傳既有的錄音檔，離線上傳走批次佇列處理、不受同時線數限制。轉出來的逐字稿一樣會自動標點分段、分辨誰在說話，並產出摘要與待辦。</p></details><details><summary>會議錄音可以完全不上雲嗎？</summary><p>可以，而且這是預設形態、不是附加選項。錄音、逐字稿、摘要與待辦全程在貴單位自己的伺服器上完成，容器化部署、單機即可運行，封閉網路不需連外也能使用。</p></details><details><summary>聽得懂台語和客語的會議嗎？</summary><p>國語、台語、客語、原住民族語、英語五種語言一律轉為繁體中文逐字稿，並自動標點分段。客語涵蓋四縣、海陸、大埔、饒平、詔安、南四縣六腔。</p></details><details><summary>可以直接接 Google Meet、Microsoft Teams 或 Zoom 嗎？</summary><p>目前不行。現在的做法是錄音或上傳音檔。直接擷取電腦上正在進行的線上會議音訊（不需要外部帳號加入會議）列在下一階段的開發方向，還不是現有可交付功能。</p></details><details><summary>一台機器可以同時轉錄幾場會議？</summary><p>一台 NVIDIA DGX Spark GB10 可支援 10 線即時轉錄；離線上傳走批次佇列處理，不受線數限制。需求超出單機容量時可以規模化為多機配置。</p></details><details><summary>多人同時校對，改的東西會不會被蓋掉？</summary><p>不會。校對走四條獨立通道，彼此互不覆蓋，所以不會發生後改的蓋掉先改的。真的衝突時，系統不會自作主張選一邊，而是精確標示到那一句。</p></details></div></div>
+    </div>
+  </div>
+<div class="band"><div class="wrap end rv"><h2>用你自己的會議錄音，<em>驗證一次。</em></h2><a class="btn solid" href="index.html#poc" data-route="poc">申請 PoC</a></div></div>
+</section>
+
+<!-- ═════════ MosaScore ═════════ -->
+<section class="view" id="v-score" data-title="MosaScore | 地端通話品質分析與客服錄音質檢 - Voxmosa">
+  <div class="ph">
+    <div class="ph-in">
+      <p class="couplet" role="img" aria-label="通話錄音一直都在，只是沒有人有時間聽。"><span aria-hidden="true">通話錄音一直都在，</span><span aria-hidden="true">只是<span class="dot">沒有人</span>有時間聽。<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span></p>
+      <div class="ptxt" data-a>
+        <p class="crumb">Product 03 · On-Premise</p>
+        <h1><span class="pname">MosaScore</span><span class="psub">地端通話品質分析 <span class="badge">效度驗證中</span></span></h1>
+        <p class="lede">把只能抽查 1~3% 的客服與電銷錄音，變成每一通都被完整聽過、逐句標上情緒與意圖分數的可查資料。</p>
+        <div class="cta"><a class="btn solid" href="index.html#poc" data-route="poc">申請 PoC</a></div><p class="warn"><span><b>現況說明　</b>MosaScore 已可部署於標準 Linux GPU 伺服器（亦支援 Apple Silicon 單機展示），但<b>尚未於客戶環境正式上線</b>；購買傾向分數尚未經真實成交資料驗證，本頁不提供任何準確率數字。</span></p>
+      </div>
+      <div class="pvis" data-a style="--d:3">
+        <div class="mock">
+          <div class="mock-bar"><b>通話分析</b><span>01:02</span><span class="sp">● ASR　● EMO　● LLM</span></div>
+          <div class="sc-top">
+            <svg viewBox="0 0 320 126" role="img" aria-label="購買傾向分數隨通話進行由 22 上升至 84">
+              <g stroke="rgba(20,20,19,.14)" stroke-width="1"><line x1="22" y1="112" x2="320" y2="112"/><line x1="22" y1="62" x2="320" y2="62" stroke-dasharray="3 4"/><line x1="22" y1="12" x2="320" y2="12" stroke-dasharray="3 4"/></g>
+              <g font-family="ui-monospace,Menlo,monospace" font-size="8" fill="#6b6960"><text x="0" y="15">100</text><text x="0" y="65">50</text><text x="0" y="115">0</text><text x="63" y="125" text-anchor="middle">00:11</text><text x="126" y="125" text-anchor="middle">00:24</text><text x="237" y="125" text-anchor="middle">00:47</text><text x="306" y="125" text-anchor="middle">01:02</text></g>
+              <path class="sc-path" pathLength="1" d="M63 90L126 71L237 49L310 28" fill="none" stroke="#ED9A4A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <g fill="#fbfaf8" stroke="#ED9A4A" stroke-width="2"><circle cx="63" cy="90" r="4"/><circle cx="126" cy="71" r="4"/><circle cx="237" cy="49" r="4"/><circle cx="310" cy="28" r="5.5" fill="#ED9A4A"/></g>
+              <g font-family="ui-monospace,Menlo,monospace" font-size="9" font-weight="700" fill="#141413" text-anchor="middle"><text x="63" y="80">22</text><text x="126" y="61">41</text><text x="237" y="39">63</text></g>
+            </svg>
+            <p class="sc-cap"><b>購買傾向分數</b>詢問付款方式，命中最高級距錨點</p>
+            <strong class="sc-num">84</strong>
+          </div>
+          <ul class="sc-rows">
+            <li><time>00:11</time><span><i class="who c">客戶</i>喔……我現在沒有在吃這個啦</span><b>22</b></li>
+            <li><time>00:24</time><span><i class="who c">客戶</i>睡不太好，都嘛翻來翻去</span><b>41</b></li>
+            <li><time>00:47</time><span><i class="who c">客戶</i>那這个一組是幾罐？</span><b>63</b></li>
+            <li><time>01:02</time><span><i class="who c">客戶</i>如果我要買的話，是貨到付款嗎？</span><b>84</b></li>
+          </ul>
+          <div class="mock-foot">示意畫面</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band tone">
+    <div class="wrap covsec">
+      <div><p class="kicker"><b>01</b>覆蓋率</p><h2 class="rv">從抽查 1~3%，<br>到全部聽過。</h2><p class="lede rv">這是覆蓋率的量級差異，不是效率的百分比改善。</p></div>
+      <div class="covfigs rv">
+        <figure><div class="dots few" role="img" aria-label="一百通電話中只有兩通被聽過"></div><figcaption><b>1~3%</b>人工抽查</figcaption></figure>
+        <figure><div class="dots all" role="img" aria-label="一百通電話全部被聽過"></div><figcaption><b>100%</b>MosaScore</figcaption></figure>
+      </div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="wrap">
+      <ul class="pts">
+        <li class="rv"><i>01</i><b>雙軌分離</b><span>語者標籤天然 100% 正確。</span></li>
+        <li class="rv" style="--d:1"><i>02</i><b>一個產業一份字典</b><span>換字典即可，不需要改程式。</span></li>
+        <li class="rv" style="--d:2"><i>03</i><b>逐句分數，附原因</b><span>情緒與 0–100 購買傾向分數。</span></li>
+        <li class="rv" style="--d:3"><i>04</i><b>每個判讀都能核對</b><span>逐句回放，加上逐軌字幕。</span></li>
+      </ul>
+      <p class="plan rv"><b>開發規劃中</b><span>法遵稽核記分卡</span><span>混音錄音支援</span><span>批次全量質檢</span><span>台語辨識</span><span>即時警示</span></p>
+    </div>
+  </div>
+  <div class="band night">
+    <div class="wrap">
+      <p class="kicker"><b>02</b>關於分數的效度</p>
+      <div class="quote rv"><p>目前證明的是「流程跑得通」，還沒有證明「分數預測得準」。<small>分數尚未經真實成交資料驗證，我們不提供準確率數字。驗證是導入的第一階段：用貴單位自己的錄音與實際成交結果驗證一次——結論若是負面的，貴單位也在投入前就知道了。</small></p></div>
+      <div class="cta rv" style="margin-top:32px"><a class="btn solid" href="index.html#poc" data-route="poc">先驗證一次</a></div>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>實測</b>每一個預設值都有實測依據</p>
+      <div class="blk"><h3 class="h3 rv">含被推翻的假設。</h3><p class="lede rv">多數設計決定都來自實測後的修正，而非規格書上的想像。一套質檢系統的可信度，來自於它自己的開發過程也經得起質檢。</p><table class="tbl rv"><thead><tr><th scope="col">決定</th><th scope="col">依據</th></tr></thead><tbody><tr><th scope="row">更換預設辨識引擎</th><td data-l="依據">短句延遲從約 2.5 秒降至約 0.5 秒，且領域術語辨識更準</td></tr><tr><th scope="row">淘汰另一個更快的引擎</th><td data-l="依據">它快一倍，但會產出「看起來像人話」的錯誤逐字稿——那比明顯的亂碼更危險</td></tr><tr><th scope="row">關閉模型的推理模式</th><td data-l="依據">生成的推理內容程式根本不會讀取，卻讓單次評分從數秒暴增至一百秒以上</td></tr><tr><th scope="row">不讓 AI 重寫逐字稿</th><td data-l="依據">實測它修好 1 個錯字，卻在另外 2 句出現多改字與刪除尾句</td></tr><tr><th scope="row">客服回合預設不評分</th><td data-l="依據">實測 6 通電話中，61% 的評分運算花在前端根本不顯示的內容上</td></tr></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="wrap">
+      <p class="kicker"><b>適用</b>適用場景與比較</p>
+      <div class="blk"><h3 class="h3 rv">有大量通話錄音、且不能使用雲端分析服務的單位。</h3><ul class="inds c2 rv"><li><b>保健食品與消費品電話行銷</b><span>成效分析、話術對照、廣告用語的合規檢核。現有情境已完整調校。</span><em>已調校</em></li><li><b>金融與保險電話招攬</b><span>本來就被要求全程錄音並長期保存，法遵稽核的需求最明確。</span><em>法遵稽核</em></li><li><b>客服中心品質檢核</b><span>從抽查改為全量，同時成為客訴預防與教育訓練素材的來源。</span><em>全量質檢</em></li><li><b>醫療與長照諮詢專線</b><span>資料全程留在院內伺服器，且需要明確的回答邊界檢核。</span><em>資料不出院</em></li></ul><p class="warn rv"><span><b>需另行評估　</b>B2B 銷售：成交週期以月計，單通電話的「購買機率」框架不適用，需重新定義評分維度。</span></p></div><div class="blk"><h3 class="h3 rv">與雲端通話分析服務的差異</h3><p class="lede rv">若貴單位對錄音外流沒有顧慮、也沒有法規限制，雲端訂閱服務的導入門檻確實更低，功能完整度目前也領先。</p><table class="cmp rv" style="margin-top:22px"><thead><tr><th></th><th scope="col">雲端通話分析服務</th><th scope="col">MOSASCORE</th></tr></thead><tbody><tr><th scope="row">錄音與逐字稿</th><td>上傳至服務商伺服器</td><td class="v">完全留在貴單位機房</td></tr><tr><th scope="row">封閉網路</th><td>不可，必須連外</td><td class="v">可，不需連外</td></tr><tr><th scope="row">計費方式</th><td>按時數或通話量訂閱</td><td class="v">一次建置，無按次 API 費用</td></tr><tr><th scope="row">領域用語調整</th><td>多為共用通用模型</td><td class="v">每個客戶一份專屬字典</td></tr><tr><th scope="row">判讀可否逐句核對</th><td>視服務商而定</td><td class="v">逐句回放 ＋ 逐軌字幕 ＋ 完整記錄</td></tr><tr class="cloud"><th scope="row">導入成本</th><td>低，開帳號即用</td><td class="v">需伺服器與建置，可提供硬體與到場安裝</td></tr><tr class="cloud"><th scope="row">成熟度</th><td>商業服務，功能完整</td><td class="v">核心分析流程已完備，企業管理功能開發中</td></tr></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="band night">
+    <div class="wrap">
+      <p class="kicker"><b>原則</b>一條我們主動劃下的界線</p>
+      <div class="cols"><div class="rv"><h3>情緒推斷只用於客戶端</h3><p>對客服人員的評分屬於勞動監控，其中又以「情緒推斷」的爭議最大（歐盟已將工作場所的情緒推斷列為禁止用途）。我們的產品原則是：情緒推斷只用於客戶端；對客服的評分以可稽核的客觀行為為準，且不作為員工考核的單一依據。這條線我們在設計階段就劃好，不等客戶問起才補。</p></div><div class="rv" style="--d:1"><h3>標準開放技術，不被綁定</h3><p>系統建構於開源模型與標準相容介面，模型可依需求抽換升級。若貴單位（尤其是政府機關與金融業）需要符合非紅色供應鏈規範的模型組合，我們可依規範評估並替換為其他來源的開放權重模型後重新驗證品質。</p></div></div>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>規格</b>規格與限制</p>
+      <dl class="spec rv"><div class="lim"><dt>音檔格式</dt><dd><b>目前僅支援雙聲道 .mp3／.wav</b>（客戶與客服各一軌）。單聲道與混音錄音的支援仍在開發規劃中。</dd></div><div class="lim"><dt>上線狀態</dt><dd>已可部署於標準 Linux GPU 伺服器，但<b>尚未於客戶環境正式上線</b>；購買傾向分數尚未經真實成交資料驗證。</dd></div><div class="lim"><dt>處理速度</dt><dd>每一句發言都完整執行辨識、情緒與評分，<b>長通話的處理時間會超過音檔長度</b>。批次質檢不受影響；通話中的即時輔助需要不同的架構。</dd></div><div><dt>辨識調校</dt><dd>品牌名、產品名與術語作為熱詞提示辨識引擎。實測可把「體驗只」修正為「體驗組」、「吃麻明」修正為「芝麻明」——這類錯誤事後校正救不回來，只能在辨識階段解決。</dd></div><div><dt>文本後處理</dt><dd>十道防護網：簡轉繁、幻覺過濾、跳針消除、贅字過濾、標點正規化、中文數字轉阿拉伯數字、同音錯字替換與拼音相似度模糊比對。</dd></div><div><dt>評分方式</dt><dd>本地大型語言模型結合逐字稿、對話脈絡與聲學情緒，在客戶每說完一句時輸出情緒、意圖、0–100 分數與變動原因；五段級距錨點與範例句校準，分數不被客服話術干擾。</dd></div><div><dt>機房部署</dt><dd>Ubuntu Linux x86_64 ＋ NVIDIA GPU，內網即可完整運作；瀏覽器使用，免安裝。</dd></div><div><dt>單機展示</dt><dd>Apple Silicon M 系列，統一記憶體 16GB 以上（建議 24GB）。模型權重首次下載需連外，之後分析全程可離線；前端無外部資源依賴，沒有網路的會議室也能完整展示。</dd></div></dl><div class="blk"><h3 class="h3 rv">常見問題</h3><div class="faq pf rv"><details><summary>通話品質分析可以做到什麼程度？</summary><p>把過去只能抽查 1~3% 的客服與電銷錄音，變成每一通都被完整聽過、逐句轉成文字、標上情緒與 0–100 購買傾向分數的可查資料，而且每一次分數變動都附上原因。目前需要雙聲道錄音。</p></details><details><summary>這個分數準嗎？</summary><p>分數尚未經真實成交資料驗證，我們不提供準確率數字。效度驗證是導入的第一階段——用貴單位自己的錄音與實際成交結果驗證一次，再談後續。</p></details><details><summary>錄音需要上傳到雲端嗎？</summary><p>不需要。系統部署在貴單位的 Linux GPU 機房主機上，錄音與逐字稿不離開機房。</p></details><details><summary>跟主管人工抽查差在哪？</summary><p>抽查看到的是樣本，這裡是母體。而且每個判讀都能當場核對：逐句回放加上逐軌字幕，雙軌分離讓語者標籤天然正確，不需要靠演算法猜是誰在講話。</p></details><details><summary>每個產業的用語不同，需要改程式嗎？</summary><p>不需要。每個產業一份領域字典，換字典即可，不動程式。</p></details></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 為什麼地端 ═════════ -->
+<section class="view" id="v-onprem" data-title="地端 AI | 語音辨識、會議記錄與語音客服的私有化部署 - Voxmosa">
+  <div class="ph wide night">
+    <div class="ph-in">
+      <p class="couplet" role="img" aria-label="音檔不上傳，逐字稿不離開你的機房。"><span aria-hidden="true">音檔<span class="dot">不上傳</span>，</span><span aria-hidden="true">逐字稿<span class="dot">不離開</span>你的機房。<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span></p>
+      <div class="ptxt" data-a>
+        <p class="crumb">On-Premises</p>
+        <h1><span class="pname zh">地端語音 AI</span><span class="psub">四個模型，全部運行在貴單位自己的伺服器上</span></h1>
+        <p class="lede">不呼叫任何雲端 AI 服務。容器化部署、單機即可運行，封閉網路不需連外也能使用。</p>
+      </div>
+      <div class="pvis" data-a style="--d:3">
+        <div class="bd" style="margin-top:0" role="img" aria-label="音檔、逐字稿、摘要、聲紋、領域字典與四個模型都留在貴單位的機房，沒有任何資料送到外部網路。">
+          <div class="bd-room">
+            <span class="bd-tab">貴單位的機房</span>
+            <div class="bd-flow"><ol class="bd-pipe"><li><small>MODEL 1</small>語音辨識</li><li><small>MODEL 2</small>語者分離</li><li><small>MODEL 3</small>對話生成</li><li><small>MODEL 4</small>語音合成</li></ol><span class="bd-pkt"></span></div>
+            <ul class="bd-data"><li>音檔</li><li>逐字稿</li><li>摘要</li><li>聲紋</li><li>領域字典</li></ul>
+          </div>
+          <div class="bd-wall"><i></i><i></i><span>邊界 · 不需連外</span></div>
+          <div class="bd-out"><span class="bd-tab">外部網路</span><p>沒有任何一段音訊、逐字稿或提示詞送出去。</p></div>
+        </div>
+        <p class="fine">MosaTalk 的邊緣分離模式另需一台小型雲端主機；單機模式僅需內網。</p>
+      </div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="wrap">
+      <p class="kicker"><b>01</b>什麼情況下非地端不可</p>
+      <ul class="why">
+        <li class="rv"><i>一</i><b>內容本身就是機密</b><span>董事會決議、法遵討論、當事人會談、病歷個資。</span></li>
+        <li class="rv" style="--d:1"><i>二</i><b>網路本來就不通外面</b><span>封閉網路裡，需要連外的服務都不是選項。</span></li>
+        <li class="rv" style="--d:2"><i>三</i><b>採購規範要求指定來源</b><span>地端可以依規範指定模型來源。</span></li>
+      </ul>
+      <div class="quote rv" style="margin-top:clamp(40px,6vw,72px)"><p>地端本身不是賣點，它是某些單位的前提。<small>如果貴單位不在上面三種情況裡，我們會直接說雲端比較適合。</small></p></div>
+    </div>
+  </div>
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>02</b>跟雲端差在哪</p>
+      <h2 class="rv">雲端佔優的那一列，<br>我們也照樣寫出來。</h2>
+      <table class="cmp rv">
+        <thead><tr><th></th><th scope="col">雲端語音服務</th><th scope="col">VOXMOSA</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">錄音與逐字稿</th><td>上傳至服務商伺服器</td><td class="v">完全留在貴單位機房</td></tr>
+          <tr><th scope="row">封閉網路</th><td>不可，必須連外</td><td class="v">可，不需連外</td></tr>
+          <tr><th scope="row">台語／客語／族語</th><td>本土服務有，但皆為雲端</td><td class="v">支援，且在地端執行</td></tr>
+          <tr><th scope="row">計費方式</th><td>訂閱制，用越多越貴</td><td class="v">一次建置，無按次 API 費用</td></tr>
+          <tr><th scope="row">模型調整</th><td>不可，共用通用模型</td><td class="v">可，模型由團隊自行訓練</td></tr>
+          <tr><th scope="row">聲紋與領域字典</th><td>通常無法帶走</td><td class="v">存在貴單位，隨系統一起</td></tr><tr class="cloud"><th scope="row">導入成本</th><td>低，開帳號即用</td><td class="v">需伺服器與建置，我們可供應硬體並到場安裝</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="band">
+    <div class="wrap">
+      <p class="kicker"><b>03</b>一台機器跑得動嗎</p>
+      <div class="nums n3 rv">
+        <div><strong>10<small>線</small></strong><p>會議即時轉錄，一台 NVIDIA DGX Spark GB10</p></div>
+        <div><strong>1<small>張 GPU</small></strong><p>語音客服完整流程，已於 46 GB 顯存單卡驗證</p></div>
+        <div><strong>4<small>個模型</small></strong><p>辨識、語者分離、對話生成、語音合成，全部在機房內執行</p></div>
+      </div>
+      <p class="fine">上面的數字是我們自己跑過的環境，不是型錄值；需求超出單機容量時可擴充為多機配置。硬體可由我們供應並到場安裝。</p>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>配置</b>實際驗證過的主機配置</p>
+      <table class="tbl rv"><thead><tr><th scope="col">項目</th><th scope="col">會議轉錄 MosaMinutes</th><th scope="col">語音客服 MosaTalk</th></tr></thead><tbody><tr><th scope="row">主機</th><td data-l="會議轉錄 MosaMinutes">一台 NVIDIA DGX Spark GB10（128 GB 統一記憶體）</td><td data-l="語音客服 MosaTalk">一張大顯存 NVIDIA GPU（46 GB 單卡驗證）</td></tr><tr><th scope="row">作業系統</th><td data-l="會議轉錄 MosaMinutes">原廠 DGX OS（Ubuntu 基礎）</td><td data-l="語音客服 MosaTalk">Ubuntu Linux x86_64</td></tr><tr><th scope="row">部署形態</th><td data-l="會議轉錄 MosaMinutes">容器化，單機即可運行</td><td data-l="語音客服 MosaTalk">單機模式僅需內網</td></tr><tr><th scope="row">使用者端</th><td data-l="會議轉錄 MosaMinutes">任何現代瀏覽器，免安裝</td><td data-l="語音客服 MosaTalk">支援 WebRTC 的瀏覽器，或市話直撥</td></tr><tr><th scope="row">硬體來源</th><td data-l="會議轉錄 MosaMinutes">可由我們供應並到場安裝</td><td data-l="語音客服 MosaTalk">可由我們供應並到場安裝</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="wrap">
+      <p class="kicker"><b>產業</b>產業情境與合規</p>
+      <div class="blk"><h3 class="h3 rv">對這些單位而言，情境就是合規。</h3><p class="lede rv">我們依產業的實際法規與內控要求，客製化存取控制、稽核紀錄與資料保存機制，而不是套用單一制式方案。</p><ul class="inds rv"><li><b>政府機關</b><span>公務會議、公聽會、委員會記錄。地端運行同時滿足資安規範與資料落地要求。</span><em>公文格式匯出 · 非紅供應鏈</em></li><li><b>金融業</b><span>董事會、法遵與風控會議，以及商品諮詢類的高重複性問答。</span><em>內控 · 稽核軌跡</em></li><li><b>醫療機構</b><span>院內會議、個案討論、衛教與掛號諮詢，資料全程留在院內伺服器。</span><em>病歷個資 · 敏感欄位遮罩</em></li><li><b>法律事務所</b><span>當事人會談、案件討論。保密義務使地端架構成為必要條件而非選項。</span><em>保密義務 · 記錄證據性</em></li><li><b>長照與教育研究</b><span>家屬諮詢、服務說明、訪談與教學記錄，以及地方語言的語音資料保存。</span><em>族語保存 · 訪談逐字稿</em></li><li><b>一般企業</b><span>例會、專案進度、客戶會議、客服專線分流——重視內容不外流的任何單位。</span><em>SSO · 保留期限設定</em></li></ul><ul class="caps rv"><li>OIDC 單一登入</li><li>分層權限</li><li>稽核日誌</li><li>結果保留期限</li><li>容器化部署</li><li>封閉網路友善</li><li>非紅色供應鏈可調</li><li>重複請求保護</li></ul></div><div class="blk"><h3 class="h3 rv">部署之後的事</h3><p class="lede rv">地端的難處不在裝起來，在於裝起來之後誰維護、怎麼符合內控、以及資料留多久。這些都在導入範圍內。</p><div class="cols"><div class="rv"><h3>導入不只是交付軟體</h3><p>場景客製化、產業合規調整、地端主機供應與到場安裝、系統維護與版本更新，以及合乎學術規範的評估測試報告。</p></div><div class="rv" style="--d:1"><h3>合規是依單位調整，不是套模板</h3><p>政府、金融、醫療、法律事務所的要求並不相同。我們依實際法規與內控要求，調整存取控制、稽核紀錄與資料保存機制。</p></div></div></div>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>FAQ</b>常見問題</p>
+      <div class="faq pf rv"><details><summary>地端 AI 是什麼？跟私有雲、本地部署是同一件事嗎？</summary><p>在臺灣的採購語境裡，地端、本地部署、私有化部署、內網部署講的通常是同一件事：模型與資料都放在貴單位自己掌控的機器上，而不是服務商的雲端。私有雲則是範圍更廣的說法，有時指自建機房，有時指租用的專屬雲端環境。我們的方案是前者——實體機器放在貴單位，不需連外。</p></details><details><summary>封閉網路、完全不能連外的環境可以用嗎？</summary><p>可以。系統是容器化部署、單機即可運行，不需要連外就能完成辨識、摘要與語音合成。MosaTalk 的邊緣分離模式是例外，那個模式另需一台小型雲端主機；單機模式則只需要內網。</p></details><details><summary>地端一定比較貴嗎？</summary><p>導入成本確實比較高——雲端開帳號就能用，地端需要伺服器與建置。差別在之後：雲端按人數或時數訂閱，用越多越貴；地端是一次建置，沒有按次的 API 費用。所以答案取決於用量與使用年限，而不是單看第一筆。我們可以依貴單位的實際會議量或通話量一起算。</p></details><details><summary>模型可以為我們的專業術語調整嗎？</summary><p>可以。我們的語音辨識模型是全自主架構訓練，不是調整市面通用模型的參數，所以能針對貴單位的特定領域用語、收音環境與聲學情境做深度客製。MosaScore 另外採用每個產業一份領域字典的做法，換字典即可，不需要改程式。</p></details><details><summary>採購規範要求指定模型來源，做得到嗎？</summary><p>可以依採購規範指定模型來源，供應鏈組成也可以配合調整。這是地端相對於雲端服務的結構性差別：雲端服務商的模型組成通常不在採購方的掌握之中。</p></details><details><summary>錄音不上雲，是法規真的有要求，還是內控自己加的？</summary><p>兩種都遇過，而且要求的來源不同。個資與病歷這類內容受個人資料保護法約束，公部門另有資通安全管理法與資通安全責任等級的要求，金融業則有主管機關的內控與稽核規範。實務上更常見的是第三種：法規沒有明文禁止上雲，但單位的內控政策或客戶合約寫明資料不得離開自有環境。我們不會替貴單位判斷屬於哪一種——那是法遵與資安單位的事——我們負責的是讓「不上雲」在技術上真的成立，並依你們的實際要求調整存取控制、稽核紀錄與資料保存期限。</p></details><details><summary>辨識準確率有多少？</summary><p>這一題我們不給行銷數字。字元錯誤率、競品對照、測試方法論與原始音檔，將以符合學術規範的方式完整公開，並可依貴單位指定的公開基準或自備音檔另行評測。在那之前，對貴單位最有意義的數字，是拿自己的錄音做一次概念驗證測出來的那一個。</p></details></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 臺灣語言 ═════════ -->
+<section class="view" id="v-lang" data-title="臺灣本土語言語音 AI | 台語、客語六腔與原住民族語辨識 - Voxmosa">
+  <div class="ph wide">
+    <div class="ph-in">
+      <p class="couplet" role="img" aria-label="不是把中文模型調一調就能聽懂的。"><span aria-hidden="true">不是把中文模型</span><span aria-hidden="true"><span class="dot">調一調</span>就能聽懂的。<i class="seal"><b>語</b><b>地</b><b>音</b><b>端</b></i></span></p>
+      <div class="ptxt" data-a>
+        <p class="crumb">Taiwan Languages</p>
+        <h1><span class="pname zh">臺灣本土語言</span><span class="psub">台語、客語六腔與原住民族語</span></h1>
+        <p class="lede">我們的語音辨識模型採全自主架構訓練，不是調整市面通用模型的參數。</p>
+        <div class="pstats">
+          <div><b>6</b><span>客語腔調</span></div><div><b>42</b><span>原住民族語言，16 族</span></div><div><b>5</b><span>會議轉錄內建語言</span></div>
+        </div>
+      </div>
+      <div class="pvis" data-a style="--d:3">
+        <div class="conv" role="img" aria-label="國語、台語、客語、原住民族語、英語，五種語言一律轉為繁體中文逐字稿">
+          <ul class="conv-in">
+            <li style="--c:#141413">國語</li><li style="--c:#ED9A4A">台語<small>國台語夾雜亦可</small></li><li style="--c:#54524b">客語<small>六腔全數涵蓋</small></li><li style="--c:#8c8a84">原住民族語<small>16 族 · 42 語</small></li><li style="--c:#b5b2aa">英語</li>
+          </ul>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 10C58 10 42 50 100 50" stroke="#141413"/><path d="M0 30C58 30 42 50 100 50" stroke="#ED9A4A"/><path d="M0 50L100 50" stroke="#54524b"/><path d="M0 70C58 70 42 50 100 50" stroke="#8c8a84"/><path d="M0 90C58 90 42 50 100 50" stroke="#b5b2aa"/></svg>
+          <div class="conv-out">繁體中文<small>逐字稿</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band tone">
+    <div class="wrap two">
+      <div class="rv">
+        <h3 class="sub">哪個產品支援哪些語言</h3>
+        <table class="mx">
+          <thead><tr><th scope="col">語言</th><th scope="col">會議轉錄</th><th scope="col">語音客服</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">國語</th><td><span class="st">支援</span></td><td><span class="st">聽與說</span></td></tr>
+            <tr><th scope="row">台語</th><td><span class="st">支援</span></td><td><span class="st half">聽得懂；合成規劃中</span></td></tr>
+            <tr><th scope="row">客語</th><td><span class="st">支援</span></td><td><span class="st none">規劃中</span></td></tr>
+            <tr><th scope="row">原住民族語</th><td><span class="st">支援</span></td><td><span class="st none">尚未進入</span></td></tr>
+            <tr><th scope="row">英語</th><td><span class="st">支援</span></td><td><span class="st">聽與說</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="rv" style="--d:1">
+        <h3 class="sub">客語六腔 <span>辨識 · 合成</span></h3>
+        <ul class="qcards" style="margin-top:18px"><li><b>四縣</b></li><li><b>海陸</b></li><li><b>大埔</b></li><li><b>饒平</b></li><li><b>詔安</b></li><li><b>南四縣</b></li></ul>
+        <blockquote>「客語語音合成、語音識別技術由牧仁資訊研發」</blockquote>
+        <p class="fine" style="margin-top:0">Gohakka 平台版權宣言。你不需要相信我們自己說的，去那裡看就知道。Gohakka 平台的機器翻譯與語言模型由平台方瞬息科技提供，不是我們的部分；客語語料屬於客家委員會，其中一部分的整理工作由本團隊承擔。</p>
+        <div class="hlinks"><a class="link ext" href="https://gohakka.org/" target="_blank" rel="noopener">gohakka.org</a><a class="link ext" href="https://huggingface.co/ILRDF" target="_blank" rel="noopener">Hugging Face / ILRDF</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="wrap">
+      <div class="quote rv"><p>國台語夾雜，才是真實情況。<small>臺灣的會議與客服現場很少有人整段講純台語。實際的樣子是一句國語一句台語，中間夾幾個英文詞。</small></p></div>
+      <p class="fine rv" style="margin-top:30px">原住民族語模型與意傳科技長期合作，落地於原住民族語言研究發展基金會的族語 AI 系統，並公開於 Hugging Face。語料屬於原住民族委員會，其中一部分的整理工作由本團隊承擔。族群與語言數依原住民族委員會的族語分類，客語腔調依客家委員會的六腔分類——兩者都可以逐項查證。　<a class="link" href="research.html" data-route="research">競賽名次與研究發表</a></p>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>FAQ</b>常見問題</p>
+      <div class="faq pf rv"><details><summary>台語錄音可以轉成文字嗎？</summary><p>可以，而且國台語夾雜的錄音也可以。MosaMinutes 會把台語內容轉成繁體中文逐字稿、自動標點分段，並分辨誰在說話。整段處理都在貴單位自己的機器上完成。</p></details><details><summary>客語逐字稿支援哪幾種腔？</summary><p>四縣、海陸、大埔、饒平、詔安、南四縣，六腔全數涵蓋，辨識與合成都是。腔調分類依客家委員會的六腔分類，可以逐項查證。</p></details><details><summary>原住民族語的逐字稿呢？</summary><p>MosaMinutes 支援 16 族、42 種語言。這些模型由本團隊研發，與意傳科技長期合作，並公開在 Hugging Face 上讓任何人下載檢驗。語音客服目前還沒有族語。</p></details><details><summary>跟直接用通用的語音辨識服務差在哪？</summary><p>通用服務的本土語言能力通常是在既有模型上微調出來的，腔調與夾雜講法一多就會掉。我們的模型採全自主架構訓練，可以針對特定腔調、領域用語與收音環境做深度客製。另一個差別是部署形態：本土語言的錄音往往同時是最敏感的內容，而通用服務都在雲端。</p></details><details><summary>辨識率有多少？</summary><p>這一題我們不給行銷數字。本土語言的辨識率跟腔調、收音環境與夾雜程度高度相關，脫離測試集談一個百分比沒有意義。字元錯誤率、競品對照、測試方法論與原始音檔會完整公開；在那之前，最有意義的數字是拿貴單位自己的錄音實測出來的那一個。</p></details></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 研究 ═════════ -->
+<section class="view" id="v-research" data-title="團隊與研究 - Voxmosa">
+  <div class="band" style="padding-bottom:clamp(36px,5vw,64px)">
+    <div class="wrap">
+      <p class="kicker" data-a><b>Research-led</b>團隊與研究</p>
+      <h1 data-a style="--d:1;font:900 clamp(34px,5.4vw,74px)/1.2 var(--serif)">以研究為本的語音團隊。</h1>
+      <p class="lede" data-a style="--d:2">長期專注於臺灣多語言語音辨識。語音辨識模型採全自主架構訓練，開源專案 FormoSpeech 公開於 Hugging Face。</p>
+      <div class="hlinks" data-a style="--d:3"><a class="link ext" href="https://huggingface.co/formospeech" target="_blank" rel="noopener">Hugging Face / formospeech</a></div>
+    </div>
+  </div>
+  <div class="band tone" style="padding-top:clamp(36px,5vw,64px)">
+    <div class="wrap">
+      <ol class="awards">
+        <li class="rv"><b>2025</b><strong>技術類最佳論文獎</strong><span>O-COCOSDA 2025</span></li>
+        <li class="rv" style="--d:1"><b>2022</b><strong>客語語音辨識競賽 一般組第一名</strong><span>FSR 2022</span></li>
+        <li class="rv" style="--d:2"><b>2020</b><strong>台語語音辨識競賽 產業組第一名</strong><span>FSR 2020</span></li>
+        <li class="rv" style="--d:3"><b>2018</b><strong>國語語音辨識競賽 產業組第二名</strong><span>FSR 2018</span></li>
+        <li class="rv" style="--d:4"><b>2008</b><strong>最佳學生論文獎</strong><span>ISCSLP 2008</span></li>
+      </ol>
+    </div>
+  </div>
+  <div class="band">
+    <div class="wrap">
+      <h3 class="sub">研究發表 <span>41 Publications</span></h3>
+      <div class="filters" id="filters" role="group" aria-label="依主題篩選研究發表"><button type="button" data-c="all" aria-pressed="true">全部<b>41</b></button><button type="button" data-c="tw" aria-pressed="false">臺灣多語言<b>6</b></button><button type="button" data-c="rb" aria-pressed="false">強健辨識與增強<b>15</b></button><button type="button" data-c="sp" aria-pressed="false">語者與語言辨識<b>13</b></button><button type="button" data-c="qa" aria-pressed="false">語音品質與評測<b>7</b></button></div>
+      <ul class="pubs" id="publist"><li style="--d:0"><span class="y">2026</span><span class="v">LREC</span><span class="t">TG-ASR: Translation-guided learning with parallel gated cross attention for low-resource automatic speech recognition</span><a href="https://arxiv.org/abs/2602.22039" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:1"><span class="y">2026</span><span class="v">LREC</span><span class="t">Efficient dialect-aware and conditioning for low-resource Taiwanese Hakka speech processing</span><a href="https://arxiv.org/abs/2602.22522" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:2"><span class="y">2026</span><span class="v">TASLP</span><span class="t">Universal robust speech adaptation for cross-domain speech recognition and enhancement</span><a href="https://arxiv.org/abs/2602.04307" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:3"><span class="y">2026</span><span class="v">ICASSP</span><span class="t">SCENE: Semantic-aware codec enhancement with neural embeddings</span><a href="https://arxiv.org/abs/2601.22189" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:4"><span class="y">2026</span><span class="v">Interspeech</span><span class="t">Personalized keyword spotting for user-defined keywords leveraging text-independent speaker verification</span><a href="https://arxiv.org/abs/2606.20106" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:5"><span class="y">2026</span><span class="v">IEEE ICME</span><span class="t">Robust generative audio quality assessment: Disentangling quality from spurious correlations</span><a href="https://arxiv.org/abs/2603.16201" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:6"><span class="y">2025</span><span class="v">O-COCOSDA</span><span class="t">Exploring the impact of data quantity on ASR in extremely low-resource languages</span><a href="https://arxiv.org/abs/2409.08872" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:7"><span class="y">2025</span><span class="v">IEEE ASRU</span><span class="t">Revealing the role of audio channels in ASR performance degradation</span><a href="https://arxiv.org/abs/2508.08967" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:8"><span class="y">2025</span><span class="v">ICASSP</span><span class="t">Channel-aware domain-adaptive generative adversarial network for robust speech recognition</span><a href="https://arxiv.org/abs/2409.12386" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:9"><span class="y">2025</span><span class="v">IEEE ASRU</span><span class="t">QAMRO: Quality-aware adaptive margin ranking optimization for human-aligned assessment of audio generation systems</span><a href="https://arxiv.org/abs/2508.08957" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:10"><span class="y">2025</span><span class="v">APSIPA ASC</span><span class="t">DRASP: A dual-resolution attentive statistics pooling framework for automatic MOS prediction</span><a href="https://arxiv.org/abs/2508.21407" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:11"><span class="y">2024</span><span class="v">O-COCOSDA</span><span class="t">VoxHakka: A dialectally diverse multi-speaker text-to-speech system for Taiwanese Hakka</span><a href="https://arxiv.org/abs/2409.01548" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:12"><span class="y">2024</span><span class="v">IEEE SLT</span><span class="t">Effective noise-aware data simulation for domain-adaptive speech enhancement leveraging dynamic stochastic perturbation</span><a href="https://arxiv.org/abs/2409.01545" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:13"><span class="y">2023</span><span class="v">Interspeech</span><span class="t">A training and inference strategy using noisy and enhanced speech as target for speech enhancement without clean speech</span><a href="https://arxiv.org/abs/2210.15368" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:14"><span class="y">2023</span><span class="v">IEEE SPL</span><span class="t">Multi-target filter and detector for unknown-number speaker diarization</span><a href="https://arxiv.org/abs/2203.16007" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:15"><span class="y">2022</span><span class="v">Interspeech</span><span class="t">Chain-based discriminative autoencoders for speech recognition</span><a href="https://arxiv.org/abs/2203.13687" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2022</span><span class="v">ISCSLP</span><span class="t">Speech-enhanced and noise-aware acoustic modeling for robust speech recognition</span><a href="https://arxiv.org/abs/2203.13696" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2022</span><span class="v">EUSIPCO</span><span class="t">Filter-based discriminative autoencoders for children speech recognition</span><a href="https://arxiv.org/abs/2204.00164" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2022</span><span class="v">Interspeech</span><span class="t">Disentangling the impacts of language and channel variability on speech separation networks</span><a href="https://arxiv.org/abs/2203.16040" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2021</span><span class="v">Interspeech</span><span class="t">AlloST: Low-resource speech translation without source transcription</span><a href="https://arxiv.org/abs/2105.00171" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2021</span><span class="v">CSRC</span><span class="t">The Academia Sinica system for the SLT 2021 children speech recognition challenge</span><span></span></li><li style="--d:16"><span class="y">2021</span><span class="v">Interspeech</span><span class="t">Dual-path filter network: Speaker-aware modeling for speech separation</span><a href="https://arxiv.org/abs/2106.07579" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2021</span><span class="v">APSIPA ASC</span><span class="t">Generation of speaker representations using heterogeneous training batch assembly</span><a href="https://arxiv.org/abs/2203.16646" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2020</span><span class="v">O-COCOSDA</span><span class="t">Using Taigi dramas with Mandarin Chinese subtitles to improve Taigi speech recognition</span><span></span></li><li style="--d:16"><span class="y">2020</span><span class="v">CHiME</span><span class="t">The Academia Sinica systems of speech recognition and speaker diarization for the CHiME-6 challenge</span><span></span></li><li style="--d:16"><span class="y">2020</span><span class="v">TASLP</span><span class="t">Subspace-based representation and learning for phonotactic spoken language recognition</span><a href="https://arxiv.org/abs/2203.15576" target="_blank" rel="noopener">arXiv ↗</a></li><li style="--d:16"><span class="y">2019</span><span class="v">Interspeech</span><span class="t">Exploring the encoder layers of discriminative autoencoders for LVCSR</span><span></span></li><li style="--d:16"><span class="y">2019</span><span class="v">O-COCOSDA</span><span class="t">Mandarin mispronunciation detection and diagnosis feedback using articulatory attributes based multi-task learning</span><span></span></li><li style="--d:16"><span class="y">2019</span><span class="v">APSIPA ASC</span><span class="t">Multi-task learning for acoustic modeling using articulatory attributes</span><span></span></li><li style="--d:16"><span class="y">2017</span><span class="v">Interspeech</span><span class="t">Discriminative autoencoders for acoustic modeling</span><span></span></li><li style="--d:16"><span class="y">2017</span><span class="v">IJCLCLP</span><span class="t">A replay spoofing detection system based on discriminative autoencoders</span><span></span></li><li style="--d:16"><span class="y">2017</span><span class="v">ICASSP</span><span class="t">Discriminative autoencoders for speaker verification</span><span></span></li><li style="--d:16"><span class="y">2017</span><span class="v">ROCLING</span><span class="t">Speaker diarization based on i-vector PLDA scoring and using GMM-HMM forced alignment</span><span></span></li><li style="--d:16"><span class="y">2016</span><span class="v">Interspeech</span><span class="t">Minimization of regression and ranking losses with shallow neural networks on automatic sincerity evaluation</span><span></span></li><li style="--d:16"><span class="y">2014</span><span class="v">Interspeech</span><span class="t">Clustering-based i-vector formulation for speaker recognition</span><span></span></li><li style="--d:16"><span class="y">2014</span><span class="v">ICASSP</span><span class="t">Speaker verification using kernel-based binary classifiers with binary operation derived features</span><span></span></li><li style="--d:16"><span class="y">2014</span><span class="v">Interspeech</span><span class="t">Ensemble of machine learning algorithms for cognitive and physical speaker load detection</span><span></span></li><li style="--d:16"><span class="y">2013</span><span class="v">ICASSP</span><span class="t">Subspace-based phonotactic language recognition using multivariate dynamic linear models</span><span></span></li><li style="--d:16"><span class="y">2012</span><span class="v">Interspeech</span><span class="t">Subspace-based feature representation and learning for language recognition</span><span></span></li><li style="--d:16"><span class="y">2009</span><span class="v">IEEE ASRU</span><span class="t">Generalized likelihood ratio discriminant analysis</span><span></span></li><li style="--d:16"><span class="y">2007</span><span class="v">IEEE ASRU</span><span class="t">Training data selection for improving discriminative training of acoustic models</span><span></span></li></ul>
+      <h3 class="sub" style="margin-top:clamp(48px,6vw,80px)">媒體報導 <span>Press</span></h3>
+      <ul class="press">
+        <li><time>2026.07</time><a href="https://hakkanews.tw/2026/07/29/294068/" target="_blank" rel="noopener">一秒生成客語童話與雙人 Podcast！「客家 GPT」超神功能曝光</a><span>客新聞</span></li>
+        <li><time>2025.08</time><a href="https://udn.com/news/story/7240/8962411" target="_blank" rel="noopener">攻克 AI 語音技術兩大挑戰</a><span>經濟日報</span></li>
+        <li><time>2025.02</time><a href="https://www.ctee.com.tw/news/20250219701857-430502" target="_blank" rel="noopener">即時語音增強系統鎖定串流產業語音處理需求</a><span>工商時報</span></li>
+        <li><time>2024.10</time><a href="https://www.sinotrade.com.tw/richclub/news/670e2f1332ba0c9331e17cd6" target="_blank" rel="noopener">首款客語文字轉語音系統 VoxHakka 問市</a><span>經濟日報</span></li>
+        <li><time>2024.09</time><a href="https://www.sinotrade.com.tw/richclub/news/66e29f8332ba0c933165c586" target="_blank" rel="noopener">跨域語音增強技術，展現 AI 創新實力</a><span>經濟日報</span></li>
+      </ul>
+      <p class="fine">以上為核心團隊成員於過往任職單位主導之技術所獲報導。</p>
+    </div>
+  </div>
+
+  <div class="band tone">
+    <div class="wrap">
+      <p class="kicker"><b>筆記</b>研究筆記 · 籌備中</p>
+      <p class="lede rv" style="margin-top:0">技術文章、評測方法論、臺灣語音資料的觀察。這一區會是我們把「學術精神」講清楚的地方。</p><ul class="pts c3" style="margin-top:22px"><li class="rv"><i>即將發布</i><b>如何公正評測台語語音辨識</b></li><li class="rv" style="--d:1"><i>即將發布</i><b>單張 GPU 上的三模型顯存配置</b></li><li class="rv" style="--d:2"><i>即將發布</i><b>為什麼會議校對不該用「後蓋前」</b></li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ PoC ═════════ -->
+<section class="view" id="v-poc" data-title="申請 PoC - Voxmosa">
+  <div class="band night" id="poc" style="min-height:calc(100svh - 62px)">
+    <div class="wrap">
+      <div class="poc">
+        <div data-a>
+          <p class="kicker"><b>PoC</b>概念驗證</p>
+          <h1>先用你自己的音檔<br><em>驗證一次，</em><br>再談導入。</h1>
+          <p class="lede">用貴單位實際的會議錄音或客服對話做一次概念驗證，我們提供方法論明確、可重現的評測報告。</p>
+          <div class="poc-meta"><a href="mailto:how@voxmosa.com" data-mail>how@voxmosa.com</a><span>兩個工作日內回覆</span></div>
+        </div>
+        <form class="form" id="pocform" action="#" method="post" novalidate data-a style="--d:2">
+          <div class="form-h"><b>申請 PoC</b><span>兩個工作日內回覆</span></div>
+          <div class="row2">
+            <label class="fl"><span>單位名稱</span><input name="org" type="text" placeholder="例：某某銀行" autocomplete="organization" required></label>
+            <label class="fl"><span>聯絡人</span><input name="name" type="text" placeholder="姓名" autocomplete="name" required></label>
+          </div>
+          <label class="fl"><span>Email</span><input name="email" type="email" placeholder="you@example.com" autocomplete="email" required></label>
+          <fieldset class="fl"><legend>需求類型</legend>
+            <div class="pills">
+              <label><input type="radio" name="type" value="概念驗證" checked><span>概念驗證</span></label>
+              <label><input type="radio" name="type" value="技術簡報"><span>技術簡報</span></label>
+              <label><input type="radio" name="type" value="投資洽談"><span>投資洽談</span></label>
+              <label><input type="radio" name="type" value="應徵"><span>應徵</span></label>
+            </div>
+          </fieldset>
+          <label class="fl"><span>想解決的問題</span><textarea name="msg" rows="3" placeholder="例：每週十場委員會議，逐字稿外包成本過高，且不能上雲。"></textarea></label>
+          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn solid" type="submit">送出申請</button>
+          <small id="formnote" aria-live="polite">送出後會開啟您的郵件程式，內容已自動帶入。</small>
+        </form>
+      </div>
+      <div class="faq">
+        <details><summary>可以完全在自己的機房裡跑嗎？</summary><p>可以，而且這是預設形態，不是附加選項。系統為容器化部署、單機即可運行，封閉網路不需連外也能使用。</p></details>
+        <details><summary>要準備什麼硬體？</summary><p>一張大顯存的 NVIDIA GPU 就能跑完整系統。MosaMinutes 以一台 NVIDIA DGX Spark GB10 支援 10 線即時轉錄；MosaTalk 已在 46 GB 顯存的單卡環境驗證。硬體我們可以一併供應並到場安裝。</p></details>
+        <details><summary>語音辨識的準確率是多少？</summary><p>這一題我們不給行銷數字。字元錯誤率、競品對照、測試方法論與原始音檔將完整公開；在那之前，最有意義的數字是拿貴單位自己的錄音測出來的那一個。</p></details>
+        <details><summary>跟雲端服務差在哪？</summary><p>錄音與逐字稿完全留在貴單位機房，封閉網路可用，沒有按次的 API 費用。但我們不主張全面優勢——沒有合規壓力或資安顧慮的單位，雲端訂閱通常是更經濟彈性的選擇。</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="index.html" data-route="home" aria-label="Voxmosa 首頁"><svg aria-hidden="true" focusable="false" viewBox="3.70 19.60 640.56 94.89" fill="none"><path d="M33.40 112.00 3.70 19.60H12.54L40.13 107.12H41.71L69.30 19.60H78.14L48.44 112.00Z" fill="#f4f3f0"/><g transform="translate(88.04, 44.47) scale(0.5909)" stroke="#f4f3f0" stroke-linecap="round" fill="none"><circle cx="60" cy="60" r="51" stroke-width="15"/><path d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="11" opacity="0.6"/><path d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="11" opacity="0.33"/><path d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="11" opacity="0.17"/></g><path d="M200.48 112.00 227.27 79.40 201.40 47.85H211.30L232.29 74.12H233.87L254.86 47.85H264.76L238.89 79.40L265.68 112.00H255.65L233.87 84.68H232.29L210.51 112.00ZM298.42 112.00V47.85H306.08V56.30H307.66Q309.64 52.73 314.00 49.63Q318.35 46.53 326.40 46.53Q334.19 46.53 339.01 50.09Q343.83 53.66 345.94 58.67H347.52Q349.77 53.66 354.52 50.09Q359.27 46.53 367.85 46.53Q374.45 46.53 379.34 49.23Q384.22 51.94 386.99 56.76Q389.76 61.58 389.76 68.04V112.00H381.84V68.84Q381.84 61.97 377.69 57.81Q373.53 53.66 366.00 53.66Q358.35 53.66 353.20 58.61Q348.05 63.56 348.05 73.06V112.00H340.13V68.84Q340.13 61.97 335.97 57.81Q331.82 53.66 324.29 53.66Q316.64 53.66 311.49 58.61Q306.34 63.56 306.34 73.06V112.00ZM448.11 113.85Q438.34 113.85 431.01 109.69Q423.69 105.53 419.66 98.07Q415.64 90.62 415.64 80.72V79.13Q415.64 69.23 419.66 61.77Q423.69 54.32 431.01 50.16Q438.34 46.00 448.11 46.00Q457.88 46.00 465.20 50.16Q472.53 54.32 476.55 61.77Q480.58 69.23 480.58 79.13V80.72Q480.58 90.62 476.55 98.07Q472.53 105.53 465.20 109.69Q457.88 113.85 448.11 113.85ZM448.11 106.72Q459.46 106.72 466.06 99.53Q472.66 92.33 472.66 80.45V79.40Q472.66 67.52 466.06 60.32Q459.46 53.13 448.11 53.13Q436.89 53.13 430.22 60.32Q423.56 67.52 423.56 79.40V80.45Q423.56 92.33 430.22 99.53Q436.89 106.72 448.11 106.72ZM532.72 113.85Q521.10 113.85 512.85 108.30Q504.60 102.76 502.76 89.96L510.54 88.50Q511.60 95.50 514.83 99.53Q518.07 103.55 522.75 105.27Q527.44 106.98 532.72 106.98Q540.64 106.98 545.46 103.75Q550.28 100.52 550.28 94.84Q550.28 89.03 545.72 86.79Q541.17 84.54 533.64 83.22L527.57 82.17Q521.50 81.11 516.62 78.93Q511.73 76.76 508.89 73.06Q506.06 69.36 506.06 63.82Q506.06 55.50 512.59 50.75Q519.12 46.00 529.95 46.00Q540.90 46.00 547.57 50.95Q554.24 55.90 555.95 65.27L548.56 66.86Q547.24 59.20 542.29 56.03Q537.34 52.86 529.95 52.86Q522.69 52.86 518.33 55.64Q513.98 58.41 513.98 63.82Q513.98 69.10 517.94 71.54Q521.90 73.98 528.76 75.17L534.83 76.23Q541.43 77.28 546.71 79.33Q551.99 81.38 555.09 85.07Q558.20 88.77 558.20 94.84Q558.20 103.95 551.33 108.90Q544.47 113.85 532.72 113.85ZM603.21 113.85Q596.48 113.85 591.00 111.54Q585.52 109.23 582.35 104.74Q579.18 100.25 579.18 93.92Q579.18 87.45 582.35 83.22Q585.52 79.00 590.93 76.89Q596.34 74.78 602.94 74.78H626.44V69.63Q626.44 61.84 621.95 57.48Q617.46 53.13 608.88 53.13Q600.44 53.13 595.49 57.29Q590.54 61.44 588.82 68.44L581.16 66.20Q582.75 60.52 586.18 55.97Q589.61 51.41 595.29 48.71Q600.96 46.00 608.88 46.00Q621.03 46.00 627.69 52.34Q634.36 58.67 634.36 70.02V101.18Q634.36 105.14 638.06 105.14H644.26V112.00H635.81Q631.72 112.00 629.34 109.56Q626.97 107.12 626.97 102.89V101.97H625.65Q623.93 104.87 621.23 107.64Q618.52 110.42 614.16 112.13Q609.81 113.85 603.21 113.85ZM603.74 106.72Q613.90 106.72 620.17 100.58Q626.44 94.44 626.44 83.22V81.64H603.08Q596.21 81.64 591.66 84.61Q587.10 87.58 587.10 93.78Q587.10 99.99 591.79 103.35Q596.48 106.72 603.74 106.72Z" fill="#f4f3f0"/></svg></a>
+        <p class="foot-tagline">專注臺灣多語言與地端私有化部署的語音 AI 團隊。讓每一段對話留在貴單位自己的機房裡。</p>
+        <a class="foot-mail" href="mailto:how@voxmosa.com" data-mail>how@voxmosa.com</a>
+      </div>
+      <nav class="foot-col" aria-label="產品系列">
+        <h4>產品系列</h4>
+        <ul>
+          <li><a href="mosatalk.html" data-route="talk">MosaTalk 地端語音客服</a></li>
+          <li><a href="mosaminutes.html" data-route="minutes">MosaMinutes 會議記錄平台</a></li>
+          <li><a href="mosascore.html" data-route="score">MosaScore 通話品質分析</a></li>
+        </ul>
+      </nav>
+      <nav class="foot-col" aria-label="架構與實績">
+        <h4>架構與實績</h4>
+        <ul>
+          <li><a href="on-premise.html" data-route="onprem">地端私有化部署架構</a></li>
+          <li><a href="languages.html" data-route="lang">臺灣本土語言模型</a></li>
+          <li><a href="research.html" data-route="research">團隊與 41 篇研究發表</a></li>
+          <li><a href="index.html#poc" data-route="poc">申請概念驗證 (PoC)</a></li>
+        </ul>
+      </nav>
+      <nav class="foot-col" aria-label="開源與公開實績">
+        <h4>開源與外部驗證</h4>
+        <ul>
+          <li><a class="ext" href="https://huggingface.co/formospeech" target="_blank" rel="noopener">Hugging Face / formospeech</a></li>
+          <li><a class="ext" href="https://huggingface.co/ILRDF" target="_blank" rel="noopener">Hugging Face / ILRDF 原語會</a></li>
+          <li><a class="ext" href="https://gohakka.org/" target="_blank" rel="noopener">Gohakka 客語學習平台</a></li>
+        </ul>
       </nav>
     </div>
-  </header>
-
-  <main>
-
-  <section class="r-gap-72px r-mw-1280px r-gtc-1-1fr-1fr r-pad-96px-56px-100px r-display-grid" style="max-width:1280px;margin:0 auto;padding:96px 56px 100px;display:grid;grid-template-columns:1.1fr 1fr;gap:72px;align-items:center">
-    <div class="r-gap-28px" style="display:flex;flex-direction:column;gap:28px">
-      <div style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#ED9A4A">
-        <span style="width:22px;height:1px;background:#ED9A4A;display:block"></span>
-        <span>Product 02 · On-Premise</span>
-      </div>
-      <h1 class="r-fs-52px" style="display:flex;flex-direction:column;gap:10px"><span style="font-family:'Space Grotesk',sans-serif;font-size:52px;font-weight:400;color:#ED9A4A;letter-spacing:0.01em;line-height:1.1">MosaMinutes</span><span style="font-size:19px;font-weight:300;color:#a8a59d;letter-spacing:0.01em">地端 AI 會議記錄平台</span></h1>
-      <div class="r-fs-34px" style="font-size:34px;font-weight:200;line-height:1.42;letter-spacing:-0.01em;text-wrap:pretty">會議結束，紀錄已經<br />改到能直接發出去。</div>
-      <p style="font-size:16px;font-weight:300;color:#a8a59d;line-height:1.95;max-width:540px;text-wrap:pretty">錄音或上傳檔案，系統自動產出逐字稿、分辨誰在說話、寫出摘要與待辦，並讓你在同一個畫面裡邊聽邊改——而且錄音、逐字稿、摘要全程不離開貴單位的網路——<a href="on-premise.html" style="color:#f4f3f0;border-bottom:1px solid #3a3833">地端部署的完整說明在這裡</a>。</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a href="#contact" style="background:#ED9A4A;color:#141413;padding:15px 30px;border-radius:4px;font-size:15px;font-weight:500">申請 PoC</a>
-        <a href="#problems" style="border:1px solid #3a3833;color:#f4f3f0;padding:15px 30px;border-radius:4px;font-size:15px;font-weight:300">它解決什麼問題</a>
+    <div class="foot-bar">
+      <p>© 2026 Voxmosa 牧仁資訊有限公司 All rights reserved.</p>
+      <div class="foot-meta">
+        <span>On-Premise Voice AI</span>
+        <span>Taiwan Multilingual ASR · TTS · Diarization</span>
+        <span><a href="en/mosaminutes.html" lang="en" hreflang="en">English</a></span>
       </div>
     </div>
+  </div>
+</footer>
 
-    <div style="background:#0F0F0E;border:1px solid #26251f;border-radius:10px;padding:30px;display:flex;flex-direction:column;gap:18px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#5e5b54;letter-spacing:0.12em;text-transform:uppercase">校對工作區</div>
-        <div style="display:flex;gap:6px">
-          <div style="border:1px solid #2e2d27;color:#7a776e;font-family:'IBM Plex Mono',monospace;font-size:9.5px;padding:4px 9px;border-radius:3px">自動儲存</div>
-          <div style="border:1px solid #4a3a24;color:#ED9A4A;font-family:'IBM Plex Mono',monospace;font-size:9.5px;padding:4px 9px;border-radius:3px">1.5×</div>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:1px;background:#26251f;border-radius:6px;overflow:hidden">
-        <div style="background:#141413;padding:16px 18px;display:flex;gap:14px;align-items:baseline">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#5e5b54;flex:none;width:36px;padding-top:3px">00:14</div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#ED9A4A;flex:none;width:46px;padding-top:3px">王主任</div>
-          <div style="font-size:13.5px;font-weight:300;color:#cfccc4;line-height:1.85">彼个案子的預算，咱敢有確定落來？</div>
-        </div>
-        <div style="background:#1c1b18;padding:16px 18px;display:flex;gap:14px;align-items:baseline;border-left:2px solid #ED9A4A">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#5e5b54;flex:none;width:36px;padding-top:3px">00:19</div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#8c8a84;flex:none;width:46px;padding-top:3px">李專員</div>
-          <div style="font-size:13.5px;font-weight:300;color:#f4f3f0;line-height:1.85">上禮拜董事會通過了，我等一下把會議紀錄寄給你<span style="color:#ED9A4A;font-weight:400">｜</span></div>
-        </div>
-        <div style="background:#141413;padding:16px 18px;display:flex;gap:14px;align-items:baseline">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#5e5b54;flex:none;width:36px;padding-top:3px">00:26</div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#ED9A4A;flex:none;width:46px;padding-top:3px">王主任</div>
-          <div style="font-size:13.5px;font-weight:300;color:#cfccc4;line-height:1.85">好，數字若有 update 你直接 tag 我就好。</div>
-        </div>
-      </div>
-      <div style="border:1px solid #26251f;border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:11px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#ED9A4A;letter-spacing:0.12em;text-transform:uppercase">待辦事項</div>
-        <div style="display:flex;gap:11px;align-items:baseline"><div style="width:11px;height:11px;border:1px solid #4a473f;border-radius:2px;flex:none;margin-top:4px"></div><div style="font-size:12.5px;font-weight:300;color:#a8a59d;line-height:1.8">李專員寄送董事會決議之會議紀錄</div></div>
-        <div style="display:flex;gap:11px;align-items:baseline"><div style="width:11px;height:11px;border:1px solid #4a473f;border-radius:2px;flex:none;margin-top:4px"></div><div style="font-size:12.5px;font-weight:300;color:#a8a59d;line-height:1.8">預算數字更新後通知王主任</div></div>
-      </div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#4f4d47;letter-spacing:0.06em;line-height:1.7">示意畫面 · 實際互動示範即將上線</div>
-    </div>
-  </section>
+<script>
+(function(){
+  'use strict';
+  var MAIL = 'how@voxmosa.com';   /* 聯絡信箱：只需改這一行 */
+  var $ = function(s, r){ return (r || document).querySelector(s); };
+  var $$ = function(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var root = document.documentElement;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var first = root.classList.contains('first');
+  var EN = /^en/.test(root.lang);
+  $$('[data-mail]').forEach(function(a){ a.href = 'mailto:' + MAIL; a.textContent = MAIL; });
 
-  <section id="problems" style="background:#F4F3F0;color:#141413">
-    <div class="r-mw-1280px r-pad-104px-56px-112px" style="max-width:1280px;margin:0 auto;padding:104px 56px 112px;display:flex;flex-direction:column;gap:48px">
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">
-          <h2 class="r-fs-34px" style="font-size:34px;font-weight:300;letter-spacing:-0.01em">你遇到的麻煩，我們怎麼解</h2>
-          <div style="border:1px solid #ED9A4A;color:#c47a20;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 11px;border-radius:3px;letter-spacing:0.1em;text-transform:uppercase;flex:none">On-Premise</div>
-        </div>
-        <div style="font-size:15px;font-weight:300;color:#6b6960;line-height:1.9;max-width:660px">會議記錄的痛點很少在「轉錄」，而在轉錄之後。</div>
-      </div>
+  /* ── 直排標題拆字（只做一次，之後每次切換由 CSS 重播） ── */
+  $$('.couplet').forEach(function(t){
+    var n = 0;
+    (function wrap(node){
+      Array.prototype.slice.call(node.childNodes).forEach(function(c){
+        if (c.nodeType === 3){
+          var f = document.createDocumentFragment();
+          (EN ? c.nodeValue.split(/(\s+)/) : Array.from(c.nodeValue)).forEach(function(ch){
+            if (!ch) return;
+            if (!ch.trim()){ if (EN) f.appendChild(document.createTextNode(ch)); return; }
+            var s = document.createElement('span'); s.className = 'hc'; s.style.setProperty('--i', n++); s.textContent = ch; f.appendChild(s);
+          });
+          node.replaceChild(f, c);
+        } else if (c.nodeType === 1 && !c.classList.contains('seal')){
+          if (c.classList.contains('tcy')){
+            var s = document.createElement('span'); s.className = 'hc'; s.style.setProperty('--i', n++);
+            node.replaceChild(s, c); s.appendChild(c);
+          } else wrap(c);
+        }
+      });
+    })(t);
+    t.style.setProperty('--n', n);
+  });
 
-      <div style="display:flex;flex-direction:column;gap:20px">
+  /* ── 逐字稿打字 ── */
+  var typer = (function(){
+    var lines = $$('#lines .ln'), chars = [], timer, tm = $('#tm');
+    lines.forEach(function(ln, li){
+      var tx = $('.tx', ln), w = document.createTreeWalker(tx, NodeFilter.SHOW_TEXT), nodes = [];
+      while (w.nextNode()) nodes.push(w.currentNode);
+      nodes.forEach(function(n){
+        var wrap = n.parentElement !== tx ? n.parentElement : null, f = document.createDocumentFragment();
+        Array.from(n.textContent).forEach(function(c){
+          var s = document.createElement('span'); s.className = 'ch' + (wrap ? ' ' + wrap.className : ''); s.textContent = c;
+          f.appendChild(s); chars.push({ s: s, li: li });
+        });
+        (wrap || n).replaceWith(f);
+      });
+    });
+    function spk(li, on){ $('.spk', lines[li]).style.opacity = on ? 1 : .22; var g = $('.gl', lines[li]); if (g) g.style.opacity = on ? 1 : 0; }
+    function reset(){ clearTimeout(timer); chars.forEach(function(c){ c.s.classList.remove('on', 'cur'); }); lines.forEach(function(_, li){ spk(li, false); }); }
+    function play(delay){
+      reset();
+      if (reduce){ chars.forEach(function(c){ c.s.classList.add('on'); }); lines.forEach(function(_, li){ spk(li, true); }); return; }
+      var i = 0;
+      timer = setTimeout(function step(){
+        if (i > 0) chars[i - 1].s.classList.remove('cur');
+        if (i >= chars.length) return;
+        var c = chars[i], next = chars[i + 1];
+        c.s.classList.add('on', 'cur'); spk(c.li, true); i++;
+        tm.textContent = '0:' + ('0' + Math.round(17 * i / chars.length)).slice(-2);
+        timer = setTimeout(step, next && next.li !== c.li ? 480 : (/[，。？]/.test(c.s.textContent) ? 180 : 42));
+      }, delay || 0);
+    }
+    $('#replay').addEventListener('click', function(){ play(0); });
+    return { play: play, stop: function(){ clearTimeout(timer); } };
+  })();
 
-        <div class="r-gtc-1fr-1-25fr r-display-grid" style="border:1px solid #dedbd4;border-radius:8px;background:#fbfaf8;overflow:hidden;display:grid;grid-template-columns:1fr 1.25fr">
-          <div class="r-brr-1px-solid-rgb-234-231-224 r-pad-38px-40px" style="padding:38px 40px;display:flex;flex-direction:column;gap:14px;border-right:1px solid #eae7e0">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#c47a20">麻煩 01</div>
-            <h3 style="font-size:22px;font-weight:400;line-height:1.5;text-wrap:pretty">會議錄音不能上傳到別人的伺服器</h3>
-            <div style="font-size:13.5px;font-weight:300;color:#6b6960;line-height:1.9">法規或內部規範讓雲端會議工具在評估的第一關就出局。台語能力再好也沒用。</div>
-          </div>
-          <div class="r-pad-38px-40px" style="padding:38px 40px;display:flex;flex-direction:column;gap:16px;background:#f4f3f0">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#8c8a84">我們的解法</div>
-            <p style="font-size:16px;font-weight:400;line-height:1.7">辨識、語者分離、聲紋比對、摘要——所有模型都在你的伺服器上，不呼叫任何雲端 AI 服務。</p>
-            <div style="display:flex;flex-direction:column;gap:9px">
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">容器化部署，不需連外即可運作</span></div>
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">身分驗證可用自架的身分提供者，適用封閉網路</span></div>
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">沒有按次計費的 API 成本，會議開再多都不加價</span></div>
-            </div>
-          </div>
-        </div>
+  /* ── 山稜聲波（單一畫布） ── */
+  (function(){
+    $$('canvas.ridge').forEach(function(cv){
+      var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, n = 0, base = [], peak = 0, on = false, raf = 0, t0 = 0, px = -1e5, pxs = -1e5, gut = 0;
+      function g(x, c, w){ return Math.exp(-Math.pow((x - c) / w, 2)); }
+      function size(){
+        var r = cv.getBoundingClientRect(); if (!r.width) return;
+        dpr = Math.min(2, window.devicePixelRatio || 1); W = r.width; H = r.height;
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+        gut = Math.max(20, Math.min(60, W * .042));
+        n = Math.max(40, Math.floor((W - gut * 2) / (W < 700 ? 7 : 10))); base = []; peak = 0;
+        for (var i = 0; i < n; i++){
+          var x = i / (n - 1), env = .15 + .22 * g(x, .1, .06) + .5 * g(x, .34, .13) + .86 * g(x, .6, .1) + .38 * g(x, .82, .07);
+          base[i] = Math.min(1, env * (.6 + .4 * Math.abs((Math.sin(i * 12.9898) * 43758.5453) % 1)));
+          if (base[i] > base[peak]) peak = i;
+        }
+      }
+      function draw(now){
+        if (!on) return;
+        if (!t0) t0 = now + (first ? 1100 : 100);
+        var t = (now - t0) / 1000, step = (W - gut * 2) / n, bw = Math.max(2, step * .56);
+        pxs += (px - pxs) * .14;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < n; i++){
+          var grow = Math.min(1, Math.max(0, (t - i * .006) / .8)); grow = 1 - Math.pow(1 - grow, 3);
+          var x = gut + i * step, s = .8 + .13 * Math.sin(i * .33 - t * 2.1) + .07 * Math.sin(i * .92 + t * 3.4), d = (x - pxs) / 70;
+          s += .45 * Math.exp(-d * d);
+          var h = Math.min(H, base[i] * H * .8 * s * grow);
+          ctx.fillStyle = i === peak ? '#ED9A4A' : '#141413';
+          ctx.fillRect(x, H - h, bw, h);
+        }
+        if (reduce && t > 1) return;
+        raf = requestAnimationFrame(draw);
+      }
+      new IntersectionObserver(function(es){
+        var was = on; on = es[0].isIntersecting;
+        if (on && !was){ size(); t0 = 0; raf = requestAnimationFrame(draw); }
+      }).observe(cv);
+      window.addEventListener('resize', function(){ if (on) size(); });
+      window.addEventListener('pointermove', function(e){ if (on) px = e.clientX - cv.getBoundingClientRect().left; }, { passive: true });
+    });
+  })();
 
-        <div class="r-gtc-1fr-1-25fr r-display-grid" style="border:1px solid #dedbd4;border-radius:8px;background:#fbfaf8;overflow:hidden;display:grid;grid-template-columns:1fr 1.25fr">
-          <div class="r-brr-1px-solid-rgb-234-231-224 r-pad-38px-40px" style="padding:38px 40px;display:flex;flex-direction:column;gap:14px;border-right:1px solid #eae7e0">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#c47a20">麻煩 02</div>
-            <h3 style="font-size:22px;font-weight:400;line-height:1.5;text-wrap:pretty">校對比重打逐字稿還累，改到一半還會被蓋掉</h3>
-            <div style="font-size:13.5px;font-weight:300;color:#6b6960;line-height:1.9">多數工具在「兩邊同時改」時是後蓋前，一整個下午的修改就這樣消失。</div>
-          </div>
-          <div class="r-pad-38px-40px" style="padding:38px 40px;display:flex;flex-direction:column;gap:16px;background:#f4f3f0">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#8c8a84">我們的解法</div>
-            <p style="font-size:16px;font-weight:400;line-height:1.7">文字修改、段落結構、語者指派、語者命名是四條互不干擾的獨立通道——這是這個平台的設計底線，不是盡力而為。</p>
-            <div style="display:flex;flex-direction:column;gap:9px">
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">真的衝突時不自作主張選一邊，精確標示到那一句</span></div>
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">任何修改都不會在未經你明確同意的情況下被丟棄</span></div>
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">邊聽邊改、逐字稿隨播放捲動、一鍵還原辨識原文</span></div>
-            </div>
-          </div>
-        </div>
+  /* ── 捲動進場與數字跳動 ── */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .08, rootMargin: '0px 0px -6% 0px' });
+  $$('.rv').forEach(function(e){ io.observe(e); });
+  var cio = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (!e.isIntersecting) return; cio.unobserve(e.target);
+      var c = e.target._c, s = performance.now();
+      (function tick(now){
+        var p = Math.min(1, (now - s) / 1100); c.n.nodeValue = String(Math.round(c.end * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) requestAnimationFrame(tick);
+      })(s);
+    });
+  }, { threshold: .6 });
+  if (!reduce) $$('.nums strong,.pstats b,.sc-num').forEach(function(el){
+    var n = el.firstChild; if (!n || n.nodeType !== 3 || !/^\d+$/.test(n.nodeValue.trim())) return;
+    var end = +n.nodeValue; if (end < 5) return;
+    el._c = { n: n, end: end }; cio.observe(el);
+  });
 
-        <div class="r-gtc-1fr-1-25fr r-display-grid" style="border:1px solid #dedbd4;border-radius:8px;background:#fbfaf8;overflow:hidden;display:grid;grid-template-columns:1fr 1.25fr">
-          <div class="r-brr-1px-solid-rgb-234-231-224 r-pad-38px-40px" style="padding:38px 40px;display:flex;flex-direction:column;gap:14px;border-right:1px solid #eae7e0">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#c47a20">麻煩 03</div>
-            <h3 style="font-size:22px;font-weight:400;line-height:1.5;text-wrap:pretty">會議裡大家講國台語夾雜，工具只聽得懂一種</h3>
-            <p style="font-size:13.5px;font-weight:300;color:#6b6960;line-height:1.9">這是臺灣會議的實際語音型態，不是教科書式的單一語言。能處理台語的工具並非沒有，但都在雲端。</p>
-          </div>
-          <div class="r-pad-38px-40px" style="padding:38px 40px;display:flex;flex-direction:column;gap:16px;background:#f4f3f0">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#8c8a84">我們的解法</div>
-            <p style="font-size:16px;font-weight:400;line-height:1.7">國語、台語、客語、原住民族語、英語，一律轉為繁體中文逐字稿（<a href="languages.html" style="color:#f4f3f0;border-bottom:1px solid #3a3833">各語言的涵蓋範圍</a>）；國台語模型由團隊自行微調，已在生產環境服役、處理真實會議。</p>
-            <div style="display:flex;flex-direction:column;gap:9px">
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">真正的差異在「地端」：本土台語服務皆為雲端形態</span></div>
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">介面上不出現任何模型代號或技術術語</span></div>
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">可設定個人預設語言／口音，日常不必每次重選</span></div>
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">新增語言是一筆設定變更，不需改版或重新部署</span></div>
-            </div>
-          </div>
-        </div>
+  /* ── 畫面切換（支援獨立多頁 SEO + History API 無縫轉場 + Hash 相容） ── */
+  var routes = ['home', 'talk', 'minutes', 'score', 'onprem', 'lang', 'research', 'poc'];
+  var fileMap = {
+    'home': 'index.html',
+    'talk': 'mosatalk.html',
+    'minutes': 'mosaminutes.html',
+    'score': 'mosascore.html',
+    'onprem': 'on-premise.html',
+    'lang': 'languages.html',
+    'research': 'research.html',
+    'poc': 'index.html#poc'
+  };
+  var tabs = $$('#tabs a'), ind = $('#ind'), curR = null;
+  function detectRoute(){
+    var h = location.hash.replace(/^#\/?/, '');
+    if (h && routes.indexOf(h) >= 0) return h;
+    var p = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    for (var k in fileMap){ if (fileMap[k] === p) return k; }
+    var pre = $('.view.on');
+    if (pre && pre.id) return pre.id.replace(/^v-/, '');
+    return 'home';
+  }
+  function moveInd(){
+    var a = $('#tabs a[aria-current]');
+    if (!a){ ind.style.transform = 'translateX(' + (ind._x || 0) + 'px) scaleX(0)'; return; }
+    ind._x = a.offsetLeft; ind.style.transform = 'translateX(' + a.offsetLeft + 'px) scaleX(' + (a.offsetWidth / 100) + ')';
+    if (a.scrollIntoView && $('#tabs').scrollWidth > $('#tabs').clientWidth) a.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function measure(v){
+    $$('.bd-flow', v).forEach(function(f){ f.style.setProperty('--w', f.offsetWidth + 'px'); });
+    $$('.bd-wall', v).forEach(function(w){ w.style.setProperty('--tw', (w.offsetWidth / 2 - 12) + 'px'); });
+  }
+  function show(r, pushUrl){
+    if (!r || routes.indexOf(r) < 0) r = 'home';
+    if (r === curR) return;
+    var next = $('#v-' + r), prev = $('.view.on');
+    root.style.setProperty('--dir', curR === null ? 0 : (routes.indexOf(r) > routes.indexOf(curR) ? 1 : -1));
+    if (curR !== null) root.style.setProperty('--t0', '.05s');
+    if (prev && prev !== next) prev.classList.remove('on');
+    next.classList.add('on');
+    if (curR !== null) window.scrollTo(0, 0);
+    document.title = next.getAttribute('data-title');
+    tabs.forEach(function(a){ if (a.getAttribute('data-route') === r) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (pushUrl && window.history && history.pushState && location.protocol !== 'file:'){
+      try { history.pushState({ route: r }, next.getAttribute('data-title'), fileMap[r] || 'index.html'); } catch(err){}
+    }
+    moveInd(); measure(next);
+    var sw = $('#langsw'); if (sw) sw.setAttribute('href', sw.getAttribute('data-base') + (fileMap[r] || 'index.html'));
+    if (r === 'home') typer.play(curR === null && first ? 2000 : 600); else typer.stop();
+    curR = r;
+  }
+  window.addEventListener('popstate', function(e){
+    show((e.state && e.state.route) || detectRoute(), false);
+  });
+  window.addEventListener('hashchange', function(){
+    var h = location.hash.replace(/^#\/?/, '');
+    if (h && routes.indexOf(h) >= 0) show(h, false);
+  });
+  document.addEventListener('click', function(e){
+    var sc = e.target.closest && e.target.closest('a[data-scroll]');
+    if (sc){
+      e.preventDefault(); var t = $(sc.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      return;
+    }
+    var rt = e.target.closest && e.target.closest('a[data-route]');
+    if (rt && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey){
+      var targetR = rt.getAttribute('data-route');
+      if (targetR && routes.indexOf(targetR) >= 0){
+        e.preventDefault();
+        if (location.protocol === 'file:' && targetR !== 'poc'){
+          show(targetR, false);
+        } else {
+          show(targetR, true);
+        }
+      }
+    }
+  });
+  window.addEventListener('resize', function(){ moveInd(); var v = $('.view.on'); if (v) measure(v); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(moveInd);
+  show(detectRoute(), false);
 
-        <div class="r-gtc-1fr-1-25fr r-display-grid" style="border:1px solid #dedbd4;border-radius:8px;background:#fbfaf8;overflow:hidden;display:grid;grid-template-columns:1fr 1.25fr">
-          <div class="r-brr-1px-solid-rgb-234-231-224 r-pad-38px-40px" style="padding:38px 40px;display:flex;flex-direction:column;gap:14px;border-right:1px solid #eae7e0">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#c47a20">麻煩 04</div>
-            <h3 style="font-size:22px;font-weight:400;line-height:1.5;text-wrap:pretty">每場會議都要重新標註誰是誰</h3>
-            <div style="font-size:13.5px;font-weight:300;color:#6b6960;line-height:1.9">固定班底的例會，每週都在做同一件無聊的事。</div>
-          </div>
-          <div class="r-pad-38px-40px" style="padding:38px 40px;display:flex;flex-direction:column;gap:16px;background:#f4f3f0">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#8c8a84">我們的解法</div>
-            <p style="font-size:16px;font-weight:400;line-height:1.7">聲紋註冊與自動比對：為某位發言者命名一次，之後的會議會自動認出同一個人。會議開得越多，標註工作越少。</p>
-            <div style="display:flex;flex-direction:column;gap:9px">
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">上傳時可指定預期發言人數，讓分離更貼近實際</span></div>
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">語者辨識失敗不會讓整場會議失敗，仍產出完整逐字稿</span></div>
-            </div>
-          </div>
-        </div>
+  /* ── 研究發表 ── */
+  (function(){
+    var CATS = EN ? [['all', 'All'], ['tw', 'Taiwan languages'], ['rb', 'Robust ASR & enhancement'], ['sp', 'Speaker & language ID'], ['qa', 'Quality & assessment']]
+                  : [['all', '全部'], ['tw', '臺灣多語言'], ['rb', '強健辨識與增強'], ['sp', '語者與語言辨識'], ['qa', '語音品質與評測']];
+    var P = [
+      ['tw', 2026, 'LREC', 'TG-ASR: Translation-guided learning with parallel gated cross attention for low-resource automatic speech recognition', '2602.22039'],
+      ['tw', 2026, 'LREC', 'Efficient dialect-aware and conditioning for low-resource Taiwanese Hakka speech processing', '2602.22522'],
+      ['tw', 2025, 'O-COCOSDA', 'Exploring the impact of data quantity on ASR in extremely low-resource languages', '2409.08872'],
+      ['tw', 2024, 'O-COCOSDA', 'VoxHakka: A dialectally diverse multi-speaker text-to-speech system for Taiwanese Hakka', '2409.01548'],
+      ['tw', 2021, 'Interspeech', 'AlloST: Low-resource speech translation without source transcription', '2105.00171'],
+      ['tw', 2020, 'O-COCOSDA', 'Using Taigi dramas with Mandarin Chinese subtitles to improve Taigi speech recognition', ''],
+      ['rb', 2026, 'TASLP', 'Universal robust speech adaptation for cross-domain speech recognition and enhancement', '2602.04307'],
+      ['rb', 2026, 'ICASSP', 'SCENE: Semantic-aware codec enhancement with neural embeddings', '2601.22189'],
+      ['rb', 2025, 'IEEE ASRU', 'Revealing the role of audio channels in ASR performance degradation', '2508.08967'],
+      ['rb', 2025, 'ICASSP', 'Channel-aware domain-adaptive generative adversarial network for robust speech recognition', '2409.12386'],
+      ['rb', 2024, 'IEEE SLT', 'Effective noise-aware data simulation for domain-adaptive speech enhancement leveraging dynamic stochastic perturbation', '2409.01545'],
+      ['rb', 2023, 'Interspeech', 'A training and inference strategy using noisy and enhanced speech as target for speech enhancement without clean speech', '2210.15368'],
+      ['rb', 2022, 'Interspeech', 'Chain-based discriminative autoencoders for speech recognition', '2203.13687'],
+      ['rb', 2022, 'ISCSLP', 'Speech-enhanced and noise-aware acoustic modeling for robust speech recognition', '2203.13696'],
+      ['rb', 2022, 'EUSIPCO', 'Filter-based discriminative autoencoders for children speech recognition', '2204.00164'],
+      ['rb', 2021, 'CSRC', 'The Academia Sinica system for the SLT 2021 children speech recognition challenge', ''],
+      ['rb', 2020, 'CHiME', 'The Academia Sinica systems of speech recognition and speaker diarization for the CHiME-6 challenge', ''],
+      ['rb', 2019, 'Interspeech', 'Exploring the encoder layers of discriminative autoencoders for LVCSR', ''],
+      ['rb', 2017, 'Interspeech', 'Discriminative autoencoders for acoustic modeling', ''],
+      ['rb', 2009, 'IEEE ASRU', 'Generalized likelihood ratio discriminant analysis', ''],
+      ['rb', 2007, 'IEEE ASRU', 'Training data selection for improving discriminative training of acoustic models', ''],
+      ['sp', 2026, 'Interspeech', 'Personalized keyword spotting for user-defined keywords leveraging text-independent speaker verification', '2606.20106'],
+      ['sp', 2023, 'IEEE SPL', 'Multi-target filter and detector for unknown-number speaker diarization', '2203.16007'],
+      ['sp', 2022, 'Interspeech', 'Disentangling the impacts of language and channel variability on speech separation networks', '2203.16040'],
+      ['sp', 2021, 'Interspeech', 'Dual-path filter network: Speaker-aware modeling for speech separation', '2106.07579'],
+      ['sp', 2021, 'APSIPA ASC', 'Generation of speaker representations using heterogeneous training batch assembly', '2203.16646'],
+      ['sp', 2020, 'TASLP', 'Subspace-based representation and learning for phonotactic spoken language recognition', '2203.15576'],
+      ['sp', 2017, 'IJCLCLP', 'A replay spoofing detection system based on discriminative autoencoders', ''],
+      ['sp', 2017, 'ICASSP', 'Discriminative autoencoders for speaker verification', ''],
+      ['sp', 2017, 'ROCLING', 'Speaker diarization based on i-vector PLDA scoring and using GMM-HMM forced alignment', ''],
+      ['sp', 2014, 'Interspeech', 'Clustering-based i-vector formulation for speaker recognition', ''],
+      ['sp', 2014, 'ICASSP', 'Speaker verification using kernel-based binary classifiers with binary operation derived features', ''],
+      ['sp', 2013, 'ICASSP', 'Subspace-based phonotactic language recognition using multivariate dynamic linear models', ''],
+      ['sp', 2012, 'Interspeech', 'Subspace-based feature representation and learning for language recognition', ''],
+      ['qa', 2026, 'IEEE ICME', 'Robust generative audio quality assessment: Disentangling quality from spurious correlations', '2603.16201'],
+      ['qa', 2025, 'IEEE ASRU', 'QAMRO: Quality-aware adaptive margin ranking optimization for human-aligned assessment of audio generation systems', '2508.08957'],
+      ['qa', 2025, 'APSIPA ASC', 'DRASP: A dual-resolution attentive statistics pooling framework for automatic MOS prediction', '2508.21407'],
+      ['qa', 2019, 'O-COCOSDA', 'Mandarin mispronunciation detection and diagnosis feedback using articulatory attributes based multi-task learning', ''],
+      ['qa', 2019, 'APSIPA ASC', 'Multi-task learning for acoustic modeling using articulatory attributes', ''],
+      ['qa', 2016, 'Interspeech', 'Minimization of regression and ranking losses with shallow neural networks on automatic sincerity evaluation', ''],
+      ['qa', 2014, 'Interspeech', 'Ensemble of machine learning algorithms for cognitive and physical speaker load detection', '']
+    ];
+    var box = $('#filters'), list = $('#publist'), cur = 'all';
+    function esc(s){ return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    function draw(){
+      var rows = P.filter(function(p){ return cur === 'all' || p[0] === cur; });
+      if (cur === 'all') rows = rows.slice().sort(function(a, b){ return b[1] - a[1]; });
+      list.innerHTML = rows.map(function(p, i){
+        return '<li style="--d:' + Math.min(i, 16) + '"><span class="y">' + p[1] + '</span><span class="v">' + p[2] + '</span><span class="t">' + esc(p[3]) + '</span>' +
+          (p[4] ? '<a href="https://arxiv.org/abs/' + p[4] + '" target="_blank" rel="noopener">arXiv ↗</a>' : '<span></span>') + '</li>';
+      }).join('');
+      $$('button', box).forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.c === cur ? 'true' : 'false'); });
+    }
+    box.innerHTML = CATS.map(function(c){
+      var n = c[0] === 'all' ? P.length : P.filter(function(p){ return p[0] === c[0]; }).length;
+      return '<button type="button" data-c="' + c[0] + '">' + c[1] + '<b>' + n + '</b></button>';
+    }).join('');
+    box.addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b || b.dataset.c === cur) return; cur = b.dataset.c; draw(); });
+    draw();
+  })();
 
-        <div class="r-gtc-1fr-1-25fr r-display-grid" style="border:1px solid #dedbd4;border-radius:8px;background:#fbfaf8;overflow:hidden;display:grid;grid-template-columns:1fr 1.25fr">
-          <div class="r-brr-1px-solid-rgb-234-231-224 r-pad-38px-40px" style="padding:38px 40px;display:flex;flex-direction:column;gap:14px;border-right:1px solid #eae7e0">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#c47a20">麻煩 05</div>
-            <h3 style="font-size:22px;font-weight:400;line-height:1.5;text-wrap:pretty">辨識引擎憑空生出會議裡沒說過的話</h3>
-            <div style="font-size:13.5px;font-weight:300;color:#6b6960;line-height:1.9">最讓人不安的失效不是「聽錯」，而是無中生有。這類問題只有在真實會議上才會現形。</div>
-          </div>
-          <div class="r-pad-38px-40px" style="padding:38px 40px;display:flex;flex-direction:column;gap:16px;background:#f4f3f0">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#8c8a84">我們的解法</div>
-            <p style="font-size:16px;font-weight:400;line-height:1.7">我們的模型已在實際環境處理真實會議，以下三項都是<span style="color:#c47a20">上線後實測發現並修正</span>的問題，不是規格書上的宣稱。</p>
-            <div style="display:flex;flex-direction:column;gap:9px">
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">太短的聲音不會被當成話：設有語音長度下限，兩百毫秒的環境雜音根本不會進入辨識，也不會計費</span></div>
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">不會陷入重複迴圈：找出成因並在系統層修掉，不是靠事後過濾遮掩</span></div>
-              <div style="display:flex;gap:11px;align-items:baseline"><span style="color:#c47a20;font-size:12px;flex:none">—</span><span style="font-size:13.5px;font-weight:300;color:#54524b;line-height:1.85">辨識器對自己的信心會被記錄：異常輸出可追溯與稽核，不會無聲混進逐字稿</span></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="r-mw-1280px r-pad-104px-56px" style="max-width:1280px;margin:0 auto;padding:104px 56px">
-    <div style="display:flex;flex-direction:column;gap:44px">
-      <div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">
-        <h2 class="r-fs-34px" style="font-size:34px;font-weight:300;letter-spacing:-0.01em">還有這些</h2>
-        <div style="border:1px solid #3a3833;color:#7a776e;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 11px;border-radius:3px;letter-spacing:0.1em;text-transform:uppercase;flex:none">現有功能</div>
-      </div>
-      <div class="r-gtc-repeat-3-1fr r-display-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#26251f;border:1px solid #26251f;border-radius:8px;overflow:hidden">
-        <div style="background:#0F0F0E;padding:32px 30px;display:flex;flex-direction:column;gap:11px;min-height:158px">
-          <div style="font-size:16.5px;font-weight:400">即時錄音</div>
-          <div style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">開網頁按下錄製，逐字稿與語者標籤即時出現，會議還在進行就能看到內容成形。</div>
-        </div>
-        <div style="background:#0F0F0E;padding:32px 30px;display:flex;flex-direction:column;gap:11px;min-height:158px">
-          <div style="font-size:16.5px;font-weight:400">AI 摘要與待辦</div>
-          <div style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">一鍵產生摘要並整理待辦。AI 產出的是草稿，最終版本由你決定。</div>
-        </div>
-        <div style="background:#0F0F0E;padding:32px 30px;display:flex;flex-direction:column;gap:11px;min-height:158px">
-          <div style="font-size:16.5px;font-weight:400">三種匯出格式</div>
-          <div style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">Word 含出席者與摘要區塊、待辦渲染為勾選清單；另有純文字與 SRT 字幕。</div>
-        </div>
-        <div style="background:#0F0F0E;padding:32px 30px;display:flex;flex-direction:column;gap:11px;min-height:158px">
-          <div style="font-size:16.5px;font-weight:400">OIDC 單一登入</div>
-          <div style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">接上既有身分驗證系統，沒有另一組獨立帳密要管理；支援自架身分提供者。</div>
-        </div>
-        <div style="background:#0F0F0E;padding:32px 30px;display:flex;flex-direction:column;gap:11px;min-height:158px">
-          <div style="font-size:16.5px;font-weight:400">權限與稽核</div>
-          <div style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">分層權限、管理操作留下紀錄且須填寫原因、可設定結果保留期限。</div>
-        </div>
-        <div style="background:#0F0F0E;padding:32px 30px;display:flex;flex-direction:column;gap:11px;min-height:158px">
-          <div style="font-size:16.5px;font-weight:400">程式化 API</div>
-          <div style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">以存取權杖供內部系統呼叫，支援非同步與同步；重複請求只執行一次。</div>
-        </div>
-        <div style="background:#0F0F0E;padding:32px 30px;display:flex;flex-direction:column;gap:11px;min-height:158px">
-          <div style="font-size:16.5px;font-weight:400">單張 GPU 跑完整系統</div>
-          <p style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">辨識、語者分離、聲紋擷取與摘要模型共用一張 GPU，硬體門檻與機房空間需求都低。</p>
-        </div>
-        <div style="background:#0F0F0E;padding:32px 30px;display:flex;flex-direction:column;gap:11px;min-height:158px">
-          <div style="font-size:16.5px;font-weight:400">模型可抽換，不被綁定</div>
-          <p style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">建構於業界標準開源技術與相容介面。若採購規範要求非紅色供應鏈，可評估替換為其他來源的開放權重模型。</p>
-        </div>
-        <div style="background:#0F0F0E;padding:32px 30px;display:flex;flex-direction:column;gap:11px;min-height:158px">
-          <div style="font-size:16.5px;font-weight:400">用量控管</div>
-          <p style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">瀏覽器使用者以額度管理、程式化呼叫以點數管理，兩者分開計算，管理員可調整並留下紀錄。</p>
-        </div>
-      </div>
-      <div style="border:1px solid #26251f;border-radius:8px;padding:32px 34px;display:flex;flex-direction:column;gap:14px;background:#0F0F0E">
-        <div style="font-size:17px;font-weight:400">不會半路壞掉的處理流程</div>
-        <div class="r-gtc-repeat-3-1fr r-display-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
-          <div style="font-size:13px;font-weight:300;color:#8c8a84;line-height:1.85">每份錄音進入系統前先完成驗證，能不能處理當場就知道，不會排到最後才失敗</div>
-          <div style="font-size:13px;font-weight:300;color:#8c8a84;line-height:1.85">收下的那一刻即記錄雜湊值與位元組數，原始錄音的完整性有據可查</div>
-          <div style="font-size:13px;font-weight:300;color:#8c8a84;line-height:1.85">重複送出的請求只會被執行一次，不會產生重複的會議與重複計費</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section style="background:#F4F3F0;color:#141413">
-    <div class="r-mw-1280px r-gap-40px r-pad-104px-56px-112px" style="max-width:1280px;margin:0 auto;padding:104px 56px 112px;display:flex;flex-direction:column;gap:40px">
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">
-          <h2 class="r-fs-34px" style="font-size:34px;font-weight:300;letter-spacing:-0.01em">讓紀錄自己走到該去的地方</h2>
-          <div style="border:1px solid #c9c5bb;color:#8c8a84;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 11px;border-radius:3px;letter-spacing:0.1em;text-transform:uppercase;flex:none">開發規劃中</div>
-        </div>
-        <div style="font-size:15px;font-weight:300;color:#6b6960;line-height:1.9;max-width:680px">以下為下一階段的發展方向，仍在開發規劃中，非現有可交付功能。</div>
-      </div>
-      <div class="r-gtc-1fr-1fr r-display-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div style="border:1px solid #dedbd4;border-radius:6px;background:#fbfaf8;padding:26px 28px;display:flex;flex-direction:column;gap:9px"><div style="font-size:15.5px;font-weight:400">會議紀錄自動送達</div><p style="font-size:13px;font-weight:300;color:#6b6960;line-height:1.85">完成後自動寄 Email、推送 Teams／Mattermost／LINE，或以 Webhook 通知內部系統</p></div>
-        <div style="border:1px solid #dedbd4;border-radius:6px;background:#fbfaf8;padding:26px 28px;display:flex;flex-direction:column;gap:9px"><div style="font-size:15.5px;font-weight:400">敏感資料自動遮罩</div><div style="font-size:13px;font-weight:300;color:#6b6960;line-height:1.85">姓名、身分證號、病歷號、金額自動偵測遮罩，並記錄誰檢視了原始內容</div></div>
-        <div style="border:1px solid #dedbd4;border-radius:6px;background:#fbfaf8;padding:26px 28px;display:flex;flex-direction:column;gap:9px"><div style="font-size:15.5px;font-weight:400">專有名詞辨識強化</div><div style="font-size:13px;font-weight:300;color:#6b6960;line-height:1.85">由貴單位維護人名、單位、產品與術語對照表，產出時自動修正為正確寫法</div></div>
-        <div style="border:1px solid #dedbd4;border-radius:6px;background:#fbfaf8;padding:26px 28px;display:flex;flex-direction:column;gap:9px"><div style="font-size:15.5px;font-weight:400">線上會議直接擷取</div><div style="font-size:13px;font-weight:300;color:#6b6960;line-height:1.85">直接擷取電腦上正在進行的線上會議音訊，不需要外部帳號加入會議</div></div>
-        <div style="border:1px solid #dedbd4;border-radius:6px;background:#fbfaf8;padding:26px 28px;display:flex;flex-direction:column;gap:9px"><div style="font-size:15.5px;font-weight:400">會議範本與公文格式</div><div style="font-size:13px;font-weight:300;color:#6b6960;line-height:1.85">董事會、專案進度、訪談各有格式；公部門的案由、決議、列席人員直接成形</div></div>
-        <div style="border:1px solid #dedbd4;border-radius:6px;background:#fbfaf8;padding:26px 28px;display:flex;flex-direction:column;gap:9px"><div style="font-size:15.5px;font-weight:400">跨會議 AI 問答</div><div style="font-size:13px;font-weight:300;color:#6b6960;line-height:1.85">「上次談到預算是怎麼決定的？」附上出處會議與時間點，地端運行不出網</div></div>
-        <div style="border:1px solid #dedbd4;border-radius:6px;background:#fbfaf8;padding:26px 28px;display:flex;flex-direction:column;gap:9px"><div style="font-size:15.5px;font-weight:400">企業級管理規則</div><div style="font-size:13px;font-weight:300;color:#6b6960;line-height:1.85">依群組或會議類型自動套用處理規則與不同的保存年限</div></div>
-        <div style="border:1px solid #dedbd4;border-radius:6px;background:#fbfaf8;padding:26px 28px;display:flex;flex-direction:column;gap:9px"><div style="font-size:15.5px;font-weight:400">團隊共享與協作</div><div style="font-size:13px;font-weight:300;color:#6b6960;line-height:1.85">分享給同事、部門層級可見性、共同校對，以及發言時間統計</div></div>
-        <div style="grid-column:1/-1;border:1px solid #dedbd4;border-radius:6px;background:#fbfaf8;padding:26px 28px;display:flex;flex-direction:column;gap:9px"><div style="font-size:15.5px;font-weight:400">可疑段落自動標示</div><p style="font-size:13px;font-weight:300;color:#6b6960;line-height:1.85">辨識引擎對每一段輸出的信心已被記錄，將據此在校對畫面主動標出「這段最可能有問題，請優先檢查」——把注意力放在真正需要的地方，而不是從頭聽到尾</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="r-mw-1280px r-pad-104px-56px" style="max-width:1280px;margin:0 auto;padding:104px 56px">
-    <div class="r-gap-40px" style="display:flex;flex-direction:column;gap:40px">
-      <div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">
-        <h2 class="r-fs-34px" style="font-size:34px;font-weight:300;letter-spacing:-0.01em">系統需求</h2>
-        <div style="border:1px solid #3a3833;color:#7a776e;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 11px;border-radius:3px;letter-spacing:0.1em;text-transform:uppercase;flex:none">摘要</div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:1px;background:#26251f;border:1px solid #26251f;border-radius:8px;overflow:hidden">
-        <div class="r-gtc-180px-1fr r-display-grid" style="display:grid;grid-template-columns:180px 1fr;gap:1px;background:#26251f">
-          <div style="background:#0F0F0E;padding:22px 26px;font-size:13.5px;font-weight:400;color:#8c8a84">伺服器</div>
-          <p style="background:#0F0F0E;padding:22px 26px;font-size:13.5px;font-weight:300;color:#cfccc4;line-height:1.8">一台 NVIDIA DGX Spark GB10（GB10 Grace Blackwell 超級晶片，128 GB 統一記憶體，原廠 DGX OS 為 Ubuntu 基礎）</p>
-        </div>
-        <div class="r-gtc-180px-1fr r-display-grid" style="display:grid;grid-template-columns:180px 1fr;gap:1px;background:#26251f">
-          <div style="background:#0F0F0E;padding:22px 26px;font-size:13.5px;font-weight:400;color:#8c8a84">處理容量</div>
-          <p style="background:#0F0F0E;padding:22px 26px;font-size:13.5px;font-weight:300;color:#cfccc4;line-height:1.8">單台 NVIDIA DGX Spark GB10 可支援即時 10 線同時轉錄；離線上傳以批次佇列處理，不受線數限制</p>
-        </div>
-        <div class="r-gtc-180px-1fr r-display-grid" style="display:grid;grid-template-columns:180px 1fr;gap:1px;background:#26251f">
-          <div style="background:#0F0F0E;padding:22px 26px;font-size:13.5px;font-weight:400;color:#8c8a84">部署形態</div>
-          <div style="background:#0F0F0E;padding:22px 26px;font-size:13.5px;font-weight:300;color:#cfccc4;line-height:1.8">容器化部署，單機即可運行；封閉網路友善，不需連外</div>
-        </div>
-        <div class="r-gtc-180px-1fr r-display-grid" style="display:grid;grid-template-columns:180px 1fr;gap:1px;background:#26251f">
-          <div style="background:#0F0F0E;padding:22px 26px;font-size:13.5px;font-weight:400;color:#8c8a84">使用者端</div>
-          <div style="background:#0F0F0E;padding:22px 26px;font-size:13.5px;font-weight:300;color:#cfccc4;line-height:1.8">任何現代瀏覽器，無需安裝軟體；電腦與行動裝置皆可</div>
-        </div>
-      </div>
-      <p style="font-size:14px;font-weight:300;color:#6f6c64;line-height:1.9;max-width:800px">若需求超出單機容量，可規模化為多機配置。實際併發量與硬體配置建議，我們會依貴單位的會議量與使用型態評估後提供，並可供應完整主機硬體與到場安裝部署。</p>
-    </div>
-  </section>
-
-  <section style="border-top:1px solid #26251f">
-    <div class="r-mw-1280px r-gap-40px r-pad-104px-56px" style="max-width:1280px;margin:0 auto;padding:104px 56px;display:flex;flex-direction:column;gap:40px">
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">
-          <h2 class="r-fs-34px" style="font-size:34px;font-weight:300;letter-spacing:-0.01em">不只是一套軟體</h2>
-          <div style="border:1px solid #3a3833;color:#7a776e;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 11px;border-radius:3px;letter-spacing:0.1em;text-transform:uppercase;flex:none">導入與維運</div>
-        </div>
-        <p style="font-size:15px;font-weight:300;color:#8c8a84;line-height:1.9;max-width:680px">地端 AI 最實際的門檻往往不在軟體，而在硬體選型、環境建置與後續維護。這些我們一起承擔。</p>
-      </div>
-      <div class="r-gtc-1fr-1fr r-display-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#26251f;border:1px solid #26251f;border-radius:8px;overflow:hidden">
-        <div style="background:#0F0F0E;padding:30px 32px;display:flex;flex-direction:column;gap:10px"><div style="font-size:16px;font-weight:400">主機供應與到場安裝</div><p style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">可提供完整主機硬體，經測試驗證後協助完成安裝部署，貴單位不需自行摸索硬體選型與環境建置。</p></div>
-        <div style="background:#0F0F0E;padding:30px 32px;display:flex;flex-direction:column;gap:10px"><div style="font-size:16px;font-weight:400">辨識模型持續改進</div><p style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">模型由團隊自行訓練，可依貴單位的實際語音情境與領域用語持續優化——採用通用雲端服務時做不到。</p></div>
-        <div style="background:#0F0F0E;padding:30px 32px;display:flex;flex-direction:column;gap:10px"><div style="font-size:16px;font-weight:400">可重現的評測報告</div><p style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">以貴單位指定的公開基準或自備的實際會議音檔評測，提供方法論明確、可重現的正式報告，而不是行銷數字。</p></div>
-        <div style="background:#0F0F0E;padding:30px 32px;display:flex;flex-direction:column;gap:10px"><div style="font-size:16px;font-weight:400">產業合規與供應鏈客製</div><p style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">依政府、金融、醫療、法律的法規與內控要求客製存取控制與稽核；採購規範指定模型來源時可替換後重新驗證。</p></div>
-        <div style="background:#0F0F0E;padding:30px 32px;display:flex;flex-direction:column;gap:10px"><div style="font-size:16px;font-weight:400">場景客製化</div><div style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">協助將既有的會議紀錄格式、專有名詞表與摘要需求整理成系統設定。</div></div>
-        <div style="background:#0F0F0E;padding:30px 32px;display:flex;flex-direction:column;gap:10px"><div style="font-size:16px;font-weight:400">維護、更新與教育訓練</div><p style="font-size:13.5px;font-weight:300;color:#8c8a84;line-height:1.85">模型升級、效能調校與安全性更新由團隊持續維護，貴單位不需自建 AI／MLOps 團隊。</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="faq" style="background:#F4F3F0;color:#141413">
-    <div class="r-mw-1280px r-pad-104px-56px-112px" style="max-width:1280px;margin:0 auto;padding:104px 56px 112px;display:flex;flex-direction:column;gap:44px">
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">
-          <h2 class="r-fs-34px" style="font-size:34px;font-weight:300;letter-spacing:-0.01em">常見問題</h2>
-          <div style="border:1px solid #c9c5bb;color:#8c8a84;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 11px;border-radius:3px;letter-spacing:0.1em;text-transform:uppercase;flex:none">FAQ</div>
-        </div>
-        <p style="font-size:15px;font-weight:300;color:#6b6960;line-height:1.9;max-width:700px;text-wrap:pretty">還在開發規劃中的功能，答案裡會直說。</p>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:1px;background:#dedbd4;border:1px solid #dedbd4;border-radius:8px;overflow:hidden">
-      <div class="r-pad-34px-36px" style="background:#fbfaf8;padding:34px 36px;display:flex;flex-direction:column;gap:12px">
-        <h3 style="font-size:18px;font-weight:400;line-height:1.6;text-wrap:pretty">AI 會議轉錄是什麼？</h3>
-        <p style="font-size:14.5px;font-weight:300;color:#6b6960;line-height:1.95;text-wrap:pretty">把會議錄音自動轉成逐字稿，同時分辨誰在說話、寫出摘要與待辦事項。MosaMinutes 讓你在同一個畫面裡邊聽邊改，改到能直接發出去為止。</p>
-      </div>
-      <div class="r-pad-34px-36px" style="background:#fbfaf8;padding:34px 36px;display:flex;flex-direction:column;gap:12px">
-        <h3 style="font-size:18px;font-weight:400;line-height:1.6;text-wrap:pretty">現成的錄音檔可以直接轉成文字嗎？</h3>
-        <p style="font-size:14.5px;font-weight:300;color:#6b6960;line-height:1.95;text-wrap:pretty">可以。除了現場收音，也能直接上傳既有的錄音檔做語音轉文字，離線上傳走批次佇列處理、不受同時線數限制。轉出來的逐字稿一樣會自動標點分段、分辨誰在說話，並產出摘要與待辦。</p>
-      </div>
-      <div class="r-pad-34px-36px" style="background:#fbfaf8;padding:34px 36px;display:flex;flex-direction:column;gap:12px">
-        <h3 style="font-size:18px;font-weight:400;line-height:1.6;text-wrap:pretty">會議錄音可以完全不上雲嗎？</h3>
-        <p style="font-size:14.5px;font-weight:300;color:#6b6960;line-height:1.95;text-wrap:pretty">可以，而且這是預設形態、不是附加選項。錄音、逐字稿、摘要與待辦全程在貴單位自己的伺服器上完成，容器化部署、單機即可運行，封閉網路不需連外也能使用。</p>
-      </div>
-      <div class="r-pad-34px-36px" style="background:#fbfaf8;padding:34px 36px;display:flex;flex-direction:column;gap:12px">
-        <h3 style="font-size:18px;font-weight:400;line-height:1.6;text-wrap:pretty">聽得懂台語和客語的會議嗎？</h3>
-        <p style="font-size:14.5px;font-weight:300;color:#6b6960;line-height:1.95;text-wrap:pretty">國語、台語、客語、原住民族語、英語五種語言一律轉為繁體中文逐字稿，並自動標點分段。客語涵蓋四縣、海陸、大埔、饒平、詔安、南四縣六腔。</p>
-      </div>
-      <div class="r-pad-34px-36px" style="background:#fbfaf8;padding:34px 36px;display:flex;flex-direction:column;gap:12px">
-        <h3 style="font-size:18px;font-weight:400;line-height:1.6;text-wrap:pretty">可以直接接 Google Meet、Microsoft Teams 或 Zoom 嗎？</h3>
-        <p style="font-size:14.5px;font-weight:300;color:#6b6960;line-height:1.95;text-wrap:pretty">目前不行。 現在的做法是錄音或上傳音檔。直接擷取電腦上正在進行的線上會議音訊（不需要外部帳號加入會議）列在下一階段的開發方向，還不是現有可交付功能。</p>
-      </div>
-      <div class="r-pad-34px-36px" style="background:#fbfaf8;padding:34px 36px;display:flex;flex-direction:column;gap:12px">
-        <h3 style="font-size:18px;font-weight:400;line-height:1.6;text-wrap:pretty">一台機器可以同時轉錄幾場會議？</h3>
-        <p style="font-size:14.5px;font-weight:300;color:#6b6960;line-height:1.95;text-wrap:pretty">一台 NVIDIA DGX Spark GB10 可支援 10 線即時轉錄；離線上傳走批次佇列處理，不受線數限制。需求超出單機容量時可以規模化為多機配置。</p>
-      </div>
-      <div class="r-pad-34px-36px" style="background:#fbfaf8;padding:34px 36px;display:flex;flex-direction:column;gap:12px">
-        <h3 style="font-size:18px;font-weight:400;line-height:1.6;text-wrap:pretty">多人同時校對，改的東西會不會被蓋掉？</h3>
-        <p style="font-size:14.5px;font-weight:300;color:#6b6960;line-height:1.95;text-wrap:pretty">不會。校對走四條獨立通道，彼此互不覆蓋，所以不會發生後改的蓋掉先改的。</p>
-      </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" style="background:#ED9A4A;color:#141413">
-    <div class="r-mw-1280px r-pad-96px-56px-100px" style="max-width:1280px;margin:0 auto;padding:96px 56px 100px;display:flex;flex-direction:column;gap:32px;align-items:flex-start">
-      <h2 class="r-fs-40px" style="font-size:40px;font-weight:200;line-height:1.35;letter-spacing:-0.015em;max-width:760px;text-wrap:pretty">用你自己的會議錄音，驗證一次。</h2>
-      <p style="font-size:15.5px;font-weight:300;color:#5c3f16;line-height:1.95;max-width:560px;text-wrap:pretty">我們可以用貴單位實際的會議音檔做一次概念驗證，並提供方法論明確、可重現的評測報告，作為採購與技術審查的技術佐證。</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-        <a href="mailto:hazel@voxmosa.com" style="background:#141413;color:#ED9A4A;padding:15px 30px;border-radius:4px;font-size:15px;font-weight:500">申請 PoC</a>
-        <a href="mailto:hazel@voxmosa.com" style="font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#141413;font-weight:500">hazel@voxmosa.com</a>
-      </div>
-    </div>
-  </section>
-  </main>
-
-
-  <footer style="border-top:1px solid #26251f">
-    <div class="r-mw-1280px r-pad-44px-56px r-gap-40px" style="max-width:1280px;margin:0 auto;padding:44px 56px;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap">
-      <a aria-label="Voxmosa"href="index.html" style="display:flex;align-items:baseline;font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:300;letter-spacing:0.05em;line-height:1;color:#6f6c64">
-        <span>V</span>
-        <svg aria-hidden="true" viewBox="0 0 200 120" preserveAspectRatio="xMinYMid slice" style="height:0.53em;width:0.8em;transform:translateY(0.0205em);overflow:visible;display:block;flex:none" fill="none" stroke="currentColor" stroke-linecap="round">
-          <circle cx="60" cy="60" r="51" stroke-width="18" />
-          <path d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="14" opacity="0.6" />
-          <path d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="14" opacity="0.3" />
-        </svg>
-        <span>x</span><span style="display:inline-block;width:0.06em;flex:none"></span><span>mosa</span>
-      </a>
-      <div style="display:flex;gap:26px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5e5b54;letter-spacing:0.06em;flex-wrap:wrap">
-        <a href="mosatalk.html" style="color:#5e5b54">MosaTalk</a>
-        <a href="mosaminutes.html" style="color:#5e5b54">MosaMinutes</a>
-        <a href="mosascore.html" style="color:#5e5b54">MosaScore</a>
-        <a href="mailto:hazel@voxmosa.com" style="color:#5e5b54">hazel@voxmosa.com</a>
-        <span>© 2026 Voxmosa</span>
-      </div>
-    </div>
-  </footer>
-
-</div>
-</div></div>
+  /* ── PoC 表單 ──
+     FORM_ENDPOINT 填入表單服務網址（例：Formspree 的 'https://formspree.io/f/xxxxxxxx'）後，按下送出就會直接寄出；
+     留空時維持舊做法：開啟訪客的郵件程式。 */
+  var FORM_ENDPOINT = 'https://formspree.io/f/moedvvzw';
+  (function(){
+    var form = $('#pocform'); if (!form) return;
+    var note = $('#formnote'), btn = $('button[type=submit]', form);
+    var T = EN
+      ? { sending: 'Sending…', ok: 'Thanks — we’ve received your request.', okSub: 'We’ll reply to {email} within two business days.', fail: 'Something went wrong. Please email us directly at ', mail: 'Your mail app should now be open. If nothing appeared, email us at ', end: '.' }
+      : { sending: '送出中…', ok: '已收到您的申請。', okSub: '我們會在兩個工作日內回覆到 {email}。', fail: '送出失敗，請直接來信 ', mail: '已開啟郵件程式。若沒有跳出視窗，請直接來信 ', end: '。' };
+    function noteWithMail(prefix){
+      note.textContent = prefix;
+      var a = document.createElement('a'); a.href = 'mailto:' + MAIL; a.textContent = MAIL;
+      note.appendChild(a); note.appendChild(document.createTextNode(T.end));
+    }
+    function mailto(d){
+      var body = EN
+        ? 'Organization: ' + d.get('org') + '\nContact: ' + d.get('name') + '\nEmail: ' + d.get('email') + '\nRequest type: ' + d.get('type') + '\n\nProblem to solve:\n' + (d.get('msg') || '') + '\n'
+        : '單位名稱：' + d.get('org') + '\n聯絡人：' + d.get('name') + '\nEmail：' + d.get('email') + '\n需求類型：' + d.get('type') + '\n\n想解決的問題：\n' + (d.get('msg') || '') + '\n';
+      location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent('[' + d.get('type') + '] ' + d.get('org')) + '&body=' + encodeURIComponent(body);
+      noteWithMail(T.mail);
+    }
+    function done(email){
+      var box = document.createElement('div'); box.className = 'form-done'; box.setAttribute('role', 'status'); box.tabIndex = -1;
+      var b = document.createElement('b'); b.textContent = T.ok;
+      var p = document.createElement('p'); p.textContent = T.okSub.replace('{email}', email);
+      box.appendChild(b); box.appendChild(p); form.appendChild(box); form.classList.add('sent'); box.focus();
+    }
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (!form.checkValidity()){ form.reportValidity(); return; }
+      var d = new FormData(form);
+      if (d.get('_gotcha')) return;
+      if (!FORM_ENDPOINT || !window.fetch){ mailto(d); return; }
+      var label = btn.textContent; btn.disabled = true; btn.textContent = T.sending; note.textContent = '';
+      d.append('_subject', '[Voxmosa ' + (EN ? 'EN' : 'ZH') + '] ' + d.get('type') + ' — ' + d.get('org'));
+      d.append('page', location.href);
+      fetch(FORM_ENDPOINT, { method: 'POST', body: d, headers: { Accept: 'application/json' } })
+        .then(function(r){ if (!r.ok) throw new Error(r.status); done(d.get('email')); })
+        .catch(function(){ btn.disabled = false; btn.textContent = label; noteWithMail(T.fail); });
+    });
+  })();
+})();
+</script>
 </body>
 </html>

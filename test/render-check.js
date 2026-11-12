@@ -16,8 +16,12 @@ const path = require("path");
 const { spawn } = require("child_process");
 
 const ROOT = path.resolve(__dirname, "..");
-const PAGES = ["index.html", "mosatalk.html", "mosaminutes.html", "mosascore.html",
-               "on-premise.html", "languages.html"];
+// 頁面自動找：根目錄與 en/ 底下所有 .html（404.html 除外）。
+// 以前這份清單是寫死的，新增頁面時漏加不會有任何東西失敗 —— 頁面只是安靜地沒有測試覆蓋。
+const PAGES = [
+  ...fs.readdirSync(ROOT).filter((f) => f.endsWith(".html") && f !== "404.html").sort(),
+  ...fs.readdirSync(path.join(ROOT, "en")).filter((f) => f.endsWith(".html")).sort().map((f) => "en/" + f),
+];
 
 // 靜態頁不該留下任何 <x-dc> 模板殘跡
 const isBaked = (page) =>
@@ -171,7 +175,7 @@ async function runOne(chromePath, base, page, scenario, debugPort) {
       const pass = sc.expect(i, baked);
       if (baked) seen[sc.key + "|" + page] = i.visibleText;
       if (!pass) failures++;
-      console.log(`${pass ? "✅" : "❌"} ${page.padEnd(17)} 可見文字 ${String(i.visibleText).padStart(5)} 字  ` +
+      console.log(`${pass ? "✅" : "❌"} ${page.padEnd(22)} 可見文字 ${String(i.visibleText).padStart(5)} 字  ` +
                   `x-dc=${i.hasXdc ? "在" : "無"}  dc-root=${i.hasDcRoot ? "在" : "無"}  React=${i.react}`);
       if (!pass) console.log(`   └ 實際畫面：${i.head || "（空白）"}`);
       // 字型自架、runtime 移除之後，頁面完全不該對外發出請求。
@@ -191,14 +195,16 @@ async function runOne(chromePath, base, page, scenario, debugPort) {
     console.log("");
   }
   // 烘焙的重點就在這裡：靜態頁在有無 JavaScript 之下必須完全一樣
+  // 只跑單一情境時（例如 `node test/render-check.js normal`）缺另一邊的數據，
+  // 這項比對沒有意義，跳過而不是判定失敗。
   const bakedPages = PAGES.filter(isBaked);
-  if (bakedPages.length) {
+  if (bakedPages.length && !only) {
     console.log("══════ 靜態頁：JS 開關不影響內容 ══════");
     for (const page of bakedPages) {
       const on = seen["normal|" + page], off = seen["nojs|" + page];
       const same = on !== undefined && on === off;
       if (!same) failures++;
-      console.log((same ? "✅ " : "❌ ") + page.padEnd(17) +
+      console.log((same ? "✅ " : "❌ ") + page.padEnd(22) +
                   " 有 JS " + on + " 字 / 無 JS " + off + " 字");
     }
     console.log("");

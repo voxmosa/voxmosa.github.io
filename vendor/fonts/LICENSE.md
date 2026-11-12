@@ -1,7 +1,7 @@
 # 字型授權
 
-`vendor/fonts/` 內的檔案是以下三套字型的子集化版本（由 `tools/build-fonts.py`
-產生）。三套皆採 SIL Open Font License 1.1，允許重新散布與修改；
+`vendor/fonts/` 內的檔案是以下四套字型的子集化版本（由 `tools/build-fonts.py`
+產生，原始檔取自 https://github.com/google/fonts ）。四套皆採 SIL Open Font License 1.1，允許重新散布與修改；
 子集化屬於 OFL 允許的修改。
 
 | 字型 | 著作權 | 來源 |
@@ -9,6 +9,7 @@
 | Space Grotesk | Copyright 2020 The Space Grotesk Project Authors | https://github.com/floriankarsten/space-grotesk |
 | IBM Plex Mono | Copyright 2017 IBM Corp. | https://github.com/IBM/plex |
 | Noto Sans TC | (c) 2014-2021 Adobe, with Reserved Font Name 'Source' | https://github.com/googlefonts/noto-cjk |
+| Noto Serif TC | Copyright 2012 Google Inc. All Rights Reserved. | https://github.com/googlefonts/noto-cjk |
 
 OFL 1.1 全文如下。
 

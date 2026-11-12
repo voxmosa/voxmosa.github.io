@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Regenerate sitemap.xml -- python3 tools/build-sitemap.py
 
-<lastmod> is the only field Google reads here. Its docs say the value is used
-"if it's consistently and verifiably accurate", so a hand-typed date is worse
+<lastmod> is the only field Google reads besides <loc>. Its docs say the value is
+used "if it's consistently and verifiably accurate", so a hand-typed date is worse
 than useless once it drifts: an inaccurate lastmod makes Google distrust the
 field entirely. Every date is therefore derived, never written by hand.
 
@@ -12,13 +12,31 @@ it. test/link-check.js asserts the file still matches, so it cannot rot quietly.
 
 <changefreq> and <priority> are deliberately absent: "Google ignores <priority>
 and <changefreq> values."
+
+Each Chinese page and its English counterpart under en/ are listed with
+<xhtml:link rel="alternate" hreflang> entries. This is Google's documented way of
+declaring language versions in a sitemap, and it mirrors the <link rel="alternate">
+tags already in each page's <head>.
+
+Pages are discovered, not listed by hand: every *.html in the root and in en/,
+except 404.html.
 """
 import datetime, pathlib, subprocess, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BASE = "https://voxmosa.com/"
-PAGES = ["index.html", "mosatalk.html", "mosaminutes.html", "mosascore.html",
-         "on-premise.html", "languages.html"]
+
+
+def pages():
+    names = [p.name for p in sorted(ROOT.glob("*.html")) if p.name != "404.html"]
+    names += ["en/" + p.name for p in sorted((ROOT / "en").glob("*.html"))]
+    return names
+
+
+def loc(name):
+    if name.endswith("index.html"):
+        return BASE + name[: -len("index.html")]
+    return BASE + name
 
 
 def last_modified(name):
@@ -33,19 +51,31 @@ def last_modified(name):
     return out
 
 
+def alternates(name, all_pages):
+    zh = name[3:] if name.startswith("en/") else name
+    en = "en/" + zh
+    if zh not in all_pages or en not in all_pages:
+        return []
+    return [f'    <xhtml:link rel="alternate" hreflang="zh-Hant-TW" href="{loc(zh)}"/>',
+            f'    <xhtml:link rel="alternate" hreflang="en" href="{loc(en)}"/>',
+            f'    <xhtml:link rel="alternate" hreflang="x-default" href="{loc(zh)}"/>']
+
+
 def build():
+    all_pages = pages()
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
-             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for name in PAGES:
-        loc = BASE if name == "index.html" else BASE + name
-        lines += ["  <url>", f"    <loc>{loc}</loc>",
-                  f"    <lastmod>{last_modified(name)}</lastmod>", "  </url>"]
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+             'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+    for name in all_pages:
+        lines += ["  <url>", f"    <loc>{loc(name)}</loc>",
+                  f"    <lastmod>{last_modified(name)}</lastmod>",
+                  *alternates(name, all_pages), "  </url>"]
     lines.append("</urlset>")
     return "\n".join(lines) + "\n"
 
 
 if __name__ == "__main__":
     (ROOT / "sitemap.xml").write_text(build(), encoding="utf-8")
-    for name in PAGES:
-        print(f"  {name:<20} {last_modified(name)}")
-    print(f"共 {len(PAGES)} 個網址 → sitemap.xml")
+    for name in pages():
+        print(f"  {name:<24} {last_modified(name)}")
+    print(f"共 {len(pages())} 個網址 → sitemap.xml")
