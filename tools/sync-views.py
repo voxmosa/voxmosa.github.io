@@ -48,7 +48,8 @@ def main_span(s):
 def routes(src):
     """href → route，從首頁導覽列讀出來"""
     head = src[src.index("<header"):src.index("</header>")]
-    return dict(re.findall(r'<a href="([\w-]+\.html)" data-route="(\w+)"', head)) | {"index.html": "home"}
+    # 導覽列連結不帶 .html（href="mosatalk"），對應回檔名
+    return {h + ".html": r for h, r in re.findall(r'<a href="([\w-]+)" data-route="(\w+)"', head)} | {"index.html": "home"}
 
 
 def sync_dir(d, lang_link):
@@ -84,12 +85,16 @@ def sync_dir(d, lang_link):
     return changed
 
 
+def clean(name):
+    return "" if name == "index.html" else name[: -len(".html")]
+
+
 def zh_link(foot, name):
-    return re.sub(r'<a href="en/[^"]*"( lang="en" hreflang="en">English</a>)', rf'<a href="en/{name}"\1', foot)
+    return re.sub(r'<a href="en/[^"]*"( lang="en" hreflang="en">English</a>)', rf'<a href="en/{clean(name)}"\1', foot)
 
 
 def en_link(foot, name):
-    return re.sub(r'<a href="\.\./[^"]*"( lang="zh-Hant-TW" hreflang="zh-Hant-TW">中文</a>)', rf'<a href="../{name}"\1', foot)
+    return re.sub(r'<a href="\.\./[^"]*"( lang="zh-Hant-TW" hreflang="zh-Hant-TW">中文</a>)', rf'<a href="../{clean(name)}"\1', foot)
 
 
 if __name__ == "__main__":

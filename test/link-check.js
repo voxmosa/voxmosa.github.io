@@ -49,8 +49,11 @@ for (const [page, { src }] of pages) {
     internal++;
     const [file, frag] = href.split("#");
     // 相對路徑以頁面所在資料夾為準（en/ 底下的頁面用 ../ 回到中文版）
-    const target = file === "" ? page
-      : path.posix.normalize(path.posix.join(path.posix.dirname(page), file));
+    // 站內連結不帶 .html（GitHub Pages 會把 /mosatalk 對應到 mosatalk.html，./ 與 en/ 對應到 index.html），
+    // 這裡用同樣的規則找到實際檔案
+    let target = file === "" ? page
+      : path.posix.normalize(path.posix.join(path.posix.dirname(page), file.endsWith("/") ? file + "index.html" : file));
+    if (file !== "" && !path.posix.extname(target)) target += ".html";
 
     const entry = pages.get(target);
     if (!entry) {
@@ -94,7 +97,7 @@ for (const [page, { src }] of pages) {
 // 導覽列在各頁之間應該一致。以首頁為準而不是寫死清單 —— 寫死等於把當下的
 // 不一致固化進測試：第一版列出五項，於是「團隊」只有首頁有這件事就沒被抓到。
 function navLabels(src) {
-  const start = src.indexOf('<a href="mosatalk.html"');
+  const start = src.indexOf('<a href="mosatalk"');
   if (start < 0) return [];
   const out = [];
   for (const m of src.slice(start).matchAll(/<a\s[^>]*>([\s\S]*?)<\/a>/g)) {

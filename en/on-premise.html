@@ -28,7 +28,7 @@
 <link rel="icon" href="../favicon.png" type="image/png" sizes="144x144">
 <link rel="preload" href="../vendor/fonts/noto-serif-tc-700-900-var.woff2" as="font" type="font/woff2" crossorigin>
 <link href="../vendor/fonts/fonts.css" rel="stylesheet">
-<script>(function(d){d.classList.add('js');try{if(!sessionStorage.getItem('vx')){d.classList.add('first');d.style.setProperty('--t0','1.9s');sessionStorage.setItem('vx','1')}}catch(e){}})(document.documentElement)</script>
+<script>(function(d){d.classList.add('js');try{if(!sessionStorage.getItem('vx')){d.classList.add('first');sessionStorage.setItem('vx','1')}}catch(e){}})(document.documentElement)</script>
 <style>
 /* 字型載入前的替身：Arial / Times New Roman（Linux 上是度量相容的 Liberation）縮放到跟
    Space Grotesk、Noto Serif TC 一樣寬，網頁字型載入、換掉替身時字不會改變換行而跳動。
@@ -479,6 +479,10 @@ blockquote{font:700 clamp(16px,1.5vw,19px)/1.75 var(--serif);border-left:3px sol
 .pills span{display:block;font-size:14px;line-height:1;padding:10px 14px;border:1.5px solid var(--ink);border-radius:6px;transition:background-color .2s,color .2s}
 .pills input:checked+span{background:var(--ink);color:var(--paper)}
 .pills input:focus-visible+span{outline:2px solid var(--acc);outline-offset:2px}
+.pills.sm span{font-size:13px;padding:8px 11px}
+.poc-extra{margin:2px 0 4px;padding-top:14px;border-top:1px dashed var(--line)}
+.poc-extra[hidden]{display:none}
+.fl-note{font:500 11.5px/1.5 var(--mono);color:var(--acc);letter-spacing:.03em;margin-bottom:12px}
 .form .btn{width:100%;padding:15px;font-size:16px;margin-top:4px}
 .form .btn.solid:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .form small{display:block;font-size:12.5px;color:var(--mute);margin-top:12px;line-height:1.6}
@@ -560,6 +564,27 @@ html[lang=en] .conv-out small{font-size:10px;letter-spacing:.1em}
 .inds span{font-size:14.5px;line-height:1.7;color:var(--t2);margin:8px 0 14px;flex:1}
 .inds em{font:500 11.5px/1.5 var(--mono);font-style:normal;color:var(--acc);letter-spacing:.04em}
 .inds.c2{grid-template-columns:repeat(2,1fr)}
+/* 部署規劃速查 */
+.planner{margin-top:clamp(48px,6vw,72px);padding-top:clamp(28px,3.4vw,40px);border-top:2px solid var(--ink)}
+.pl-head{max-width:46em;margin-bottom:24px}.pl-head .kicker{margin-bottom:16px}
+.pl-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(22px,4vw,56px);align-items:start}
+.pl-n input{max-width:9em}.pl-n[hidden]{display:none}
+.pl-out{background:var(--paper);border:1.5px solid var(--ink);border-radius:8px;padding:clamp(18px,2.4vw,28px)}
+.pl-name{font:900 22px/1.2 var(--serif);margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--ink)}
+.pl-out dl>div{display:grid;grid-template-columns:5.5em minmax(0,1fr);gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.pl-out dl>div:first-child{border-top:0}
+.pl-out dt{font:500 11.5px/1.9 var(--mono);letter-spacing:.06em;color:var(--mute)}
+.pl-out dd{font-size:14.5px;line-height:1.7;color:var(--ink)}
+.pl-lg{display:flex;flex-wrap:wrap;gap:6px}
+.pl-lg .st{font-size:13px;padding:3px 8px;border-radius:4px;background:rgba(237,154,74,.18);line-height:1.5}
+.pl-lg .st.half{background:rgba(237,154,74,.08);box-shadow:inset 0 0 0 1px rgba(196,122,32,.5)}
+.pl-lg .st.none{background:transparent;box-shadow:inset 0 0 0 1px var(--line);color:var(--t2)}
+.pl-notes li{position:relative;padding-left:16px}
+.pl-notes li::before{content:"!";position:absolute;left:0;top:0;font:700 13px/1.7 var(--mono);color:var(--acc)}
+.pl-btn{margin-top:22px}
+@media(max-width:860px){.pl-grid{grid-template-columns:1fr}}
+/* 開發中的功能：跟產品頁的「開發規劃中」對齊，避免讓人以為是現有可交付功能 */
+.soon{display:inline-block;margin-left:6px;padding:1px 6px;border:1px solid currentColor;border-radius:3px;font:500 10.5px/1.4 var(--mono);letter-spacing:.06em;color:var(--t2);vertical-align:1px;white-space:nowrap}
 @media(max-width:900px){.inds{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.inds,.inds.c2{grid-template-columns:1fr}}
 .caps{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
@@ -600,18 +625,18 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
 
 <header class="nav">
   <div class="nav-in">
-    <a class="logo" href="index.html" data-route="home" aria-label="Voxmosa home"><svg class="wm" aria-hidden="true" focusable="false" viewBox="3.30 19.60 640.96 94.90" fill="none"><path class="wv" d="M31.15 112.00 3.30 19.60H14.78L40.00 105.27H41.71L66.92 19.60H78.41L50.56 112.00Z" fill="currentColor"/><g transform="translate(88.24, 44.66) scale(0.5844)" stroke="currentColor" stroke-linecap="round" fill="none"><circle class="wc" cx="60" cy="60" r="51" stroke-width="17" pathLength="1"/><path class="wa a1" style="--k:0" d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="13"/><path class="wa a2" style="--k:1" d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="13"/><path class="wa a3" style="--k:2" d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="13"/></g><g fill="currentColor"><path class="wl" style="--i:0" d="M200.08 112.00 225.95 79.26 200.87 47.45H213.41L232.68 72.40H234.53L253.67 47.45H266.34L241.13 79.26L267.00 112.00H254.33L234.53 86.26H232.68L212.88 112.00Z"/><path class="wl" style="--i:1" d="M298.16 112.00V47.45H308.32V55.50H310.17Q312.02 52.07 316.24 49.17Q320.46 46.26 328.12 46.26Q335.64 46.26 340.33 49.56Q345.02 52.86 347.13 57.62H348.98Q351.22 52.86 355.77 49.56Q360.33 46.26 368.51 46.26Q374.98 46.26 379.86 48.90Q384.75 51.54 387.59 56.49Q390.42 61.44 390.42 68.31V112.00H380.00V69.23Q380.00 62.76 376.23 59.00Q372.47 55.24 365.74 55.24Q358.61 55.24 354.06 59.86Q349.50 64.48 349.50 73.19V112.00H339.08V69.23Q339.08 62.76 335.31 59.00Q331.55 55.24 324.82 55.24Q317.69 55.24 313.14 59.86Q308.58 64.48 308.58 73.19V112.00Z"/><path class="wl" style="--i:2" d="M448.11 113.85Q438.34 113.85 430.88 109.76Q423.42 105.66 419.27 98.21Q415.11 90.75 415.11 80.58V78.87Q415.11 68.84 419.27 61.31Q423.42 53.79 430.88 49.70Q438.34 45.60 448.11 45.60Q457.88 45.60 465.33 49.70Q472.79 53.79 476.95 61.31Q481.11 68.84 481.11 78.87V80.58Q481.11 90.75 476.95 98.21Q472.79 105.66 465.33 109.76Q457.88 113.85 448.11 113.85ZM448.11 104.48Q458.40 104.48 464.54 97.94Q470.68 91.41 470.68 80.32V79.13Q470.68 68.04 464.54 61.51Q458.40 54.98 448.11 54.98Q437.94 54.98 431.74 61.51Q425.54 68.04 425.54 79.13V80.32Q425.54 91.41 431.74 97.94Q437.94 104.48 448.11 104.48Z"/><path class="wl" style="--i:3" d="M532.46 113.85Q520.44 113.85 512.19 108.30Q503.94 102.76 502.23 90.75L512.13 88.50Q513.18 94.84 516.09 98.47Q518.99 102.10 523.28 103.62Q527.57 105.14 532.46 105.14Q539.72 105.14 543.94 102.23Q548.16 99.33 548.16 94.44Q548.16 89.43 544.14 87.38Q540.11 85.34 533.12 84.02L527.70 83.09Q521.50 82.04 516.35 79.79Q511.20 77.55 508.17 73.72Q505.13 69.89 505.13 64.08Q505.13 55.37 511.86 50.49Q518.60 45.60 529.68 45.60Q540.64 45.60 547.44 50.55Q554.24 55.50 556.22 64.48L546.45 66.99Q545.26 59.99 540.77 57.15Q536.28 54.32 529.68 54.32Q523.08 54.32 519.26 56.76Q515.43 59.20 515.43 63.95Q515.43 68.57 519.06 70.75Q522.69 72.93 528.76 73.98L534.17 74.91Q541.04 76.10 546.51 78.14Q551.99 80.19 555.23 84.02Q558.46 87.84 558.46 94.05Q558.46 103.55 551.40 108.70Q544.34 113.85 532.46 113.85Z"/><path class="wl" style="--i:4" d="M602.42 113.85Q595.68 113.85 590.14 111.47Q584.60 109.10 581.43 104.61Q578.26 100.12 578.26 93.65Q578.26 87.05 581.43 82.76Q584.60 78.47 590.14 76.29Q595.68 74.12 602.55 74.12H624.33V69.36Q624.33 62.50 620.30 58.54Q616.28 54.58 608.36 54.58Q600.57 54.58 596.21 58.34Q591.86 62.10 590.27 68.44L580.50 65.27Q582.09 59.86 585.52 55.44Q588.95 51.02 594.69 48.31Q600.44 45.60 608.49 45.60Q620.90 45.60 627.76 52.01Q634.62 58.41 634.62 70.02V99.20Q634.62 103.16 638.32 103.16H644.26V112.00H635.15Q630.80 112.00 628.16 109.56Q625.52 107.12 625.52 103.02V102.36H623.93Q622.48 104.87 620.04 107.58Q617.60 110.28 613.37 112.07Q609.15 113.85 602.42 113.85ZM603.60 104.87Q612.84 104.87 618.59 99.39Q624.33 93.92 624.33 84.02V82.56H602.94Q596.74 82.56 592.71 85.27Q588.69 87.98 588.69 93.39Q588.69 98.80 592.85 101.84Q597.00 104.87 603.60 104.87Z"/></g></svg></a>
+    <a class="logo" href="./" data-route="home" aria-label="Voxmosa home"><svg class="wm" aria-hidden="true" focusable="false" viewBox="3.30 19.60 640.96 94.90" fill="none"><path class="wv" d="M31.15 112.00 3.30 19.60H14.78L40.00 105.27H41.71L66.92 19.60H78.41L50.56 112.00Z" fill="currentColor"/><g transform="translate(88.24, 44.66) scale(0.5844)" stroke="currentColor" stroke-linecap="round" fill="none"><circle class="wc" cx="60" cy="60" r="51" stroke-width="17" pathLength="1"/><path class="wa a1" style="--k:0" d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="13"/><path class="wa a2" style="--k:1" d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="13"/><path class="wa a3" style="--k:2" d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="13"/></g><g fill="currentColor"><path class="wl" style="--i:0" d="M200.08 112.00 225.95 79.26 200.87 47.45H213.41L232.68 72.40H234.53L253.67 47.45H266.34L241.13 79.26L267.00 112.00H254.33L234.53 86.26H232.68L212.88 112.00Z"/><path class="wl" style="--i:1" d="M298.16 112.00V47.45H308.32V55.50H310.17Q312.02 52.07 316.24 49.17Q320.46 46.26 328.12 46.26Q335.64 46.26 340.33 49.56Q345.02 52.86 347.13 57.62H348.98Q351.22 52.86 355.77 49.56Q360.33 46.26 368.51 46.26Q374.98 46.26 379.86 48.90Q384.75 51.54 387.59 56.49Q390.42 61.44 390.42 68.31V112.00H380.00V69.23Q380.00 62.76 376.23 59.00Q372.47 55.24 365.74 55.24Q358.61 55.24 354.06 59.86Q349.50 64.48 349.50 73.19V112.00H339.08V69.23Q339.08 62.76 335.31 59.00Q331.55 55.24 324.82 55.24Q317.69 55.24 313.14 59.86Q308.58 64.48 308.58 73.19V112.00Z"/><path class="wl" style="--i:2" d="M448.11 113.85Q438.34 113.85 430.88 109.76Q423.42 105.66 419.27 98.21Q415.11 90.75 415.11 80.58V78.87Q415.11 68.84 419.27 61.31Q423.42 53.79 430.88 49.70Q438.34 45.60 448.11 45.60Q457.88 45.60 465.33 49.70Q472.79 53.79 476.95 61.31Q481.11 68.84 481.11 78.87V80.58Q481.11 90.75 476.95 98.21Q472.79 105.66 465.33 109.76Q457.88 113.85 448.11 113.85ZM448.11 104.48Q458.40 104.48 464.54 97.94Q470.68 91.41 470.68 80.32V79.13Q470.68 68.04 464.54 61.51Q458.40 54.98 448.11 54.98Q437.94 54.98 431.74 61.51Q425.54 68.04 425.54 79.13V80.32Q425.54 91.41 431.74 97.94Q437.94 104.48 448.11 104.48Z"/><path class="wl" style="--i:3" d="M532.46 113.85Q520.44 113.85 512.19 108.30Q503.94 102.76 502.23 90.75L512.13 88.50Q513.18 94.84 516.09 98.47Q518.99 102.10 523.28 103.62Q527.57 105.14 532.46 105.14Q539.72 105.14 543.94 102.23Q548.16 99.33 548.16 94.44Q548.16 89.43 544.14 87.38Q540.11 85.34 533.12 84.02L527.70 83.09Q521.50 82.04 516.35 79.79Q511.20 77.55 508.17 73.72Q505.13 69.89 505.13 64.08Q505.13 55.37 511.86 50.49Q518.60 45.60 529.68 45.60Q540.64 45.60 547.44 50.55Q554.24 55.50 556.22 64.48L546.45 66.99Q545.26 59.99 540.77 57.15Q536.28 54.32 529.68 54.32Q523.08 54.32 519.26 56.76Q515.43 59.20 515.43 63.95Q515.43 68.57 519.06 70.75Q522.69 72.93 528.76 73.98L534.17 74.91Q541.04 76.10 546.51 78.14Q551.99 80.19 555.23 84.02Q558.46 87.84 558.46 94.05Q558.46 103.55 551.40 108.70Q544.34 113.85 532.46 113.85Z"/><path class="wl" style="--i:4" d="M602.42 113.85Q595.68 113.85 590.14 111.47Q584.60 109.10 581.43 104.61Q578.26 100.12 578.26 93.65Q578.26 87.05 581.43 82.76Q584.60 78.47 590.14 76.29Q595.68 74.12 602.55 74.12H624.33V69.36Q624.33 62.50 620.30 58.54Q616.28 54.58 608.36 54.58Q600.57 54.58 596.21 58.34Q591.86 62.10 590.27 68.44L580.50 65.27Q582.09 59.86 585.52 55.44Q588.95 51.02 594.69 48.31Q600.44 45.60 608.49 45.60Q620.90 45.60 627.76 52.01Q634.62 58.41 634.62 70.02V99.20Q634.62 103.16 638.32 103.16H644.26V112.00H635.15Q630.80 112.00 628.16 109.56Q625.52 107.12 625.52 103.02V102.36H623.93Q622.48 104.87 620.04 107.58Q617.60 110.28 613.37 112.07Q609.15 113.85 602.42 113.85ZM603.60 104.87Q612.84 104.87 618.59 99.39Q624.33 93.92 624.33 84.02V82.56H602.94Q596.74 82.56 592.71 85.27Q588.69 87.98 588.69 93.39Q588.69 98.80 592.85 101.84Q597.00 104.87 603.60 104.87Z"/></g></svg></a>
     <nav class="tabs" id="tabs" aria-label="Main">
-      <a href="mosatalk.html" data-route="talk">MosaTalk</a>
-      <a href="mosaminutes.html" data-route="minutes">MosaMinutes</a>
-      <a href="mosascore.html" data-route="score">MosaScore</a>
-      <a href="on-premise.html" data-route="onprem" aria-current="page">Why on-prem</a>
-      <a href="languages.html" data-route="lang">Taiwan languages</a>
-      <a href="research.html" data-route="research">Research</a>
+      <a href="mosatalk" data-route="talk">MosaTalk</a>
+      <a href="mosaminutes" data-route="minutes">MosaMinutes</a>
+      <a href="mosascore" data-route="score">MosaScore</a>
+      <a href="on-premise" data-route="onprem" aria-current="page">Why on-prem</a>
+      <a href="languages" data-route="lang">Taiwan languages</a>
+      <a href="research" data-route="research">Research</a>
       <i class="ind" id="ind" aria-hidden="true"></i>
     </nav>
-    <a class="lang" id="langsw" data-base="../" href="../on-premise.html" hreflang="zh-Hant-TW" lang="zh-Hant-TW" aria-label="繁體中文">中文</a>
-    <a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a>
+    <a class="lang" id="langsw" data-base="../" href="../on-premise" hreflang="zh-Hant-TW" lang="zh-Hant-TW" aria-label="繁體中文">中文</a>
+    <a class="btn solid" href="./#poc" data-route="poc">Request a PoC</a>
   </div>
 </header>
 
@@ -628,7 +653,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
       <h1 class="sr-only">On-prem speech AI that hears Taiwan, running in your own server room — Mandarin, Taigi, Hakka, Indigenous languages and English</h1>
       <div class="demo" data-a>
         <div class="demo-top"><span class="rec"></span>Taigi–Mandarin code-switching<span>→ Traditional Chinese transcript</span><em>Sample</em></div>
-        <div class="lines" id="lines">
+        <div class="lines" id="lines" role="img" aria-label="Sample transcript of a mixed Mandarin and Taigi conversation, shown in Chinese with English translations. S1: Has the budget for that project been finalized? S2: The board approved it last week — I&#x27;ll send you the minutes shortly. S1: OK — if the numbers change, just tag me. S2: No problem, I&#x27;ll attach the summary and action items too.">
           <p class="ln"><b class="spk">S1</b><span class="tx" lang="nan-Hant-TW"><span class="tg">彼个案子的預算，咱敢有確定落來？</span></span><span class="gl">Has the budget for that project been finalized?</span></p>
           <p class="ln"><b class="spk b">S2</b><span class="tx" lang="zh-Hant-TW">上禮拜董事會通過了，我等一下把會議紀錄寄給你。</span><span class="gl">The board approved it last week — I'll send you the minutes shortly.</span></p>
           <p class="ln"><b class="spk">S1</b><span class="tx" lang="nan-Hant-TW">好，數字若有 <span class="en">update</span> 你直接 <span class="en">tag</span> 我就好。</span><span class="gl">OK — if the numbers change, just tag me.</span></p>
@@ -641,7 +666,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
       </div>
       <div class="intro" data-a style="--d:3">
         <p>Mandarin, Taigi, Hakka, Indigenous languages and English — all transcribed into Traditional Chinese, with every model running on your own servers.</p>
-        <div class="cta col"><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a><a class="btn ghost" href="#products" data-scroll>See the products</a></div>
+        <div class="cta col"><a class="btn solid" href="./#poc" data-route="poc">Request a PoC</a><a class="btn ghost" href="#products" data-scroll>See the products</a></div>
       </div>
       <ul class="tags" data-a style="--d:5"><li>Runs air-gapped</li><li>No per-call API fees</li><li>Models trained in-house</li></ul>
     </div>
@@ -661,7 +686,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
         <div class="bd-wall"><i></i><i></i><span>Boundary · offline</span></div>
         <div class="bd-out"><span class="bd-tab">Internet</span><p>Not a single clip of audio, transcript or prompt goes out.</p></div>
       </div>
-      <p class="fine rv" style="margin-top:26px"><a class="link" href="on-premise.html" data-route="onprem">Why it has to be on-prem</a></p>
+      <p class="fine rv" style="margin-top:26px"><a class="link" href="on-premise" data-route="onprem">Why it has to be on-prem</a></p>
     </div>
   </div>
 
@@ -670,19 +695,19 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
       <p class="kicker"><b>02</b>Products</p>
       <h2 class="rv">Three products, one principle.</h2>
       <div class="pcards">
-        <a class="pcard rv" href="mosatalk.html" data-route="talk">
+        <a class="pcard rv" href="mosatalk" data-route="talk">
           <span class="no">01<span>Real-time</span></span>
           <h3>MosaTalk</h3><span class="psb">On-prem AI voice agent</span>
           <p>About one second from when the caller stops talking to when the AI answers — and callers can interrupt anytime.</p>
           <div class="viz"><div class="bars" aria-hidden="true"><i style="height:40%"></i><i style="height:75%"></i><i style="height:100%"></i><i style="height:60%"></i><i style="height:85%"></i><i style="height:45%"></i><i style="height:70%"></i><i style="height:30%"></i><i style="height:90%"></i><i style="height:55%"></i></div><span class="go">→</span></div>
         </a>
-        <a class="pcard rv" href="mosaminutes.html" data-route="minutes" style="--d:1">
+        <a class="pcard rv" href="mosaminutes" data-route="minutes" style="--d:1">
           <span class="no">02<span>After the meeting</span></span>
           <h3>MosaMinutes</h3><span class="psb">On-prem AI meeting minutes</span>
           <p>Transcript, speakers, summary and action items — edit while you listen until it's ready to send.</p>
           <div class="viz"><div class="tl" aria-hidden="true"><i></i><i></i><i></i></div><span class="go">→</span></div>
         </a>
-        <a class="pcard rv" href="mosascore.html" data-route="score" style="--d:2">
+        <a class="pcard rv" href="mosascore" data-route="score" style="--d:2">
           <span class="no">03<span class="badge">Validating</span></span>
           <h3>MosaScore</h3><span class="psb">On-prem call analytics</span>
           <p>Every call heard in full, every utterance tagged with emotion and intent.</p>
@@ -715,7 +740,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
         <div>
           <p style="font:700 clamp(18px,1.9vw,25px)/1.6 var(--serif)">Marketing numbers mean nothing. Reproducible numbers do.</p>
           <p class="lede">The number that matters most is the one you measure on your own recordings in a proof of concept.</p>
-          <div class="cta" style="margin-top:26px"><a class="btn solid" href="index.html#poc" data-route="poc">Test it on your own audio</a></div>
+          <div class="cta" style="margin-top:26px"><a class="btn solid" href="./#poc" data-route="poc">Test it on your own audio</a></div>
         </div>
       </div>
     </div>
@@ -731,7 +756,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
         <p class="crumb">Product 01 · On-Premise</p>
         <h1><span class="pname">MosaTalk</span><span class="psub">An on-prem AI voice agent that understands Taigi</span></h1>
         <p class="lede">Customers tap Call on a web page or dial your existing support line, then simply talk to the AI.</p>
-        <div class="cta"><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a></div>
+        <div class="cta"><a class="btn solid" href="./#poc" data-route="poc">Request a PoC</a></div>
       </div>
       <div class="pvis" data-a style="--d:3">
         <div class="mock dark">
@@ -772,7 +797,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
       <dl class="spec rv"><div class="lim"><dt>Languages</dt><dd>Mandarin, Taigi and English, with automatic language detection. For now it <b>understands Taigi but replies in Mandarin</b>; Taigi synthesis and Hakka are still in development, and Indigenous languages aren't in the voice agent yet.</dd></div><div><dt>Access</dt><dd>Standard WebRTC for browser calls with nothing to install, or your existing support line through a telephony provider — <b>a phone integration is already deployed in production with a telephony partner</b>.</dd></div><div><dt>Answer policy</dt><dd>Answers only from the material you provide, with numbers stated exactly; short and conversational, three sentences at most. If something isn't covered, it never makes it up and asks for a callback number instead.</dd></div><div><dt>Outbound calls</dt><dd>Besides answering calls, it can place them: the AI opens the conversation as soon as the call connects — useful for appointment reminders.</dd></div><div class="lim"><dt>Deployment modes</dt><dd>Standalone: one GPU server is the whole system, intranet only. Edge-split: the GPU host stays inside your network with no fixed IP and no open ports, but <b>it also needs one small cloud host</b>.</dd></div><div><dt>Hardware</dt><dd>Ubuntu Linux x86_64 with one NVIDIA GPU (validated on a single 46 GB card); recognition, dialogue and synthesis share the card through planned memory allocation.</dd></div><div><dt>Observability</dt><dd>An eight-color live event stream, so acceptance testing and troubleshooting aren't a black box.</dd></div><div><dt>Open standards</dt><dd>WebRTC and an OpenAI-compatible interface; models can be swapped or upgraded, and sourced to match procurement rules.</dd></div></dl><div class="blk"><h3 class="h3 rv">FAQ</h3><div class="faq pf rv"><details><summary>How is an AI voice agent different from a push-button IVR?</summary><p>An IVR makes callers press 1 or 2 through a menu, and one wrong turn means starting over. MosaTalk listens to what the caller says and answers in natural language — about one second after they stop talking — and callers can interrupt at any time.</p></details><details><summary>Can the AI answer our phones, including our existing support line?</summary><p>Yes. Customers can call from a web page in any modern browser that supports WebRTC, with nothing to install. Through a telephony provider integration, customers can also dial your existing support number from a landline or mobile and the AI answers.</p></details><details><summary>Does it understand Taigi? Can it reply in Taigi?</summary><p>It understands Taigi, including natural Taigi–Mandarin code-switching — the model is optimized for Taiwanese accents and Taigi. Taigi speech synthesis isn't available yet, so for now it understands Taigi and replies in Mandarin. Taigi synthesis and Hakka support are still in development, not deliverable features.</p></details><details><summary>Are call recordings uploaded to the cloud?</summary><p>No. Recognition, dialogue and speech synthesis all run on your own servers, with no calls to any cloud AI service. Standalone mode needs only your intranet; edge-split mode also needs one small cloud host.</p></details><details><summary>What hardware do we need?</summary><p>Ubuntu Linux x86_64 with one NVIDIA GPU with plenty of memory; it's validated on a single 46 GB card. We can supply the hardware and install it on site.</p></details><details><summary>Does updating the knowledge base require coding?</summary><p>No — a Q&amp;A-format document is enough. When a question isn't covered by your material, the AI doesn't make up an answer; it asks the caller to leave their contact details.</p></details></div></div>
     </div>
   </div>
-<div class="band"><div class="wrap end rv"><h2>Test it with your own knowledge base <em>and real customer calls.</em></h2><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a></div></div>
+<div class="band"><div class="wrap end rv"><h2>Test it with your own knowledge base <em>and real customer calls.</em></h2><a class="btn solid" href="./#poc" data-route="poc">Request a PoC</a></div></div>
 </section>
 
 <!-- ═════════ MosaMinutes ═════════ -->
@@ -784,7 +809,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
         <p class="crumb">Product 02 · On-Premise</p>
         <h1><span class="pname">MosaMinutes</span><span class="psub">On-prem AI meeting minutes</span></h1>
         <p class="lede">Record or upload, and get a transcript, who said what, a summary and action items — without anything leaving your network.</p>
-        <div class="cta"><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a></div>
+        <div class="cta"><a class="btn solid" href="./#poc" data-route="poc">Request a PoC</a></div>
       </div>
       <div class="pvis" data-a style="--d:3">
         <div class="mock">
@@ -830,7 +855,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
       <dl class="spec rv"><div><dt>Capacity</dt><dd>One NVIDIA DGX Spark GB10 handles 10 live streams; uploads use a batch queue with no stream limit; scales out to multiple machines beyond that.</dd></div><div class="lim"><dt>Online meetings</dt><dd><b>It can't connect directly to Google Meet, Microsoft Teams or Zoom yet</b> — record or upload the audio instead. Direct capture of online-meeting audio is on the roadmap.</dd></div><div><dt>Languages</dt><dd>Mandarin, Taigi, Hakka (six accents), Indigenous languages (42 across 16 peoples) and English, all into Traditional Chinese with automatic punctuation; users can set a default language and accent.</dd></div><div><dt>Speakers</dt><dd>Voiceprint enrollment and automatic matching; you can set the expected number of speakers on upload; if speaker ID fails, you still get the full transcript.</dd></div><div><dt>Export</dt><dd>Word (with attendees, a summary section and action-item checklists), plain text and SRT subtitles.</dd></div><div><dt>Accounts &amp; audit</dt><dd>OIDC single sign-on (self-hosted identity providers supported), tiered permissions, admin actions logged with a required reason, and configurable result retention.</dd></div><div><dt>API</dt><dd>Access tokens for internal systems, synchronous and asynchronous; duplicate requests run only once. Usage is metered separately: quotas for browser users, credits for API calls.</dd></div><div><dt>Data integrity</dt><dd>Every recording is validated before it enters the system; its hash and byte count are logged on receipt, so the original audio's integrity is verifiable.</dd></div><div><dt>Deployment</dt><dd>Containerized, runs on a single machine, works air-gapped. Users need only a modern browser, on desktop or mobile.</dd></div><div><dt>Model sourcing</dt><dd>Built on industry-standard open-source technology and compatible interfaces; where procurement rules restrict model origin, models can be swapped for open-weight models from other sources.</dd></div></dl><div class="blk"><h3 class="h3 rv">More than software</h3><ul class="pts c3"><li class="rv"><i>01</i><b>Hardware and on-site installation</b><span>Tested and installed for you.</span></li><li class="rv" style="--d:1"><i>02</i><b>Continuous model improvement</b><span>Tuned to your real audio conditions and terminology.</span></li><li class="rv" style="--d:2"><i>03</i><b>Reproducible evaluation reports</b><span>On public benchmarks you choose or your own meeting audio.</span></li><li class="rv"><i>04</i><b>Compliance and supply-chain fit</b><span>Access control and audit tailored to your rules.</span></li><li class="rv" style="--d:1"><i>05</i><b>Scenario setup</b><span>Your minutes format and glossary turned into configuration.</span></li><li class="rv" style="--d:2"><i>06</i><b>Maintenance, updates and training</b><span>No in-house AI/MLOps team required.</span></li></ul></div><div class="blk"><h3 class="h3 rv">FAQ</h3><div class="faq pf rv"><details><summary>What is AI meeting transcription?</summary><p>It turns meeting recordings into a transcript automatically, identifies who said what, and writes a summary and action items. MosaMinutes lets you edit while you listen in the same screen, until it's ready to send.</p></details><details><summary>Can it transcribe recordings we already have?</summary><p>Yes. Besides live recording, you can upload existing audio files; uploads go through a batch queue that isn't limited by the number of live streams. The transcript is punctuated, split into paragraphs and labeled by speaker, with a summary and action items.</p></details><details><summary>Can meeting audio stay completely off the cloud?</summary><p>Yes — that's the default, not an add-on. Recording, transcription, summaries and action items all happen on your own servers. It's containerized, runs on a single machine, and works on air-gapped networks.</p></details><details><summary>Does it handle meetings in Taigi and Hakka?</summary><p>Mandarin, Taigi, Hakka, Indigenous languages and English are all transcribed into Traditional Chinese with automatic punctuation. Hakka covers all six accents: Sixian, Hailu, Dapu, Raoping, Zhao'an and South Sixian.</p></details><details><summary>Can it connect directly to Google Meet, Microsoft Teams or Zoom?</summary><p>Not yet. Today you record or upload audio. Capturing online-meeting audio directly from your computer (without a bot joining the call) is on the roadmap, not a deliverable feature.</p></details><details><summary>How many meetings can one machine transcribe at once?</summary><p>One NVIDIA DGX Spark GB10 handles 10 live transcription streams; uploads go through a batch queue with no stream limit. Beyond one machine's capacity, it scales out to multiple machines.</p></details><details><summary>If several people proofread at once, will edits get overwritten?</summary><p>No. Proofreading runs on four independent channels that never overwrite each other. When there's a real conflict, the system doesn't silently pick a side — it flags the exact sentence.</p></details></div></div>
     </div>
   </div>
-<div class="band"><div class="wrap end rv"><h2>Test it with your own <em>meeting recordings.</em></h2><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a></div></div>
+<div class="band"><div class="wrap end rv"><h2>Test it with your own <em>meeting recordings.</em></h2><a class="btn solid" href="./#poc" data-route="poc">Request a PoC</a></div></div>
 </section>
 
 <!-- ═════════ MosaScore ═════════ -->
@@ -842,7 +867,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
         <p class="crumb">Product 03 · On-Premise</p>
         <h1><span class="pname">MosaScore</span><span class="psub">On-prem call analytics <span class="badge">Validating</span></span></h1>
         <p class="lede">Customer-service and telesales calls usually get 1–3% spot-checked. MosaScore hears every one in full and tags each utterance with emotion and intent.</p>
-        <div class="cta"><a class="btn solid" href="index.html#poc" data-route="poc">Request a PoC</a></div><p class="warn"><span><b>Current status　</b>MosaScore can be deployed on standard Linux GPU servers (with an Apple Silicon single-machine demo), but it is <b>not yet in production at a customer site</b>, and the purchase-intent scores haven't been validated against real sales outcomes. We publish no accuracy figures.</span></p>
+        <div class="cta"><a class="btn solid" href="./#poc" data-route="poc">Request a PoC</a></div><p class="warn"><span><b>Current status　</b>MosaScore can be deployed on standard Linux GPU servers (with an Apple Silicon single-machine demo), but it is <b>not yet in production at a customer site</b>, and the purchase-intent scores haven't been validated against real sales outcomes. We publish no accuracy figures.</span></p>
       </div>
       <div class="pvis" data-a style="--d:3">
         <div class="mock">
@@ -893,7 +918,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
     <div class="wrap">
       <p class="kicker"><b>02</b>On score validity</p>
       <div class="quote rv"><p>So far we've proven the pipeline works — not that the scores predict sales.<small>The scores have not yet been validated against real sales outcomes, so we publish no accuracy figures. Validation is the first phase of any deployment: we test against your own recordings and actual results — and if the answer is negative, you'll know before you invest.</small></p></div>
-      <div class="cta rv" style="margin-top:32px"><a class="btn solid" href="index.html#poc" data-route="poc">Validate it first</a></div>
+      <div class="cta rv" style="margin-top:32px"><a class="btn solid" href="./#poc" data-route="poc">Validate it first</a></div>
     </div>
   </div>
 
@@ -994,13 +1019,26 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
     <div class="wrap">
       <p class="kicker"><b>Sizing</b>Configurations we've validated</p>
       <table class="tbl rv"><thead><tr><th scope="col">Item</th><th scope="col">MosaMinutes (transcription)</th><th scope="col">MosaTalk (voice agent)</th></tr></thead><tbody><tr><th scope="row">Machine</th><td data-l="MosaMinutes (transcription)">One NVIDIA DGX Spark GB10 (128 GB unified memory)</td><td data-l="MosaTalk (voice agent)">One NVIDIA GPU with plenty of memory (validated on a 46 GB card)</td></tr><tr><th scope="row">Operating system</th><td data-l="MosaMinutes (transcription)">Stock DGX OS (Ubuntu-based)</td><td data-l="MosaTalk (voice agent)">Ubuntu Linux x86_64</td></tr><tr><th scope="row">Deployment</th><td data-l="MosaMinutes (transcription)">Containerized, runs on a single machine</td><td data-l="MosaTalk (voice agent)">Standalone mode needs only your intranet</td></tr><tr><th scope="row">Clients</th><td data-l="MosaMinutes (transcription)">Any modern browser, nothing to install</td><td data-l="MosaTalk (voice agent)">WebRTC browsers, or dial in from a phone</td></tr><tr><th scope="row">Hardware supply</th><td data-l="MosaMinutes (transcription)">We can supply and install on site</td><td data-l="MosaTalk (voice agent)">We can supply and install on site</td></tr></tbody></table>
+      <div class="planner" id="planner">
+        <div class="pl-head"><p class="kicker"><b>Planner</b>Deployment planner</p><h3 class="h3">Run the numbers yourself first</h3><p class="lede">Pick a product, languages and scale to see the verified configuration, and what this combination can and cannot do today. Every number comes from the tested setups above.</p></div>
+        <div class="pl-grid">
+          <div class="pl-in">
+            <fieldset class="fl"><legend>Product</legend><div class="pills sm"><label><input type="radio" name="pl-prod" value="min" checked><span>MosaMinutes meetings</span></label><label><input type="radio" name="pl-prod" value="talk"><span>MosaTalk voice agent</span></label><label><input type="radio" name="pl-prod" value="score"><span>MosaScore call analysis</span></label></div></fieldset>
+            <fieldset class="fl"><legend>Languages</legend><div class="pills sm"><label><input type="checkbox" name="pl-lang" value="zh" checked><span>Mandarin</span></label><label><input type="checkbox" name="pl-lang" value="tw" checked><span>Taigi</span></label><label><input type="checkbox" name="pl-lang" value="hk"><span>Hakka</span></label><label><input type="checkbox" name="pl-lang" value="in"><span>Indigenous</span></label><label><input type="checkbox" name="pl-lang" value="en"><span>English</span></label></div></fieldset>
+            <fieldset class="fl"><legend>Network</legend><div class="pills sm"><label><input type="radio" name="pl-net" value="closed" checked><span>Fully air-gapped</span></label><label><input type="radio" name="pl-net" value="intra"><span>Intranet, limited outbound</span></label></div></fieldset>
+            <label class="fl pl-n" id="pl-nwrap"><span id="pl-nlabel">Meetings running at the same time</span><input name="pl-n" type="number" min="1" max="999" value="4" inputmode="numeric"></label>
+          </div>
+          <div class="pl-out" id="pl-out" aria-live="polite"><p class="pl-name">MosaMinutes</p><dl><div><dt>Host</dt><dd>NVIDIA DGX Spark GB10 (128 GB unified memory), stock DGX OS</dd></div><div><dt>How many</dt><dd>1 unit: one unit transcribes 10 meetings live, measured</dd></div><div><dt>Languages</dt><dd><span class="pl-lg"><span class="st ">Mandarin: Supported</span><span class="st ">Taigi: Supported</span></span></dd></div><div><dt>Network</dt><dd>Containerized, runs on a single machine, no outbound access needed</dd></div><div><dt>Know first</dt><dd><ul class="pl-notes"><li>Cannot join Google Meet, Teams or Zoom directly yet; record or upload audio instead</li></ul></dd></div></dl></div>
+        </div>
+        <a class="btn solid pl-btn" id="pl-btn" href="./#poc" data-route="poc">Carry this into the request form</a>
+      </div>
     </div>
   </div>
 
   <div class="band">
     <div class="wrap">
       <p class="kicker"><b>Industries</b>Industries &amp; compliance</p>
-      <div class="blk"><h3 class="h3 rv">For these organizations, the use case <em>is</em> the compliance requirement.</h3><p class="lede rv">We tailor access control, audit logs and data retention to each industry's actual regulations and internal controls, rather than applying one template.</p><ul class="inds rv"><li><b>Government</b><span>Official meetings, public hearings and committee records. Running on-prem meets both security rules and data-residency requirements.</span><em>Official document export · supply-chain rules</em></li><li><b>Financial services</b><span>Board, compliance and risk meetings, plus high-volume product inquiries.</span><em>Internal control · audit trail</em></li><li><b>Healthcare</b><span>Internal meetings, case reviews, patient education and appointment inquiries, with data kept on hospital servers.</span><em>Medical records · sensitive-field masking</em></li><li><b>Law firms</b><span>Client interviews and case discussions. Confidentiality duties make on-prem a requirement, not an option.</span><em>Confidentiality · evidentiary records</em></li><li><b>Long-term care, education &amp; research</b><span>Family consultations, service briefings, interviews and teaching records, plus preservation of local-language speech data.</span><em>Indigenous-language preservation · interview transcripts</em></li><li><b>Enterprises</b><span>Regular meetings, project reviews, client meetings and support-line routing — anywhere content must not leak.</span><em>SSO · retention settings</em></li></ul><ul class="caps rv"><li>OIDC single sign-on</li><li>Tiered permissions</li><li>Audit logs</li><li>Result retention</li><li>Containerized</li><li>Air-gap friendly</li><li>Model-origin options</li><li>Duplicate-request protection</li></ul></div><div class="blk"><h3 class="h3 rv">After deployment</h3><p class="lede rv">The hard part of on-prem isn't installing it — it's who maintains it, how it meets internal controls, and how long data is kept. All of that is part of the engagement.</p><div class="cols"><div class="rv"><h3>More than delivering software</h3><p>Scenario setup, industry compliance adjustments, hardware supply and on-site installation, maintenance and version updates, and evaluation reports that meet academic standards.</p></div><div class="rv" style="--d:1"><h3>Compliance is tailored, not templated</h3><p>Government, financial, healthcare and legal requirements differ. We adjust access control, audit logs and data retention to your actual regulations and internal controls.</p></div></div></div>
+      <div class="blk"><h3 class="h3 rv">For these organizations, the use case <em>is</em> the compliance requirement.</h3><p class="lede rv">We tailor access control, audit logs and data retention to each industry's actual regulations and internal controls, rather than applying one template.</p><ul class="inds rv"><li><b>Government</b><span>Official meetings, public hearings and committee records. Running on-prem meets both security rules and data-residency requirements.</span><em>Official document export<i class="soon">planned</i> · supply-chain rules</em></li><li><b>Financial services</b><span>Board, compliance and risk meetings, plus high-volume product inquiries.</span><em>Internal control · audit trail</em></li><li><b>Healthcare</b><span>Internal meetings, case reviews, patient education and appointment inquiries, with data kept on hospital servers.</span><em>Medical records · sensitive-field masking<i class="soon">planned</i></em></li><li><b>Law firms</b><span>Client interviews and case discussions. Confidentiality duties make on-prem a requirement, not an option.</span><em>Confidentiality · evidentiary records</em></li><li><b>Long-term care, education &amp; research</b><span>Family consultations, service briefings, interviews and teaching records, plus preservation of local-language speech data.</span><em>Indigenous-language preservation · interview transcripts</em></li><li><b>Enterprises</b><span>Regular meetings, project reviews, client meetings and support-line routing — anywhere content must not leak.</span><em>SSO · retention settings</em></li></ul><ul class="caps rv"><li>OIDC single sign-on</li><li>Tiered permissions</li><li>Audit logs</li><li>Result retention</li><li>Containerized</li><li>Air-gap friendly</li><li>Model-origin options</li><li>Duplicate-request protection</li></ul></div><div class="blk"><h3 class="h3 rv">After deployment</h3><p class="lede rv">The hard part of on-prem isn't installing it — it's who maintains it, how it meets internal controls, and how long data is kept. All of that is part of the engagement.</p><div class="cols"><div class="rv"><h3>More than delivering software</h3><p>Scenario setup, industry compliance adjustments, hardware supply and on-site installation, maintenance and version updates, and evaluation reports that meet academic standards.</p></div><div class="rv" style="--d:1"><h3>Compliance is tailored, not templated</h3><p>Government, financial, healthcare and legal requirements differ. We adjust access control, audit logs and data retention to your actual regulations and internal controls.</p></div></div></div>
     </div>
   </div>
 
@@ -1063,7 +1101,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
   <div class="band">
     <div class="wrap">
       <div class="quote rv"><p>Code-switching is how Taiwan actually talks.<small>Few people in Taiwan's meetings or call centers speak pure Taigi for long. In practice it's a sentence of Mandarin, a sentence of Taigi, with a few English words in between.</small></p></div>
-      <p class="fine rv" style="margin-top:30px">Our Indigenous-language models are built in a long-term partnership with iThuan, deployed in the Indigenous Languages Research and Development Foundation's language AI system, and published on Hugging Face. The corpus belongs to the Council of Indigenous Peoples, and our team handled part of its preparation. Peoples and language counts follow the Council of Indigenous Peoples' classification, and Hakka accents follow the Hakka Affairs Council's six-accent classification — both can be checked item by item.　<a class="link" href="research.html" data-route="research">Competition results and publications</a></p>
+      <p class="fine rv" style="margin-top:30px">Our Indigenous-language models are built in a long-term partnership with iThuan, deployed in the Indigenous Languages Research and Development Foundation's language AI system, and published on Hugging Face. The corpus belongs to the Council of Indigenous Peoples, and our team handled part of its preparation. Peoples and language counts follow the Council of Indigenous Peoples' classification, and Hakka accents follow the Hakka Affairs Council's six-accent classification — both can be checked item by item.　<a class="link" href="research" data-route="research">Competition results and publications</a></p>
     </div>
   </div>
 
@@ -1147,10 +1185,17 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
               <label><input type="radio" name="type" value="Careers"><span>Careers</span></label>
             </div>
           </fieldset>
+          <div class="poc-extra" id="pocextra">
+            <p class="fl-note">Optional — it lets us prepare the test environment in advance</p>
+            <fieldset class="fl"><legend>Products to evaluate</legend><div class="pills sm"><label><input type="checkbox" name="product" value="MosaTalk voice agent"><span>MosaTalk voice agent</span></label><label><input type="checkbox" name="product" value="MosaMinutes meetings"><span>MosaMinutes meetings</span></label><label><input type="checkbox" name="product" value="MosaScore call analysis"><span>MosaScore call analysis</span></label><label><input type="checkbox" name="product" value="Not sure yet"><span>Not sure yet</span></label></div></fieldset>
+            <fieldset class="fl"><legend>Languages needed</legend><div class="pills sm"><label><input type="checkbox" name="lang" value="Mandarin"><span>Mandarin</span></label><label><input type="checkbox" name="lang" value="Taigi"><span>Taigi</span></label><label><input type="checkbox" name="lang" value="Hakka"><span>Hakka</span></label><label><input type="checkbox" name="lang" value="Indigenous"><span>Indigenous</span></label><label><input type="checkbox" name="lang" value="English"><span>English</span></label></div></fieldset>
+            <fieldset class="fl"><legend>Current infrastructure</legend><div class="pills sm"><label><input type="radio" name="infra" value="GPU server in place"><span>GPU server in place</span></label><label><input type="radio" name="infra" value="Server room, no GPU"><span>Server room, no GPU</span></label><label><input type="radio" name="infra" value="Need help assessing"><span>Need help assessing</span></label></div></fieldset>
+            <label class="fl"><span>Expected scale</span><input name="scale" type="text" placeholder="e.g. 10 meetings a week / 5 concurrent calls"></label>
+          </div>
           <label class="fl"><span>What problem are you trying to solve?</span><textarea name="msg" rows="3" placeholder="e.g. Ten committee meetings a week; outsourced transcription is too expensive, and nothing can go to the cloud."></textarea></label>
           <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button class="btn solid" type="submit">Send request</button>
-          <small id="formnote" aria-live="polite">Submitting opens your email app with everything filled in.</small>
+          <small id="formnote" aria-live="polite">We'll reply by email within two business days.</small>
         </form>
       </div>
       <div class="faq">
@@ -1169,25 +1214,25 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
   <div class="foot">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="logo" href="index.html" data-route="home" aria-label="Voxmosa home"><svg aria-hidden="true" focusable="false" viewBox="3.70 19.60 640.56 94.89" fill="none"><path d="M33.40 112.00 3.70 19.60H12.54L40.13 107.12H41.71L69.30 19.60H78.14L48.44 112.00Z" fill="#f4f3f0"/><g transform="translate(88.04, 44.47) scale(0.5909)" stroke="#f4f3f0" stroke-linecap="round" fill="none"><circle cx="60" cy="60" r="51" stroke-width="15"/><path d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="11" opacity="0.6"/><path d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="11" opacity="0.33"/><path d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="11" opacity="0.17"/></g><path d="M200.48 112.00 227.27 79.40 201.40 47.85H211.30L232.29 74.12H233.87L254.86 47.85H264.76L238.89 79.40L265.68 112.00H255.65L233.87 84.68H232.29L210.51 112.00ZM298.42 112.00V47.85H306.08V56.30H307.66Q309.64 52.73 314.00 49.63Q318.35 46.53 326.40 46.53Q334.19 46.53 339.01 50.09Q343.83 53.66 345.94 58.67H347.52Q349.77 53.66 354.52 50.09Q359.27 46.53 367.85 46.53Q374.45 46.53 379.34 49.23Q384.22 51.94 386.99 56.76Q389.76 61.58 389.76 68.04V112.00H381.84V68.84Q381.84 61.97 377.69 57.81Q373.53 53.66 366.00 53.66Q358.35 53.66 353.20 58.61Q348.05 63.56 348.05 73.06V112.00H340.13V68.84Q340.13 61.97 335.97 57.81Q331.82 53.66 324.29 53.66Q316.64 53.66 311.49 58.61Q306.34 63.56 306.34 73.06V112.00ZM448.11 113.85Q438.34 113.85 431.01 109.69Q423.69 105.53 419.66 98.07Q415.64 90.62 415.64 80.72V79.13Q415.64 69.23 419.66 61.77Q423.69 54.32 431.01 50.16Q438.34 46.00 448.11 46.00Q457.88 46.00 465.20 50.16Q472.53 54.32 476.55 61.77Q480.58 69.23 480.58 79.13V80.72Q480.58 90.62 476.55 98.07Q472.53 105.53 465.20 109.69Q457.88 113.85 448.11 113.85ZM448.11 106.72Q459.46 106.72 466.06 99.53Q472.66 92.33 472.66 80.45V79.40Q472.66 67.52 466.06 60.32Q459.46 53.13 448.11 53.13Q436.89 53.13 430.22 60.32Q423.56 67.52 423.56 79.40V80.45Q423.56 92.33 430.22 99.53Q436.89 106.72 448.11 106.72ZM532.72 113.85Q521.10 113.85 512.85 108.30Q504.60 102.76 502.76 89.96L510.54 88.50Q511.60 95.50 514.83 99.53Q518.07 103.55 522.75 105.27Q527.44 106.98 532.72 106.98Q540.64 106.98 545.46 103.75Q550.28 100.52 550.28 94.84Q550.28 89.03 545.72 86.79Q541.17 84.54 533.64 83.22L527.57 82.17Q521.50 81.11 516.62 78.93Q511.73 76.76 508.89 73.06Q506.06 69.36 506.06 63.82Q506.06 55.50 512.59 50.75Q519.12 46.00 529.95 46.00Q540.90 46.00 547.57 50.95Q554.24 55.90 555.95 65.27L548.56 66.86Q547.24 59.20 542.29 56.03Q537.34 52.86 529.95 52.86Q522.69 52.86 518.33 55.64Q513.98 58.41 513.98 63.82Q513.98 69.10 517.94 71.54Q521.90 73.98 528.76 75.17L534.83 76.23Q541.43 77.28 546.71 79.33Q551.99 81.38 555.09 85.07Q558.20 88.77 558.20 94.84Q558.20 103.95 551.33 108.90Q544.47 113.85 532.72 113.85ZM603.21 113.85Q596.48 113.85 591.00 111.54Q585.52 109.23 582.35 104.74Q579.18 100.25 579.18 93.92Q579.18 87.45 582.35 83.22Q585.52 79.00 590.93 76.89Q596.34 74.78 602.94 74.78H626.44V69.63Q626.44 61.84 621.95 57.48Q617.46 53.13 608.88 53.13Q600.44 53.13 595.49 57.29Q590.54 61.44 588.82 68.44L581.16 66.20Q582.75 60.52 586.18 55.97Q589.61 51.41 595.29 48.71Q600.96 46.00 608.88 46.00Q621.03 46.00 627.69 52.34Q634.36 58.67 634.36 70.02V101.18Q634.36 105.14 638.06 105.14H644.26V112.00H635.81Q631.72 112.00 629.34 109.56Q626.97 107.12 626.97 102.89V101.97H625.65Q623.93 104.87 621.23 107.64Q618.52 110.42 614.16 112.13Q609.81 113.85 603.21 113.85ZM603.74 106.72Q613.90 106.72 620.17 100.58Q626.44 94.44 626.44 83.22V81.64H603.08Q596.21 81.64 591.66 84.61Q587.10 87.58 587.10 93.78Q587.10 99.99 591.79 103.35Q596.48 106.72 603.74 106.72Z" fill="#f4f3f0"/></svg></a>
+        <a class="logo" href="./" data-route="home" aria-label="Voxmosa home"><svg aria-hidden="true" focusable="false" viewBox="3.70 19.60 640.56 94.89" fill="none"><path d="M33.40 112.00 3.70 19.60H12.54L40.13 107.12H41.71L69.30 19.60H78.14L48.44 112.00Z" fill="#f4f3f0"/><g transform="translate(88.04, 44.47) scale(0.5909)" stroke="#f4f3f0" stroke-linecap="round" fill="none"><circle cx="60" cy="60" r="51" stroke-width="15"/><path d="M118.1 8 A78 78 0 0 1 118.1 112" stroke-width="11" opacity="0.6"/><path d="M150.1 8 A104 104 0 0 1 150.1 112" stroke-width="11" opacity="0.33"/><path d="M179.1 8 A130 130 0 0 1 179.1 112" stroke-width="11" opacity="0.17"/></g><path d="M200.48 112.00 227.27 79.40 201.40 47.85H211.30L232.29 74.12H233.87L254.86 47.85H264.76L238.89 79.40L265.68 112.00H255.65L233.87 84.68H232.29L210.51 112.00ZM298.42 112.00V47.85H306.08V56.30H307.66Q309.64 52.73 314.00 49.63Q318.35 46.53 326.40 46.53Q334.19 46.53 339.01 50.09Q343.83 53.66 345.94 58.67H347.52Q349.77 53.66 354.52 50.09Q359.27 46.53 367.85 46.53Q374.45 46.53 379.34 49.23Q384.22 51.94 386.99 56.76Q389.76 61.58 389.76 68.04V112.00H381.84V68.84Q381.84 61.97 377.69 57.81Q373.53 53.66 366.00 53.66Q358.35 53.66 353.20 58.61Q348.05 63.56 348.05 73.06V112.00H340.13V68.84Q340.13 61.97 335.97 57.81Q331.82 53.66 324.29 53.66Q316.64 53.66 311.49 58.61Q306.34 63.56 306.34 73.06V112.00ZM448.11 113.85Q438.34 113.85 431.01 109.69Q423.69 105.53 419.66 98.07Q415.64 90.62 415.64 80.72V79.13Q415.64 69.23 419.66 61.77Q423.69 54.32 431.01 50.16Q438.34 46.00 448.11 46.00Q457.88 46.00 465.20 50.16Q472.53 54.32 476.55 61.77Q480.58 69.23 480.58 79.13V80.72Q480.58 90.62 476.55 98.07Q472.53 105.53 465.20 109.69Q457.88 113.85 448.11 113.85ZM448.11 106.72Q459.46 106.72 466.06 99.53Q472.66 92.33 472.66 80.45V79.40Q472.66 67.52 466.06 60.32Q459.46 53.13 448.11 53.13Q436.89 53.13 430.22 60.32Q423.56 67.52 423.56 79.40V80.45Q423.56 92.33 430.22 99.53Q436.89 106.72 448.11 106.72ZM532.72 113.85Q521.10 113.85 512.85 108.30Q504.60 102.76 502.76 89.96L510.54 88.50Q511.60 95.50 514.83 99.53Q518.07 103.55 522.75 105.27Q527.44 106.98 532.72 106.98Q540.64 106.98 545.46 103.75Q550.28 100.52 550.28 94.84Q550.28 89.03 545.72 86.79Q541.17 84.54 533.64 83.22L527.57 82.17Q521.50 81.11 516.62 78.93Q511.73 76.76 508.89 73.06Q506.06 69.36 506.06 63.82Q506.06 55.50 512.59 50.75Q519.12 46.00 529.95 46.00Q540.90 46.00 547.57 50.95Q554.24 55.90 555.95 65.27L548.56 66.86Q547.24 59.20 542.29 56.03Q537.34 52.86 529.95 52.86Q522.69 52.86 518.33 55.64Q513.98 58.41 513.98 63.82Q513.98 69.10 517.94 71.54Q521.90 73.98 528.76 75.17L534.83 76.23Q541.43 77.28 546.71 79.33Q551.99 81.38 555.09 85.07Q558.20 88.77 558.20 94.84Q558.20 103.95 551.33 108.90Q544.47 113.85 532.72 113.85ZM603.21 113.85Q596.48 113.85 591.00 111.54Q585.52 109.23 582.35 104.74Q579.18 100.25 579.18 93.92Q579.18 87.45 582.35 83.22Q585.52 79.00 590.93 76.89Q596.34 74.78 602.94 74.78H626.44V69.63Q626.44 61.84 621.95 57.48Q617.46 53.13 608.88 53.13Q600.44 53.13 595.49 57.29Q590.54 61.44 588.82 68.44L581.16 66.20Q582.75 60.52 586.18 55.97Q589.61 51.41 595.29 48.71Q600.96 46.00 608.88 46.00Q621.03 46.00 627.69 52.34Q634.36 58.67 634.36 70.02V101.18Q634.36 105.14 638.06 105.14H644.26V112.00H635.81Q631.72 112.00 629.34 109.56Q626.97 107.12 626.97 102.89V101.97H625.65Q623.93 104.87 621.23 107.64Q618.52 110.42 614.16 112.13Q609.81 113.85 603.21 113.85ZM603.74 106.72Q613.90 106.72 620.17 100.58Q626.44 94.44 626.44 83.22V81.64H603.08Q596.21 81.64 591.66 84.61Q587.10 87.58 587.10 93.78Q587.10 99.99 591.79 103.35Q596.48 106.72 603.74 106.72Z" fill="#f4f3f0"/></svg></a>
         <p class="foot-tagline">A speech AI team focused on Taiwan's languages and on-prem private deployment. Every conversation stays in your own server room.</p>
         <a class="foot-mail" href="mailto:how@voxmosa.com" data-mail>how@voxmosa.com</a>
       </div>
       <nav class="foot-col" aria-label="Products">
         <h4>Products</h4>
         <ul>
-          <li><a href="mosatalk.html" data-route="talk">MosaTalk voice agent</a></li>
-          <li><a href="mosaminutes.html" data-route="minutes">MosaMinutes meeting minutes</a></li>
-          <li><a href="mosascore.html" data-route="score">MosaScore call analytics</a></li>
+          <li><a href="mosatalk" data-route="talk">MosaTalk voice agent</a></li>
+          <li><a href="mosaminutes" data-route="minutes">MosaMinutes meeting minutes</a></li>
+          <li><a href="mosascore" data-route="score">MosaScore call analytics</a></li>
         </ul>
       </nav>
       <nav class="foot-col" aria-label="Architecture and track record">
         <h4>Architecture &amp; track record</h4>
         <ul>
-          <li><a href="on-premise.html" data-route="onprem">On-prem deployment</a></li>
-          <li><a href="languages.html" data-route="lang">Taiwan language models</a></li>
-          <li><a href="research.html" data-route="research">Team &amp; 41 publications</a></li>
-          <li><a href="index.html#poc" data-route="poc">Request a proof of concept</a></li>
+          <li><a href="on-premise" data-route="onprem">On-prem deployment</a></li>
+          <li><a href="languages" data-route="lang">Taiwan language models</a></li>
+          <li><a href="research" data-route="research">Team &amp; 41 publications</a></li>
+          <li><a href="./#poc" data-route="poc">Request a proof of concept</a></li>
         </ul>
       </nav>
       <nav class="foot-col" aria-label="Open source and external validation">
@@ -1204,7 +1249,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
       <div class="foot-meta">
         <span>On-Premise Voice AI</span>
         <span>Taiwan Multilingual ASR · TTS · Diarization</span>
-        <span><a href="../on-premise.html" lang="zh-Hant-TW" hreflang="zh-Hant-TW">中文</a></span>
+        <span><a href="../on-premise" lang="zh-Hant-TW" hreflang="zh-Hant-TW">中文</a></span>
       </div>
     </div>
   </div>
@@ -1360,6 +1405,17 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
   // GitHub Pages 會把不帶副檔名的網址對應到同名的 .html 檔。
   // 連結本身仍指向 index.html，直接開檔案（file://）或關掉 JavaScript 時才照樣能用。
   function cleanUrl(u){ return u.replace(/^index\.html/, './').replace(/\.html(?=$|#)/, ''); }
+  // 連結的寫法：線上不帶 .html；用 file:// 直接開檔案時沒有伺服器幫忙對應，才補回 .html
+  function pageHref(u){ return location.protocol === 'file:' ? u : u.replace(/^index\.html/, '').replace(/\.html(?=$|#)/, ''); }
+  if (location.protocol === 'file:') $$('a[href]').forEach(function(a){
+    var h = a.getAttribute('href');
+    if (/^(#|[a-z]+:|\/)/i.test(h)) return;
+    var parts = h.split('#'), p = parts[0];
+    if (p === '' ) return;
+    if (/\/$/.test(p) || p === '.' || p === '..') p = p.replace(/\/?$/, '/') + 'index.html';
+    else if (!/\.[a-z0-9]+$/i.test(p)) p += '.html';
+    a.setAttribute('href', p + (parts[1] !== undefined ? '#' + parts[1] : ''));
+  });
   var tabs = $$('#tabs a'), ind = $('#ind'), curR = null;
   function detectRoute(){
     var h = location.hash.replace(/^#\/?/, '');
@@ -1396,8 +1452,8 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
       try { history.pushState({ route: r }, next.getAttribute('data-title'), cleanUrl(fileMap[r] || 'index.html')); } catch(err){}
     }
     moveInd(); measure(next);
-    var sw = $('#langsw'); if (sw) sw.setAttribute('href', sw.getAttribute('data-base') + (fileMap[r] || 'index.html'));
-    if (r === 'home') typer.play(curR === null && first ? 2000 : 600); else typer.stop();
+    var sw = $('#langsw'); if (sw) sw.setAttribute('href', sw.getAttribute('data-base') + pageHref(fileMap[r] || 'index.html'));
+    if (r === 'home') typer.play(curR === null && first ? 900 : 600); else typer.stop();
     curR = r;
   }
   window.addEventListener('popstate', function(e){
@@ -1467,6 +1523,73 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
   window.addEventListener('popstate', function(){ requestAnimationFrame(onScroll); });
   document.addEventListener('click', function(e){ if (e.target.closest && e.target.closest('a[data-route]')) setTimeout(onScroll, 60); });
   onScroll();
+
+  /* ── 部署規劃速查（地端頁）──
+     只用網站上已公開、實測過的數字：MosaMinutes 一台 DGX Spark GB10 即時轉錄 10 場；
+     MosaTalk 單卡 46 GB 驗證完整流程（每卡通話數未公開，所以不估算）；MosaScore 沒有公開容量數字。
+     靜態 HTML 裡已經寫好預設選項的結果，關掉 JavaScript 時照樣看得到；程式只在選項改變時重算。 */
+  (function(){
+    var box = $('#planner'); if (!box) return;
+    var out = $('#pl-out', box), nwrap = $('#pl-nwrap', box), nlabel = $('#pl-nlabel', box), nin = $('input[name=pl-n]', box);
+    var Z = !EN;
+    var LN = Z ? { zh: '國語', tw: '台語', hk: '客語', 'in': '原住民族語', en: '英語' } : { zh: 'Mandarin', tw: 'Taigi', hk: 'Hakka', 'in': 'Indigenous', en: 'English' };
+    var OK = 'ok', HALF = 'half', NO = 'none';
+    var P = {
+      min: {
+        name: 'MosaMinutes', n: Z ? '最多同時進行幾場會議' : 'Meetings running at the same time',
+        host: Z ? 'NVIDIA DGX Spark GB10（128 GB 統一記憶體），原廠 DGX OS' : 'NVIDIA DGX Spark GB10 (128 GB unified memory), stock DGX OS',
+        count: function(n){ var u = Math.ceil(n / 10); return Z ? (u + ' 台' + (u > 1 ? '（多機配置）' : '') + '：一台可即時轉錄 10 場會議，實測值') : (u + (u > 1 ? ' units (multi-node)' : ' unit') + ': one unit transcribes 10 meetings live, measured'); },
+        lang: { zh: [OK, Z ? '支援' : 'Supported'], tw: [OK, Z ? '支援' : 'Supported'], hk: [OK, Z ? '支援，六腔' : 'Supported, all six accents'], 'in': [OK, Z ? '支援，16 族 42 語' : 'Supported, 42 languages'], en: [OK, Z ? '支援' : 'Supported'] },
+        net: function(c){ return Z ? '容器化，單機即可運行' + (c ? '，完全不需連外' : '') : 'Containerized, runs on a single machine' + (c ? ', no outbound access needed' : ''); },
+        notes: [Z ? '目前不能直接接 Google Meet、Teams、Zoom，以錄音或上傳音檔進行' : 'Cannot join Google Meet, Teams or Zoom directly yet; record or upload audio instead']
+      },
+      talk: {
+        name: 'MosaTalk', n: Z ? '最多同時幾通電話' : 'Calls at the same time',
+        host: Z ? '一張大顯存 NVIDIA GPU（46 GB 單卡驗證），Ubuntu Linux x86_64' : 'One large-memory NVIDIA GPU (validated on a single 46 GB card), Ubuntu Linux x86_64',
+        count: function(n){ return Z ? '單卡已驗證完整流程。每張卡可同時接幾通，我們沒有公開數字，會在 PoC 用貴單位的實際話務量實測' : 'The full pipeline is validated on one card. We have not published calls per card; the PoC measures it against your real call volume'; },
+        lang: { zh: [OK, Z ? '聽與說' : 'Listens and speaks'], tw: [HALF, Z ? '聽得懂，以國語回答' : 'Understands, replies in Mandarin'], hk: [NO, Z ? '開發規劃中' : 'In development'], 'in': [NO, Z ? '尚未進入語音客服' : 'Not in the voice agent'], en: [OK, Z ? '聽與說' : 'Listens and speaks'] },
+        net: function(c){ return c ? (Z ? '請採單機模式，僅需內網。邊緣分離模式另需一台小型雲端主機，不適用' : 'Use standalone mode, intranet only. Edge mode needs a small cloud host, so it does not apply') : (Z ? '單機模式僅需內網；邊緣分離模式另需一台小型雲端主機' : 'Standalone mode needs only the intranet; edge mode adds a small cloud host'); },
+        notes: [Z ? '接既有客服專線需經電話系統商介接（已有實際部署）' : 'Existing phone lines connect through a telephony provider (deployed in production)']
+      },
+      score: {
+        name: 'MosaScore', n: '',
+        host: Z ? '標準 Linux GPU 伺服器' : 'Standard Linux GPU server',
+        count: function(){ return Z ? '長通話的處理時間會超過音檔長度，適合批次質檢。容量沒有公開數字，依每日錄音量在 PoC 評估' : 'Long calls take longer than real time to process, so it suits batch QA. No published capacity figure; sized in the PoC from your daily volume'; },
+        lang: { zh: [OK, Z ? '支援' : 'Supported'], tw: [NO, Z ? '台語辨識開發規劃中' : 'Taigi recognition in development'], hk: [NO, Z ? '不在目前規格內' : 'Not in current spec'], 'in': [NO, Z ? '不在目前規格內' : 'Not in current spec'], en: [NO, Z ? '不在目前規格內' : 'Not in current spec'] },
+        net: function(c){ return Z ? '本地模型，不呼叫雲端服務' + (c ? '，不需連外' : '') : 'Local models, no cloud calls' + (c ? '; no outbound access needed' : ''); },
+        notes: [Z ? '目前只支援雙聲道錄音（客戶與客服各一軌）' : 'Dual-channel recordings only (customer and agent on separate tracks)', Z ? '尚未於客戶環境正式上線；分數尚未經真實成交資料驗證' : 'Not yet live at a customer; scores not yet validated against real sales outcomes']
+      }
+    };
+    var H = Z ? { host: '主機', count: '數量', lang: '語言', net: '網路', notes: '先知道' } : { host: 'Host', count: 'How many', lang: 'Languages', net: 'Network', notes: 'Know first' };
+    function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function state(){
+      var p = ($('input[name=pl-prod]:checked', box) || {}).value || 'min';
+      var langs = $$('input[name=pl-lang]:checked', box).map(function(i){ return i.value; });
+      var closed = (($('input[name=pl-net]:checked', box) || {}).value || 'closed') === 'closed';
+      var n = Math.max(1, Math.min(999, parseInt(nin.value, 10) || 1));
+      return { p: p, langs: langs, closed: closed, n: n };
+    }
+    function render(){
+      var s = state(), d = P[s.p];
+      nwrap.hidden = !d.n; nlabel.textContent = d.n;
+      var rows = [[H.host, esc(d.host)], [H.count, esc(d.count(s.n))]];
+      var lg = s.langs.length ? s.langs.map(function(k){ var v = d.lang[k]; return '<span class="st ' + (v[0] === OK ? '' : v[0]) + '">' + esc(LN[k]) + (Z ? '：' : ': ') + esc(v[1]) + '</span>'; }).join('') : '<span class="st none">' + (Z ? '尚未選擇' : 'None selected') + '</span>';
+      rows.push([H.lang, '<span class="pl-lg">' + lg + '</span>'], [H.net, esc(d.net(s.closed))]);
+      rows.push([H.notes, '<ul class="pl-notes">' + d.notes.map(function(t){ return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>']);
+      out.innerHTML = '<p class="pl-name">' + d.name + '</p><dl>' + rows.map(function(r){ return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; }).join('') + '</dl>';
+    }
+    box.addEventListener('change', render); nin.addEventListener('input', render);
+    render();
+    // 帶進申請表：產品、語言、規模預先勾好，再交給導覽切到申請畫面
+    $('#pl-btn').addEventListener('click', function(){
+      var s = state(), form = $('#pocform'); if (!form) return;
+      $$('input[name=product]', form).forEach(function(i){ i.checked = i.value.indexOf(P[s.p].name) === 0; });
+      $$('input[name=lang]', form).forEach(function(i, k){ i.checked = s.langs.indexOf(['zh', 'tw', 'hk', 'in', 'en'][k]) >= 0; });
+      var sc = $('input[name=scale]', form);
+      if (sc && P[s.p].n) sc.value = (Z ? P[s.p].n.replace('最多', '') + '：' : P[s.p].n + ': ') + s.n;
+      var t0 = $('input[name=type]', form); if (t0){ t0.checked = true; var ex = $('#pocextra'); if (ex) ex.hidden = false; }
+    });
+  })();
 
   /* ── 點左上角字標：聲波再送出一次 ── */
   var logo = $('.nav .logo');
@@ -1547,6 +1670,15 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
   (function(){
     var form = $('#pocform'); if (!form) return;
     var note = $('#formnote'), btn = $('button[type=submit]', form);
+    // 選填的評估欄位只對 PoC 與技術簡報有意義，投資洽談與應徵時收起來
+    var extra = $('#pocextra');
+    form.addEventListener('change', function(e){
+      if (e.target.name !== 'type' || !extra) return;
+      var first2 = $$('input[name=type]', form).slice(0, 2);
+      extra.hidden = !(first2[0].checked || first2[1].checked);
+    });
+    // 靜態文字假設表單已接上收件服務；沒接（FORM_ENDPOINT 留空）時才改成「會開啟郵件程式」
+    if (!FORM_ENDPOINT || !window.fetch) note.textContent = 'Submitting opens your email app with everything filled in.';
     var T = EN
       ? { sending: 'Sending…', ok: 'Thanks — we’ve received your request.', okSub: 'We’ll reply to {email} within two business days.', fail: 'Something went wrong. Please email us directly at ', mail: 'Your mail app should now be open. If nothing appeared, email us at ', end: '.' }
       : { sending: '送出中…', ok: '已收到您的申請。', okSub: '我們會在兩個工作日內回覆到 {email}。', fail: '送出失敗，請直接來信 ', mail: '已開啟郵件程式。若沒有跳出視窗，請直接來信 ', end: '。' };
@@ -1557,7 +1689,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
     }
     function mailto(d){
       var body = EN
-        ? 'Organization: ' + d.get('org') + '\nContact: ' + d.get('name') + '\nEmail: ' + d.get('email') + '\nRequest type: ' + d.get('type') + '\n\nProblem to solve:\n' + (d.get('msg') || '') + '\n'
+        ? 'Organization: ' + d.get('org') + '\nContact: ' + d.get('name') + '\nEmail: ' + d.get('email') + '\nRequest type: ' + d.get('type') + (d.get('product') ? '\nProducts: ' + d.get('product') : '') + (d.get('lang') ? '\nLanguages: ' + d.get('lang') : '') + (d.get('infra') ? '\nInfrastructure: ' + d.get('infra') : '') + (d.get('scale') ? '\nScale: ' + d.get('scale') : '') + '\n\nProblem to solve:\n' + (d.get('msg') || '') + '\n'
         : '單位名稱：' + d.get('org') + '\n聯絡人：' + d.get('name') + '\nEmail：' + d.get('email') + '\n需求類型：' + d.get('type') + '\n\n想解決的問題：\n' + (d.get('msg') || '') + '\n';
       location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent('[' + d.get('type') + '] ' + d.get('org')) + '&body=' + encodeURIComponent(body);
       noteWithMail(T.mail);
@@ -1573,12 +1705,21 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
       if (!form.checkValidity()){ form.reportValidity(); return; }
       var d = new FormData(form);
       if (d.get('_gotcha')) return;
+      ['product', 'lang'].forEach(function(k){ var v = d.getAll(k); d.delete(k); if (v.length) d.set(k, v.join(EN ? ', ' : '、')); });
+      if (extra && extra.hidden) ['product', 'lang', 'infra', 'scale'].forEach(function(k){ d.delete(k); });
       if (!FORM_ENDPOINT || !window.fetch){ mailto(d); return; }
       var label = btn.textContent; btn.disabled = true; btn.textContent = T.sending; note.textContent = '';
       d.append('_subject', '[Voxmosa ' + (EN ? 'EN' : 'ZH') + '] ' + d.get('type') + ' — ' + d.get('org'));
       d.append('page', location.href);
       fetch(FORM_ENDPOINT, { method: 'POST', body: d, headers: { Accept: 'application/json' } })
-        .then(function(r){ if (!r.ok) throw new Error(r.status); done(d.get('email')); })
+        .then(function(r){
+          if (!r.ok) throw new Error(r.status);
+          done(d.get('email'));
+          // GA4 轉換事件：在 GA4 後台把 generate_lead 標成「關鍵事件」，就能看到每月申請數與來源頁
+          if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead', {
+            form_type: d.get('type'), products: d.get('product') || '', infra: d.get('infra') || '', site_lang: EN ? 'en' : 'zh'
+          });
+        })
         .catch(function(){ btn.disabled = false; btn.textContent = label; noteWithMail(T.fail); });
     });
   })();
