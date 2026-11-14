@@ -17,10 +17,10 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 const ROOT = path.resolve(__dirname, "..");
-// 頁面自動找：根目錄與 en/ 底下所有 .html（404.html 除外）。
+// 頁面自動找：根目錄與 en/ 底下所有 .html（404.html 與 Google Search Console 的驗證檔 google*.html 除外）。
 // 以前這份清單是寫死的，新增頁面時漏加不會有任何東西失敗 —— 頁面只是安靜地沒有測試覆蓋。
 const PAGES = [
-  ...fs.readdirSync(ROOT).filter((f) => f.endsWith(".html") && f !== "404.html").sort(),
+  ...fs.readdirSync(ROOT).filter((f) => f.endsWith(".html") && f !== "404.html" && !/^google[0-9a-f]+\.html$/.test(f)).sort(),
   ...fs.readdirSync(path.join(ROOT, "en")).filter((f) => f.endsWith(".html")).sort().map((f) => "en/" + f),
 ];
 
@@ -74,6 +74,11 @@ for (const [page, { src }] of pages) {
   // checked. These filenames are coupled to what tools/build-fonts.py emits --
   // change the weight range and the name changes with it -- and a broken preload
   // fails silently: the browser reports nothing, it just fetches a 404.
+  // <audio src> / <source src>：音檔放錯位置時，播放器只會安靜地不能播
+  for (const m of src.matchAll(/<(?:audio|source)\s[^>]*src="([^"]*)"/g)) {
+    const f = path.posix.normalize(path.posix.join(path.posix.dirname(page), m[1]));
+    if (f.startsWith("..") || !fs.existsSync(path.join(ROOT, f))) problems.push(`<audio> ${m[1]}  →  檔案不存在`);
+  }
   for (const m of src.matchAll(/<link\s[^>]*href="([^"]*)"/g)) {
     const href = m[1];
     if (!href || /^https?:\/\//.test(href)) continue;

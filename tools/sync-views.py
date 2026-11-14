@@ -63,7 +63,7 @@ def sync_dir(d, lang_link):
     }
     changed = 0
     for p in sorted(d.glob("*.html")):
-        if p.name in ("index.html", "404.html"):
+        if p.name in ("index.html", "404.html") or re.match(r"google[0-9a-f]+\.html$", p.name):
             continue
         r = route_of.get(p.name)
         if not r:

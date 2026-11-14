@@ -19,16 +19,18 @@ declaring language versions in a sitemap, and it mirrors the <link rel="alternat
 tags already in each page's <head>.
 
 Pages are discovered, not listed by hand: every *.html in the root and in en/,
-except 404.html.
+except 404.html and the Search Console verification file.
 """
-import datetime, pathlib, subprocess, sys
+import datetime, pathlib, re, subprocess, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BASE = "https://voxmosa.com/"
+VERIFY = re.compile(r"^google[0-9a-f]+\.html$")
 
 
 def pages():
-    names = [p.name for p in sorted(ROOT.glob("*.html")) if p.name != "404.html"]
+    # 404.html 與 Google Search Console 的驗證檔（google<亂碼>.html）不是頁面
+    names = [p.name for p in sorted(ROOT.glob("*.html")) if p.name != "404.html" and not VERIFY.match(p.name)]
     names += ["en/" + p.name for p in sorted((ROOT / "en").glob("*.html"))]
     return names
 

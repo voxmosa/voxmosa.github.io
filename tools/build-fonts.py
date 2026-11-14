@@ -43,7 +43,8 @@ VARIABLE = [
 
 
 def pages():
-    return sorted(ROOT.glob("*.html")) + sorted((ROOT / "en").glob("*.html"))
+    # Search Console 的驗證檔（google<亂碼>.html）不是頁面，略過
+    return [p for p in sorted(ROOT.glob("*.html")) if not re.match(r"google[0-9a-f]+\.html$", p.name)] + sorted((ROOT / "en").glob("*.html"))
 
 
 def fetch(url):

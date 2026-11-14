@@ -430,6 +430,18 @@ html:not(.js) .rv{opacity:1;transform:none}
 .qcards li{border:1.5px solid var(--ink);border-radius:6px;padding:16px 10px 13px;text-align:center}
 .qcards b{display:block;font:900 clamp(20px,2vw,26px)/1.2 var(--serif)}
 .qcards span{display:block;font:500 11px/1 var(--mono);letter-spacing:.06em;margin-top:10px;color:var(--mute)}
+/* 客語六腔合成示範：沒有 JavaScript 時用瀏覽器原生播放器；有 JS 時整張卡片就是播放鍵 */
+.qcards.tts li{position:relative;transition:background-color .2s,color .2s}
+.qcards.tts audio{display:block;width:100%;height:34px;margin-top:10px}
+html.js .qcards.tts audio{display:none}
+html.js .qcards.tts li{padding-bottom:40px}
+.tts-play{position:absolute;inset:0;width:100%;border:0;border-radius:6px;background:transparent;color:inherit;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px}
+.tts-play svg{width:18px;height:18px}
+.tts-play .ic-stop{display:none}
+.qcards.tts li.on{background:var(--ink);color:var(--paper)}
+.qcards.tts li.on .ic-play{display:none}.qcards.tts li.on .ic-stop{display:block}
+.qcards.tts li:not(.on):hover{background:rgba(237,154,74,.14)}
+.tts-note{margin-top:12px}
 blockquote{font:700 clamp(16px,1.5vw,19px)/1.75 var(--serif);border-left:3px solid var(--sig);padding-left:16px;margin:18px 0 12px}
 .hlinks{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:18px;font-size:14.5px}
 .sub{font:900 clamp(20px,2.1vw,27px)/1.3 var(--serif);display:flex;align-items:baseline;gap:14px;padding-bottom:14px;border-bottom:2px solid var(--ink);margin-bottom:4px}
@@ -645,6 +657,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
   function gtag(){dataLayer.push(arguments);}
   gtag("js", new Date());
   gtag("config", "G-S6MJZMYPVH");
+  gtag("config", "G-TPDTSWP3GW");   // 王茗顥帳號下的 GA4 資源（2026-11 加入）；上一行是原網站留下的資源，兩者並存
 </script>
 </head>
 <body>
@@ -1118,7 +1131,7 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
       </div>
       <div class="rv" style="--d:1">
         <h3 class="sub">Six Hakka accents <span>Recognition · Synthesis</span></h3>
-        <ul class="qcards" style="margin-top:18px"><li><b>Sixian</b></li><li><b>Hailu</b></li><li><b>Dapu</b></li><li><b>Raoping</b></li><li><b>Zhao'an</b></li><li><b>South Sixian</b></li></ul>
+        <ul class="qcards tts" style="margin-top:18px"><li><b>Sixian</b><audio controls preload="none" src="../audio/hakka-sixian.mp3"></audio></li><li><b>Hailu</b><audio controls preload="none" src="../audio/hakka-hailu.mp3"></audio></li><li><b>Dapu</b><audio controls preload="none" src="../audio/hakka-dapu.mp3"></audio></li><li><b>Raoping</b><audio controls preload="none" src="../audio/hakka-raoping.mp3"></audio></li><li><b>Zhao'an</b><audio controls preload="none" src="../audio/hakka-zhaoan.mp3"></audio></li><li><b>South Sixian</b><audio controls preload="none" src="../audio/hakka-nansixian.mp3"></audio></li></ul><p class="fine tts-note">Tap an accent to listen. All six clips say the same sentence: "Hello everyone, we are a speech company." They are synthesized speech, not human recordings.</p>
         <blockquote><span lang="zh-Hant-TW">「客語語音合成、語音識別技術由牧仁資訊研發」</span><br><small style="font:400 14px/1.6 var(--sans);color:var(--t2)">"Hakka speech synthesis and recognition technology developed by Voxmosa (牧仁資訊)."</small></blockquote>
         <p class="fine" style="margin-top:0">From the Gohakka platform's copyright notice. Don't take our word for it — go look. Gohakka's machine translation and language models are provided by the platform operator, Shunxi Technology (瞬息科技), not by us; the Hakka corpus belongs to the Hakka Affairs Council, and our team handled part of its preparation.</p>
         <div class="hlinks"><a class="link ext" href="https://gohakka.org/" target="_blank" rel="noopener">gohakka.org</a><a class="link ext" href="https://huggingface.co/ILRDF" target="_blank" rel="noopener">Hugging Face / ILRDF</a></div>
@@ -1622,6 +1635,27 @@ html:not(.js) main:has(#poc:target)>#v-poc{display:block}
   var openedForPrint = [];
   window.addEventListener('beforeprint', function(){ $$('details:not([open])').forEach(function(d){ d.open = true; openedForPrint.push(d); }); });
   window.addEventListener('afterprint', function(){ openedForPrint.forEach(function(d){ d.open = false; }); openedForPrint = []; });
+
+  /* ── 客語六腔合成示範：點卡片播放，同時只播一段 ── */
+  (function(){
+    var cards = $$('.qcards.tts li'); if (!cards.length) return;
+    var auds = cards.map(function(li){ return $('audio', li); });
+    cards.forEach(function(li, k){
+      var a = auds[k], name = $('b', li).textContent;
+      a.removeAttribute('controls');
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'tts-play';
+      b.setAttribute('aria-label', EN ? 'Play the ' + name + ' accent' : '播放' + name + '腔');
+      b.innerHTML = '<svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg><svg class="ic-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1.5" fill="currentColor"/></svg>';
+      li.appendChild(b);
+      b.addEventListener('click', function(){
+        if (!a.paused){ a.pause(); a.currentTime = 0; return; }
+        auds.forEach(function(o){ if (o !== a && !o.paused){ o.pause(); o.currentTime = 0; } });
+        a.currentTime = 0; a.play();
+      });
+      a.addEventListener('play', function(){ li.classList.add('on'); b.setAttribute('aria-pressed', 'true'); });
+      ['pause', 'ended'].forEach(function(ev){ a.addEventListener(ev, function(){ li.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); }); });
+    });
+  })();
 
   /* ── 點左上角字標：聲波再送出一次 ── */
   var logo = $('.nav .logo');
